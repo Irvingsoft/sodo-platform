@@ -1,0 +1,128 @@
+server:
+  port: 9511
+  servlet:
+    session:
+      cookie:
+        http-only: false
+        max-age: 604800 # 1 Week
+      timeout: 604800
+spring:
+  application:
+    name: zuul
+    path: /zuul
+    env: prod
+  resources:
+    add-mappings: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save
+      namespace: sodo:session
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/sodo_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 600000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    database: 0
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: root
+    password: 123456
+  cache:
+    redis:
+      time-to-live: 1d
+      use-key-prefix: true
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:9501/eureka/
+    healthcheck:
+      enabled: true
+mybatis-plus:
+  type-aliases-package: cool.sodo.common.domain
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    jdbc-type-for-null: null
+    map-underscore-to-camel-case: true
+  global-config:
+    banner: false
+zuul:
+  host:
+    connect-timeout-millis: 10000
+    socket-timeout-millis: 60000
+  routes:
+    zuul:
+      path: /zuul/**
+      serviceId: zuul
+    housekeeper:
+      path: /housekeeper/**
+      serviceId: housekeeper
+    auth:
+      path: /auth/**
+      serviceId: auth
+    user:
+      path: /user/**
+      serviceId: user
+    goods:
+      path: /goods/**
+      serviceId: goods
+    order:
+      path: /order/**
+      serviceId: order
+    payment:
+      path: /payment/**
+      serviceId: payment
+  add-host-header: true
+  ignored-patterns: /actuator/**
+  ssl-hostname-validation-enabled: false
+  ignored-headers: Access-Control-Allow-Origin,Access-Control-Allow-Methods
+  sensitive-headers:
+knife4j:
+  enable: true
+  basic:
+    enable: true
+    username: root
+    password: 123456
+#配置日志地址
+logging:
+  config: classpath:log/logback_${spring.application.env}.xml
+sodo:
+  xss:
+    enabled: true
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+log-message:
+  enabled: true
+  queue-name: log.sync.queue
+  exchange-name: log-exchange
+  routing-key: log.routingkey
+  api-type: log-api
+  error-type: log-error
+  business-type: log-business

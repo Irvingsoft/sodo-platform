@@ -1,0 +1,39 @@
+package cool.sodo.user.service.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import cool.sodo.common.domain.UserToRole;
+import cool.sodo.user.mapper.UserToRoleMapper;
+import cool.sodo.user.service.UserToRoleService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class UserToRoleServiceImpl implements UserToRoleService {
+
+    @Resource
+    private UserToRoleMapper userToRoleMapper;
+
+    @Override
+    public List<UserToRole> listUserToRole(String userId) {
+
+        LambdaQueryWrapper<UserToRole> userToRoleLambdaQueryWrapper = Wrappers.lambdaQuery();
+        userToRoleLambdaQueryWrapper.eq(UserToRole::getUserId, userId);
+        return userToRoleMapper.selectList(userToRoleLambdaQueryWrapper);
+    }
+
+    @Override
+    public List<String> listUserToRoleRoleId(String userId) {
+
+        LambdaQueryWrapper<UserToRole> userToRoleLambdaQueryWrapper = Wrappers.lambdaQuery();
+        userToRoleLambdaQueryWrapper.eq(UserToRole::getUserId, userId)
+                .select(UserToRole::getRoleId);
+        return userToRoleMapper.selectList(userToRoleLambdaQueryWrapper)
+                .stream()
+                .map(UserToRole::getRoleId)
+                .collect(Collectors.toList());
+    }
+}

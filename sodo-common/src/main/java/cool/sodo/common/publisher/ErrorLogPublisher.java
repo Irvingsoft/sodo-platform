@@ -1,0 +1,79 @@
+package cool.sodo.common.publisher;
+
+import cool.sodo.common.domain.LogError;
+import cool.sodo.common.entity.Constants;
+import cool.sodo.common.entity.ServiceInfo;
+import cool.sodo.common.event.ErrorLogEvent;
+import cool.sodo.common.service.CommonAccessTokenService;
+import cool.sodo.common.service.CommonUserService;
+import cool.sodo.common.util.ExceptionUtil;
+import cool.sodo.common.util.LogAbstractUtil;
+import cool.sodo.common.util.SpringUtil;
+import cool.sodo.common.util.WebUtil;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+
+/**
+ * LogError 事件发布者
+ *
+ * @author TimeChaser
+ * @date 2021/6/19 14:17
+ */
+@Component
+public class ErrorLogPublisher {
+
+    @Resource
+    private CommonAccessTokenService accessTokenService;
+    @Resource
+    private CommonUserService userService;
+    @Resource
+    private ServiceInfo serviceInfo;
+
+    /**
+     * 错误日志发布者
+     *
+     * @param error  异常实体
+     * @param params 方法调用参数
+     */
+    public void publishEvent(HttpServletRequest request, Throwable error, String params) {
+
+        LogError logError = new LogError();
+
+        if (!StringUtils.isEmpty(error)) {
+            logError.setStackTrace(ExceptionUtil.getStackTraceAsString(error));
+            logError.setExceptionName(error.getClass().getName());
+            logError.setMessage(error.getMessage());
+            logError.setParams(params);
+
+            StackTraceElement[] elements = error.getStackTrace();
+            if (!StringUtils.isEmpty(elements)) {
+                StackTraceElement element = elements[0];
+                logError.setClassName(element.getClassName());
+                logError.setMethodName(element.getMethodName());
+                logError.setFileName(element.getFileName());
+                logError.setLineNum(element.getLineNumber());
+            }
+        }
+
+        if (!StringUtils.isEmpty(request)) {
+            String token = WebUtil.getAccessToken(request);
+            if (!StringUtils.isEmpty(token) &&
+                    accessTokenService.validateAccessToken(token)) {
+                logError.setUserId(userService.getUserIdentityByIdentity(
+                        accessTokenService.getAccessTokenCache(token).getIdentity()
+                ).getUserId());
+            }
+            logError.setRequestUrl(WebUtil.getRequestUrl(request, serviceInfo.getPath()));
+            LogAbstractUtil.addRequestInfo(logError, request);
+        }
+
+        HashMap<String, Object> eventSource = new HashMap<>(Constants.HASHMAP_SIZE_DEFAULT);
+        eventSource.put(Constants.LOG_EVENT, logError);
+
+        SpringUtil.publishEvent(new ErrorLogEvent(eventSource));
+    }
+}

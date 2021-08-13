@@ -1,0 +1,97 @@
+server:
+  port: 9521
+  servlet:
+    session:
+      cookie:
+        http-only: false
+        max-age: 604800 # 1 Week
+      timeout: 604800
+spring:
+  application:
+    name: auth
+    path: /auth
+    env: dev
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save
+      namespace: sodo:session
+  resources:
+    add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/sodo_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 600000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    database: 0
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: root
+    password: 123456
+  cache:
+    redis:
+      time-to-live: 1d # Entry expiration in milliseconds. By default the entries never expire.
+      use-key-prefix: true  #写入redis时是否使用键前缀
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    default-property-inclusion: non_empty
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 20 # 向注册中心发送心跳的时间间隔，单位为 s，默认为 30s
+    lease-expiration-duration-in-seconds: 40 # 注册中心在上次收到此服务的心跳后，40s 内没有收到下次心跳，就会移除此服务，默认 90s
+    hostname: localhost
+  client:
+    register-with-eureka: true # 向注册中心注册
+    fetch-registry: true # 向注册中心获取注册表，以调用其他服务
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:9501/eureka/ # 微服务集群下配置多注册中心，以 "," 分隔，host 为各个注册中心的服务器 host
+    healthcheck:
+      enabled: true # 开启心跳检测
+mybatis-plus:
+  type-aliases-package: cool.sodo.common.domain
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    jdbc-type-for-null: null # 数据库中的空字段对应的实体类属性的值
+    map-underscore-to-camel-case: true
+  global-config:
+    banner: false # 关闭 mybatis-plus的 banner
+logging:
+  config: classpath:log/logback_${spring.application.env}.xml
+# 消息异构
+user-message:
+  queue-name: user.sync.queue
+  exchange-name: user-exchange
+  routing-key: user.routingkey
+  create-type: create
+  update-type: update
+  delete-type: delete
+  full-type: full-dose
+log-message:
+  enabled: true
+  queue-name: log.sync.queue
+  exchange-name: log-exchange
+  routing-key: log.routingkey
+  api-type: log-api
+  error-type: log-error
+  business-type: log-business

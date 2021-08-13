@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.5.RELEASE</version>
+        <relativePath/>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>cool.sodo</groupId>
+    <artifactId>sodo-platform</artifactId>
+    <packaging>pom</packaging>
+    <version>${sodo.version}</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <sodo.version>1.0-SNAPSHOT</sodo.version>
+        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
+        <spring-cloud-eureka-server.version>3.0.3</spring-cloud-eureka-server.version>
+        <spring-session.version>2020.0.3</spring-session.version>
+        <mybatis-plus.version>3.4.3.1</mybatis-plus.version>
+        <knife4j.version>3.0.3</knife4j.version>
+        <captcha.version>1.6.2</captcha.version>
+        <bouncycastle.version>1.69</bouncycastle.version>
+        <useragent.version>1.21</useragent.version>
+        <shiro.version>1.7.1</shiro.version>
+        <guava.version>30.1.1-jre</guava.version>
+        <fastjson.version>1.2.76</fastjson.version>
+        <validation-api.version>2.0.1.Final</validation-api.version>
+        <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
+    </properties>
+
+    <modules>
+        <module>sodo-common</module>
+        <module>sodo-eureka</module>
+        <module>sodo-zuul</module>
+        <module>sodo-user</module>
+        <module>sodo-goods</module>
+        <module>sodo-auth</module>
+        <module>sodo-logger</module>
+        <module>sodo-order</module>
+        <module>sodo-payment</module>
+        <module>sodo-housekeeper</module>
+        <module>sodo-catkin</module>
+    </modules>
+
+    <dependencies>
+
+        <!--actuator 完善监控信息-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!--Test-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--Web exclude logging-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--Lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--FastJson-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
+        <!--Validation-->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${validation-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--SpringCloud 依赖统一版本管理-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!--spring-session 依赖统一版本管理-->
+            <dependency>
+                <groupId>org.springframework.session</groupId>
+                <artifactId>spring-session-bom</artifactId>
+                <version>${spring-session.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

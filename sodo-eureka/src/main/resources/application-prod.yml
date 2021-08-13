@@ -1,0 +1,21 @@
+server:
+  port: 9501
+
+spring:
+  application:
+    name: eureka
+    path: /eureka
+    env: prod
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    filter-only-up-instances: false
+  server:
+    enable-self-preservation: true
+    eviction-interval-timer-in-ms: 60000

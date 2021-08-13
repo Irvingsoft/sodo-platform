@@ -1,0 +1,96 @@
+server:
+  port: 9521
+  servlet:
+    session:
+      cookie:
+        http-only: false
+        max-age: 604800 # 1 Week
+      timeout: 604800
+spring:
+  application:
+    name: auth
+    path: /auth
+    env: prod
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save
+      namespace: sodo:session
+  resources:
+    add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+  datasource: # url 配置：SSL 协议、统一编码、字符编码、服务器时区、检索规则、受影响的记录条数&useAffectedRows=true
+    url: jdbc:mysql://127.0.0.1:3306/sodo_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 600000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    database: 0
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: root
+    password: 123456
+  cache:
+    redis:
+      time-to-live: 1d
+      use-key-prefix: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    default-property-inclusion: non_empty
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:9501/eureka/
+    healthcheck:
+      enabled: true
+mybatis-plus:
+  type-aliases-package: cool.sodo.common.domain
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    jdbc-type-for-null: null
+    map-underscore-to-camel-case: true
+  global-config:
+    banner: false
+logging:
+  config: classpath:log/logback_${spring.application.env}.xml
+user-message:
+  queue-name: user.sync.queue
+  exchange-name: user-exchange
+  routing-key: user.routingkey
+  create-type: create
+  update-type: update
+  delete-type: delete
+  full-type: full-dose
+log-message:
+  enabled: true
+  queue-name: log.sync.queue
+  exchange-name: log-exchange
+  routing-key: log.routingkey
+  api-type: log-api
+  error-type: log-error
+  business-type: log-business

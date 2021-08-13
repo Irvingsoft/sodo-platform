@@ -1,0 +1,24 @@
+server:
+  port: 9501
+
+spring:
+  application:
+    name: eureka
+    path: /eureka
+    env: dev
+  jackson:
+    default-property-inclusion: non_null
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+eureka:
+  instance:
+    hostname: sodo-eureka.com # 注册中心的访问地址
+    prefer-ip-address: false
+  client:
+    register-with-eureka: false # 不向注册中心注册：本服务为注册中心，非集群架构下不向注册中心注册自己
+    fetch-registry: false # false：本服务为注册中心
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    filter-only-up-instances: false
+  server:
+    enable-self-preservation: true # 本地环境关闭 Eureka 自我保护机制
+    eviction-interval-timer-in-ms: 30000 # 自动清除失效服务的轮询时间（单位毫秒，默认是60*1000）
