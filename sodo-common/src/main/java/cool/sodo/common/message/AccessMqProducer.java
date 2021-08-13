@@ -20,7 +20,7 @@ public class AccessMqProducer {
     private AccessMqProperty accessMqProperty;
 
     public void sendMessage(Notification notification) {
-        log.info("新日志发生变更通知：[{}]，通告该日志到 RabbitMQ", notification.getEventType());
+        log.info("新访问发生变更通知：[{}]，通告该访问到 RabbitMQ", notification.getEventType());
         rabbitTemplate.convertAndSend(accessMqProperty.getExchangeName(), accessMqProperty.getRoutingKey(), notification);
     }
 }

@@ -32,6 +32,7 @@ public class OauthApiServiceImpl implements OauthApiService {
     public static final int SELECT_IDENTITY = 0;
     public static final int SELECT_BASE = 1;
     public static final int SELECT_INFO = 2;
+    public static final int SELECT_REQUEST_NUM = 3;
 
     @Resource
     private OauthApiMapper oauthApiMapper;
@@ -58,6 +59,10 @@ public class OauthApiServiceImpl implements OauthApiService {
                         OauthApi::getInUse, OauthApi::getAuth, OauthApi::getLog, OauthApi::getRequestLimit,
                         OauthApi::getLimitPeriod, OauthApi::getLimitNum, OauthApi::getCreateAt,
                         OauthApi::getCreateBy, OauthApi::getUpdateAt, OauthApi::getUpdateBy);
+                break;
+            case SELECT_REQUEST_NUM:
+                oauthApiLambdaQueryWrapper.select(OauthApi::getRequestDay, OauthApi::getRequestWeek,
+                        OauthApi::getRequestMonth, OauthApi::getRequestAll);
                 break;
             default:
                 break;
@@ -160,7 +165,7 @@ public class OauthApiServiceImpl implements OauthApiService {
     @Override
     public void updateOauthApiAccessByAsync(String apiId) {
 
-        LambdaQueryWrapper<OauthApi> oauthApiLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_BASE);
+        LambdaQueryWrapper<OauthApi> oauthApiLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_REQUEST_NUM);
         oauthApiLambdaQueryWrapper.eq(OauthApi::getApiId, apiId);
         OauthApi oauthApi = oauthApiMapper.selectOne(oauthApiLambdaQueryWrapper);
 
