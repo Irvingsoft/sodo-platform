@@ -7,13 +7,9 @@ import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.WebUtil;
-import cool.sodo.zuul.service.ClientApiService;
 import cool.sodo.zuul.service.OauthClientService;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cloud.netflix.zuul.filters.ProxyRequestHelper;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.util.PatternMatchUtils;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -30,13 +26,6 @@ public class OauthClientFilter extends ZuulFilter {
 
     @Resource
     private OauthClientService oauthClientService;
-    @Resource
-    private ClientApiService clientApiService;
-    @Resource
-    private ProxyRequestHelper proxyRequestHelper;
-    @Resource
-    @Qualifier(value = "handlerExceptionResolver")
-    private HandlerExceptionResolver handlerExceptionResolver;
 
     @Override
     public String filterType() {

@@ -47,5 +47,4 @@ public class XssFilter implements Filter {
     public void destroy() {
 
     }
-
 }

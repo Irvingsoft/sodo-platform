@@ -48,7 +48,6 @@ public class OauthIpServiceImpl implements OauthIpService {
 
         List<OauthIp> oauthIpValidList = listOauthIpValidIdentityByClient(clientId);
         if (oauthIpValidList.size() != 0) {
-
             for (OauthIp oauthIp : oauthIpValidList) {
                 if (oauthIp.getIp().equals(ip)) {
                     OauthIpCheckPublisher.publishEvent(oauthIp.getIpId());
@@ -60,7 +59,6 @@ public class OauthIpServiceImpl implements OauthIpService {
 
         List<OauthIp> oauthIpNotValidList = listOauthIpNotValidIdentityByClient(clientId);
         if (oauthIpNotValidList.size() != 0) {
-
             for (OauthIp oauthIp : oauthIpNotValidList) {
                 if (oauthIp.getIp().equals(ip)) {
                     OauthIpCheckPublisher.publishEvent(oauthIp.getIpId());

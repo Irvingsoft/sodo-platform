@@ -1,8 +1,13 @@
 package cool.sodo.common.listener;
 
+import cool.sodo.common.config.AccessMqConfig;
 import cool.sodo.common.entity.Constants;
+import cool.sodo.common.entity.Notification;
+import cool.sodo.common.entity.ServiceInfo;
 import cool.sodo.common.event.OauthApiAccessEvent;
-import cool.sodo.common.service.CommonOauthApiService;
+import cool.sodo.common.message.AccessMqProducer;
+import cool.sodo.common.message.AccessMqProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -16,12 +21,16 @@ import java.util.Map;
  * @author TimeChaser
  * @date 2021/6/16 11:07
  */
-@SuppressWarnings("all")
 @Component
+@ConditionalOnBean({AccessMqConfig.class})
 public class OauthApiAccessListener {
 
     @Resource
-    private CommonOauthApiService oauthApiService;
+    private AccessMqProducer accessMqProducer;
+    @Resource
+    private AccessMqProperty accessMqProperty;
+    @Resource
+    private ServiceInfo serviceInfo;
 
     @Async
     @EventListener(OauthApiAccessEvent.class)
@@ -29,6 +38,10 @@ public class OauthApiAccessListener {
 
         Map<String, Object> eventSource = (Map<String, Object>) event.getSource();
         String apiId = (String) eventSource.get(Constants.ACCESS_EVENT);
-        oauthApiService.updateOauthApiAccessByAsync(apiId);
+
+        accessMqProducer.sendMessage(new Notification(
+                accessMqProperty.getApiType(),
+                serviceInfo.getName(),
+                apiId));
     }
 }

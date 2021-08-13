@@ -1,8 +1,13 @@
 package cool.sodo.common.listener;
 
+import cool.sodo.common.config.AccessMqConfig;
 import cool.sodo.common.entity.Constants;
+import cool.sodo.common.entity.Notification;
+import cool.sodo.common.entity.ServiceInfo;
 import cool.sodo.common.event.OauthIpCheckEvent;
-import cool.sodo.common.service.CommonOauthIpService;
+import cool.sodo.common.message.AccessMqProducer;
+import cool.sodo.common.message.AccessMqProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -17,11 +22,15 @@ import java.util.HashMap;
  * @date 2021/6/16 11:42
  */
 @Component
-@SuppressWarnings("all")
+@ConditionalOnBean({AccessMqConfig.class})
 public class OauthIpCheckListener {
 
     @Resource
-    private CommonOauthIpService oauthIpService;
+    private AccessMqProducer accessMqProducer;
+    @Resource
+    private AccessMqProperty accessMqProperty;
+    @Resource
+    private ServiceInfo serviceInfo;
 
     @Async
     @EventListener(OauthIpCheckEvent.class)
@@ -30,6 +39,9 @@ public class OauthIpCheckListener {
         HashMap<String, Object> eventSource = (HashMap<String, Object>) event.getSource();
         String ipId = (String) eventSource.get(Constants.CHECK_EVENT);
 
-        oauthIpService.updateOauthIpValidNumByAsync(ipId);
+        accessMqProducer.sendMessage(new Notification(
+                accessMqProperty.getIpType(),
+                serviceInfo.getName(),
+                ipId));
     }
 }

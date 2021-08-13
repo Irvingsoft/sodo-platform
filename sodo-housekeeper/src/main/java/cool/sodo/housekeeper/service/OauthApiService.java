@@ -20,6 +20,13 @@ public interface OauthApiService {
 
     void updateOauthApiRequestNum(OauthApi oauthApi);
 
+    /**
+     * 根据 ApiId 更新 OauthApi 访问数据
+     *
+     * @param apiId OauthApi.apiId
+     */
+    void updateOauthApiAccessByAsync(String apiId);
+
     OauthApi getOauthApi(String id);
 
     OauthApi getOauthApiIdentity(String id);

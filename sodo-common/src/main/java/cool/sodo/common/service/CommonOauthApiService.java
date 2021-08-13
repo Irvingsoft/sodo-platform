@@ -11,13 +11,6 @@ import cool.sodo.common.domain.OauthApi;
 public interface CommonOauthApiService {
 
     /**
-     * 根据 ApiId 更新 OauthApi 访问数据
-     *
-     * @param apiId OauthApi.apiId
-     */
-    void updateOauthApiAccessByAsync(String apiId);
-
-    /**
      * 根据 ApiId 查询 OauthApi 基本信息
      *
      * @param apiId OauthApi.apiId

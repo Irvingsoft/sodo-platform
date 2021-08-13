@@ -95,3 +95,10 @@ log-message:
   api-type: log-api
   error-type: log-error
   business-type: log-business
+access-message:
+  enabled: true
+  queue-name: access.sync.queue
+  exchange-name: access-exchange
+  routing-key: access.routingkey
+  api-type: api-access
+  ip-type: ip-access

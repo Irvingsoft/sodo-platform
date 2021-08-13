@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cool.sodo.common.domain.OauthApi;
 import cool.sodo.common.entity.ResultEnum;
+import cool.sodo.common.exception.AsyncException;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.service.CommonUserService;
 import cool.sodo.common.util.StringUtil;
@@ -153,6 +154,24 @@ public class OauthApiServiceImpl implements OauthApiService {
         }
         if (oauthApiMapper.update(null, oauthApiLambdaUpdateWrapper) < 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE_REQUEST);
+        }
+    }
+
+    @Override
+    public void updateOauthApiAccessByAsync(String apiId) {
+
+        LambdaQueryWrapper<OauthApi> oauthApiLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_BASE);
+        oauthApiLambdaQueryWrapper.eq(OauthApi::getApiId, apiId);
+        OauthApi oauthApi = oauthApiMapper.selectOne(oauthApiLambdaQueryWrapper);
+
+        LambdaUpdateWrapper<OauthApi> oauthApiLambdaUpdateWrapper = Wrappers.lambdaUpdate();
+        oauthApiLambdaUpdateWrapper.eq(OauthApi::getApiId, apiId)
+                .set(OauthApi::getRequestDay, oauthApi.getRequestDay() + 1)
+                .set(OauthApi::getRequestWeek, oauthApi.getRequestWeek() + 1)
+                .set(OauthApi::getRequestMonth, oauthApi.getRequestMonth() + 1)
+                .set(OauthApi::getRequestAll, oauthApi.getRequestAll() + 1);
+        if (oauthApiMapper.update(null, oauthApiLambdaUpdateWrapper) <= 0) {
+            throw new AsyncException(ERROR_UPDATE);
         }
     }
 

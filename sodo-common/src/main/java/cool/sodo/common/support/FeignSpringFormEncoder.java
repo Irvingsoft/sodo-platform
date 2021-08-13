@@ -1,4 +1,4 @@
-package cool.sodo.common.config;
+package cool.sodo.common.support;
 
 import feign.RequestTemplate;
 import feign.codec.EncodeException;

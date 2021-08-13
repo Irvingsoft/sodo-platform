@@ -12,6 +12,7 @@ import cool.sodo.logger.service.LogBusinessService;
 import cool.sodo.logger.service.LogErrorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -24,6 +25,7 @@ import javax.annotation.Resource;
  */
 @Component
 @Slf4j
+@ConditionalOnProperty(prefix = "log-message", name = "enabled", havingValue = "true")
 public class LogMqListener {
 
     @Resource
@@ -37,6 +39,7 @@ public class LogMqListener {
 
     @RabbitListener(queues = "${log-message.queue-name}")
     public void listen(Notification notification) throws JsonProcessingException {
+
         Object data = notification.getData();
         String dataString = mapper.writeValueAsString(data);
         log.info("接收到一条通告信息... ");

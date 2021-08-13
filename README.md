@@ -1,6 +1,7 @@
 # sodo-platform
+
 由于原仓库错误的合并操作，故清空后重新提交了代码。
-<img width="400" alt="原仓库概况图" src="https://images.gitee.com/uploads/images/2021/0813/163259_993d88d7_7701512.png">
+<img width="500" alt="原仓库概况图" src="https://images.gitee.com/uploads/images/2021/0813/163259_993d88d7_7701512.png">
 
 ## 简介
 

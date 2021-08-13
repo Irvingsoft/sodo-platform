@@ -1,11 +1,13 @@
 package cool.sodo.housekeeper.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cool.sodo.common.domain.OauthIp;
 import cool.sodo.common.entity.ResultEnum;
+import cool.sodo.common.exception.AsyncException;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.housekeeper.entity.OauthIpRequest;
 import cool.sodo.housekeeper.mapper.OauthIpMapper;
@@ -77,6 +79,21 @@ public class OauthIpServiceImpl implements OauthIpService {
         oauthIpOld.update(oauthIp);
         if (oauthIpMapper.updateById(oauthIpOld) < 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE);
+        }
+    }
+
+    @Override
+    public void updateOauthIpValidNumByAsync(String ipId) {
+
+        LambdaQueryWrapper<OauthIp> oauthIpLambdaQueryWrapper = Wrappers.lambdaQuery();
+        oauthIpLambdaQueryWrapper.select(OauthIp::getValidNum)
+                .eq(OauthIp::getIpId, ipId);
+        OauthIp oauthIp = oauthIpMapper.selectOne(oauthIpLambdaQueryWrapper);
+        LambdaUpdateWrapper<OauthIp> oauthIpLambdaUpdateWrapper = Wrappers.lambdaUpdate();
+        oauthIpLambdaUpdateWrapper.eq(OauthIp::getIpId, ipId)
+                .set(OauthIp::getValidNum, oauthIp.getValidNum() + 1);
+        if (oauthIpMapper.update(null, oauthIpLambdaUpdateWrapper) <= 0) {
+            throw new AsyncException(ERROR_UPDATE);
         }
     }
 
