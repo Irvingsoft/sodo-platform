@@ -13,7 +13,9 @@ import cool.sodo.common.domain.AccessToken;
 import cool.sodo.common.domain.OauthClient;
 import cool.sodo.common.domain.OauthUser;
 import cool.sodo.common.domain.User;
-import cool.sodo.common.entity.*;
+import cool.sodo.common.entity.Constants;
+import cool.sodo.common.entity.Notification;
+import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.service.CommonAccessTokenService;
 import cool.sodo.common.service.CommonOauthClientService;
@@ -77,7 +79,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
      * 获取登录认证方式
      *
      * @param authenticateRequest 认证请求实体
-     * @return cool.sodo.common.entity.AuthType
+     * @return cool.sodo.auth.entity.AuthType
      */
     @Override
     public AuthType getAuthType(AuthenticateRequest authenticateRequest) {

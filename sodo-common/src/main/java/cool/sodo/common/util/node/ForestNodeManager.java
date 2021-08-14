@@ -32,7 +32,7 @@ public class ForestNodeManager<T extends INode> {
      * @param id 节点ID
      * @return 对应的节点对象
      */
-    public INode getTreeNodeAT(String id) {
+    public INode getTreeNodeAt(String id) {
         for (INode forestNode : list) {
             if (forestNode.getId().equals(id)) {
                 return forestNode;

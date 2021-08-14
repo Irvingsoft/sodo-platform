@@ -1,8 +1,8 @@
 package cool.sodo.auth.controller;
 
 import cool.sodo.auth.entity.AuthorizeRequest;
+import cool.sodo.auth.entity.GrantType;
 import cool.sodo.auth.service.OauthAuthService;
-import cool.sodo.common.entity.GrantType;
 import cool.sodo.common.entity.Result;
 import cool.sodo.common.entity.ResultEnum;
 import io.swagger.annotations.Api;

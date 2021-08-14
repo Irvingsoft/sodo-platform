@@ -3,7 +3,6 @@ package cool.sodo.common.util.node;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-
 /**
  * 森林节点类
  *
@@ -11,9 +10,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-class ForestNode extends BaseNode {
-
-    private static final long serialVersionUID = 1L;
+public class ForestNode extends BaseNode {
 
     /**
      * 节点内容
@@ -25,5 +22,4 @@ class ForestNode extends BaseNode {
         this.parentId = parentId;
         this.content = content;
     }
-
 }

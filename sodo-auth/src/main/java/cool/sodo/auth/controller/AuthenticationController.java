@@ -1,11 +1,15 @@
 package cool.sodo.auth.controller;
 
 import com.wf.captcha.SpecCaptcha;
+import cool.sodo.auth.entity.AuthType;
 import cool.sodo.auth.entity.AuthenticateRequest;
 import cool.sodo.auth.service.OauthAuthService;
 import cool.sodo.common.component.PasswordHelper;
 import cool.sodo.common.component.RedisCacheHelper;
-import cool.sodo.common.entity.*;
+import cool.sodo.common.entity.Constants;
+import cool.sodo.common.entity.IDContent;
+import cool.sodo.common.entity.Result;
+import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.util.RsaUtil;
 import cool.sodo.common.util.UUIDUtil;
 import io.swagger.annotations.Api;

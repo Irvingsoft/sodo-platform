@@ -2,7 +2,6 @@ package cool.sodo.common.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
 import cool.sodo.common.util.StringUtil;
-import cool.sodo.common.util.UUIDUtil;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -106,23 +105,6 @@ public class OauthApi implements Serializable {
 
     public void init(String userId) {
 
-        this.apiId = UUIDUtil.generate();
-        this.requestDay = 0;
-        this.requestWeek = 0;
-        this.requestMonth = 0;
-        this.requestAll = 0;
-        if (StringUtil.isEmpty(this.requestLimit)) {
-            this.requestLimit = false;
-        }
-        if (StringUtil.isEmpty(this.log)) {
-            this.log = false;
-        }
-        if (StringUtil.isEmpty(this.inUse)) {
-            this.inUse = false;
-        }
-        if (StringUtil.isEmpty(this.auth)) {
-            this.auth = false;
-        }
         if (!StringUtil.isEmpty(this.limitNum) && this.limitNum < 0) {
             this.limitNum = 0;
         }

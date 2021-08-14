@@ -18,30 +18,30 @@ import java.io.Serializable;
 public class Result<T> implements Serializable {
 
     private Integer code;
-    private String desc;
+    private String description;
     private String detail;
     private T data;
 
     private Result(ResultEnum resultEnum) {
         this.code = resultEnum.getCode();
-        this.desc = resultEnum.getDescription();
+        this.description = resultEnum.getDescription();
     }
 
     private Result(ResultEnum resultEnum, String detail) {
         this.code = resultEnum.getCode();
-        this.desc = resultEnum.getDescription();
+        this.description = resultEnum.getDescription();
         this.detail = detail;
     }
 
     private Result(ResultEnum resultEnum, T data) {
         this.code = resultEnum.getCode();
-        this.desc = resultEnum.getDescription();
+        this.description = resultEnum.getDescription();
         this.data = data;
     }
 
-    private Result(Integer code, String desc, String detail) {
+    private Result(Integer code, String description, String detail) {
         this.code = code;
-        this.desc = desc;
+        this.description = description;
         this.detail = detail;
     }
 

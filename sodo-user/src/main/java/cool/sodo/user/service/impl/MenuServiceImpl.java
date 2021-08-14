@@ -29,9 +29,7 @@ public class MenuServiceImpl implements MenuService {
     private RoleToMenuService roleToMenuService;
 
     private LambdaQueryWrapper<Menu> generateQueryWrapperInUse() {
-        LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = Wrappers.lambdaQuery();
-        menuLambdaQueryWrapper.eq(Menu::getInUse, true);
-        return menuLambdaQueryWrapper;
+        return Wrappers.lambdaQuery();
     }
 
     /**
@@ -64,6 +62,7 @@ public class MenuServiceImpl implements MenuService {
      * @param menu          目标菜单
      */
     private void recursionMenuParent(List<Menu> allMenuList, List<Menu> routeMenuList, Menu menu) {
+
         Optional<Menu> parent = allMenuList.stream().filter(x -> x.getMenuId().equals(menu.getParentId())).findFirst();
         if (parent.isPresent() && !routeMenuList.contains(parent.get())) {
             routeMenuList.add(parent.get());

@@ -20,10 +20,11 @@ public class ForestNodeMerger {
      * @return 多棵树的根节点集合
      */
     public static <T extends INode> List<T> merge(List<T> items) {
+
         ForestNodeManager<T> forestNodeManager = new ForestNodeManager<>(items);
         items.forEach(forestNode -> {
             if (!StringUtil.isEmpty(forestNode.getParentId())) {
-                INode node = forestNodeManager.getTreeNodeAT(forestNode.getParentId());
+                INode node = forestNodeManager.getTreeNodeAt(forestNode.getParentId());
                 if (node != null) {
                     node.getChildren().add(forestNode);
                 } else {

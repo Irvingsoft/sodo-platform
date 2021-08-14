@@ -1,4 +1,4 @@
-package cool.sodo.common.entity;
+package cool.sodo.auth.entity;
 
 /**
  * 认证方式枚举

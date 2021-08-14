@@ -23,5 +23,4 @@ public class TreeNode extends BaseNode {
 
     @JsonSerialize(using = ToStringSerializer.class)
     private Long value;
-
 }

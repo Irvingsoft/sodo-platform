@@ -2,7 +2,9 @@ package cool.sodo.common.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import cool.sodo.common.util.StringUtil;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -59,16 +61,16 @@ public class Menu implements Serializable {
      */
     private Boolean newWindow;
 
-    /**
-     * 是否启用
-     *
-     * @date 2021/7/26 13:04
-     */
-    private Boolean inUse;
-
     private Date createAt;
 
     private Date updateAt;
+
+    private String createBy;
+
+    private String updateBy;
+
+    @TableLogic
+    private Boolean deleted;
 
     @Override
     public boolean equals(Object o) {
@@ -85,5 +87,49 @@ public class Menu implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(menuId);
+    }
+
+    public void init(String createBy, String clientId) {
+        this.clientId = clientId;
+        this.createBy = createBy;
+    }
+
+    public void update(Menu menu, String updateBy) {
+
+        if (!StringUtil.isEmpty(menu.getParentId())) {
+            this.parentId = menu.getParentId();
+        }
+        if (!StringUtil.isEmpty(menu.getCode())) {
+            this.code = menu.getCode();
+        }
+        if (!StringUtil.isEmpty(menu.getName())) {
+            this.name = menu.getName();
+        }
+        if (!StringUtil.isEmpty(menu.getIcon())) {
+            this.icon = menu.getIcon();
+        }
+        if (!StringUtil.isEmpty(menu.getPath())) {
+            this.path = menu.getPath();
+        }
+        if (!StringUtil.isEmpty(menu.getDescription())) {
+            this.description = menu.getDescription();
+        }
+        if (!StringUtil.isEmpty(menu.getSort())) {
+            this.sort = menu.getSort();
+        }
+        if (!StringUtil.isEmpty(menu.getMenuType())) {
+            this.menuType = menu.getMenuType();
+        }
+        if (!StringUtil.isEmpty(menu.getButtonType())) {
+            this.buttonType = menu.getButtonType();
+        }
+        if (!StringUtil.isEmpty(menu.getNewWindow())) {
+            this.newWindow = menu.getNewWindow();
+        }
+        this.updateBy = updateBy;
+    }
+
+    public void delete(String updateBy) {
+        this.updateBy = updateBy;
     }
 }

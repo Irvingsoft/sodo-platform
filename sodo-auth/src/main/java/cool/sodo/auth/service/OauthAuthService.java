@@ -1,11 +1,6 @@
 package cool.sodo.auth.service;
 
-import cool.sodo.auth.entity.AuthenticateRequest;
-import cool.sodo.auth.entity.AuthenticationIdentity;
-import cool.sodo.auth.entity.AuthorizationIdentity;
-import cool.sodo.auth.entity.AuthorizeRequest;
-import cool.sodo.common.entity.AuthType;
-import cool.sodo.common.entity.GrantType;
+import cool.sodo.auth.entity.*;
 
 import javax.servlet.http.HttpServletRequest;
 
