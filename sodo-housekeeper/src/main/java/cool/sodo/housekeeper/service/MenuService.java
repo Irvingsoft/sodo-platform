@@ -8,9 +8,11 @@ import java.util.List;
 
 public interface MenuService {
 
-    void insertMenu(Menu menu, String userId, String clientId);
+    void insertMenu(Menu menu, String userIdId);
 
     void deleteMenu(String menuId, String userId);
+
+    void deleteMenu(List<String> menuIdList, String userId);
 
     void updateMenu(Menu menu, String userId);
 

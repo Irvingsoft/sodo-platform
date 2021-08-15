@@ -58,13 +58,16 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public void insertMenu(Menu menu, String userId, String clientId) {
+    public void insertMenu(Menu menu, String userId) {
 
+        if (StringUtil.isEmpty(menu.getClientId())) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, "ClientId 不能为空！");
+        }
         if (!StringUtil.isEmpty(menu.getMenuId()) &&
                 !StringUtil.isEmpty(getMenuNullable(menu.getMenuId()))) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, "已存在 MenuId 为 " + menu.getMenuId() + " 的记录！");
         }
-        menu.init(userId, clientId);
+        menu.init(userId);
         if (menuMapper.insert(menu) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "插入 Menu 记录失败！");
         }
@@ -77,6 +80,19 @@ public class MenuServiceImpl implements MenuService {
         menu.delete(userId);
         updateMenu(menu);
         if (menuMapper.deleteById(menuId) <= 0) {
+            throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 Menu 记录失败！");
+        }
+    }
+
+    @Override
+    public void deleteMenu(List<String> menuIdList, String userId) {
+
+        for (String menuId : menuIdList) {
+            Menu menu = getMenu(menuId);
+            menu.delete(userId);
+            updateMenu(menu);
+        }
+        if (menuMapper.deleteBatchIds(menuIdList) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 Menu 记录失败！");
         }
     }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "menu")
@@ -36,7 +37,7 @@ public class MenuController {
     @PostMapping(value = "")
     public Result insertMenu(@RequestBody Menu menu, @CurrentUser User user) {
 
-        menuService.insertMenu(menu, user.getUserId(), user.getClientId());
+        menuService.insertMenu(menu, user.getUserId());
         return Result.success();
     }
 
@@ -51,6 +52,13 @@ public class MenuController {
     public Result deleteMenu(@PathVariable String menuId, @CurrentUser User user) {
 
         menuService.deleteMenu(menuId, user.getUserId());
+        return Result.success();
+    }
+
+    @DeleteMapping(value = "")
+    public Result deleteMenuList(@RequestBody List<String> menuIdList, @CurrentUser User user) {
+
+        menuService.deleteMenu(menuIdList, user.getUserId());
         return Result.success();
     }
 }

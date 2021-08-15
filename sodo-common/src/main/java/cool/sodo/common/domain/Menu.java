@@ -89,16 +89,13 @@ public class Menu implements Serializable {
         return Objects.hash(menuId);
     }
 
-    public void init(String createBy, String clientId) {
-        this.clientId = clientId;
+    public void init(String createBy) {
         this.createBy = createBy;
     }
 
     public void update(Menu menu, String updateBy) {
 
-        if (!StringUtil.isEmpty(menu.getParentId())) {
-            this.parentId = menu.getParentId();
-        }
+        this.parentId = menu.getParentId();
         if (!StringUtil.isEmpty(menu.getCode())) {
             this.code = menu.getCode();
         }
