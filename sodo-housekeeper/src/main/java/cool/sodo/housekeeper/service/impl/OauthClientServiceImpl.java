@@ -14,7 +14,6 @@ import cool.sodo.housekeeper.mapper.OauthClientMapper;
 import cool.sodo.housekeeper.service.ClientApiService;
 import cool.sodo.housekeeper.service.OauthClientService;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -67,8 +66,8 @@ public class OauthClientServiceImpl implements OauthClientService {
     @Override
     public void insertOauthClient(OauthClient oauthClient, String userId) {
 
-        if (!StringUtils.isEmpty(oauthClient.getClientId())
-                && !StringUtils.isEmpty(getOauthClientIdentityNullable(oauthClient.getClientId()))) {
+        if (!StringUtil.isEmpty(oauthClient.getClientId())
+                && !StringUtil.isEmpty(getOauthClientIdentityNullable(oauthClient.getClientId()))) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, "OauthApi 已存在！");
         }
 
@@ -116,7 +115,7 @@ public class OauthClientServiceImpl implements OauthClientService {
     public OauthClient getOauthClient(String id) {
 
         OauthClient oauthClient = oauthClientMapper.selectById(id);
-        if (StringUtils.isEmpty(oauthClient)) {
+        if (StringUtil.isEmpty(oauthClient)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
         }
         return oauthClient;
@@ -128,7 +127,7 @@ public class OauthClientServiceImpl implements OauthClientService {
         LambdaQueryWrapper<OauthClient> oauthClientLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_IDENTITY);
         oauthClientLambdaQueryWrapper.eq(OauthClient::getClientId, id);
         OauthClient oauthClient = oauthClientMapper.selectOne(oauthClientLambdaQueryWrapper);
-        if (StringUtils.isEmpty(oauthClient)) {
+        if (StringUtil.isEmpty(oauthClient)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
         }
         return oauthClient;
@@ -148,13 +147,13 @@ public class OauthClientServiceImpl implements OauthClientService {
         LambdaQueryWrapper<OauthClient> oauthClientLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_INFO);
         oauthClientLambdaQueryWrapper.eq(OauthClient::getClientId, clientId);
         OauthClient oauthClient = oauthClientMapper.selectOne(oauthClientLambdaQueryWrapper);
-        if (StringUtils.isEmpty(oauthClient)) {
+        if (StringUtil.isEmpty(oauthClient)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
         }
-        if (!StringUtils.isEmpty(oauthClient.getCreateBy())) {
+        if (!StringUtil.isEmpty(oauthClient.getCreateBy())) {
             oauthClient.setCreator(userService.getUserBase(oauthClient.getCreateBy()));
         }
-        if (!StringUtils.isEmpty(oauthClient.getUpdateBy())) {
+        if (!StringUtil.isEmpty(oauthClient.getUpdateBy())) {
             oauthClient.setUpdater(userService.getUserBase(oauthClient.getUpdateBy()));
         }
         oauthClient.setApiIdList(clientApiService.listClientApiApiId(clientId));
@@ -165,16 +164,16 @@ public class OauthClientServiceImpl implements OauthClientService {
     public IPage<OauthClient> pageOauthClientInfo(OauthClientRequest oauthClientRequest) {
 
         LambdaQueryWrapper<OauthClient> oauthClientLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_INFO);
-        if (!StringUtils.isEmpty(oauthClientRequest.getInUse())) {
+        if (!StringUtil.isEmpty(oauthClientRequest.getInUse())) {
             oauthClientLambdaQueryWrapper.eq(OauthClient::getInUse, oauthClientRequest.getInUse());
         }
-        if (!StringUtils.isEmpty(oauthClientRequest.getRegister())) {
+        if (!StringUtil.isEmpty(oauthClientRequest.getRegister())) {
             oauthClientLambdaQueryWrapper.eq(OauthClient::getRegister, oauthClientRequest.getRegister());
         }
-        if (!StringUtils.isEmpty(oauthClientRequest.getCaptcha())) {
+        if (!StringUtil.isEmpty(oauthClientRequest.getCaptcha())) {
             oauthClientLambdaQueryWrapper.eq(OauthClient::getCaptcha, oauthClientRequest.getCaptcha());
         }
-        if (!StringUtils.isEmpty(oauthClientRequest.getContent())) {
+        if (!StringUtil.isEmpty(oauthClientRequest.getContent())) {
             oauthClientLambdaQueryWrapper.and(wrapper -> wrapper.like(OauthClient::getName, oauthClientRequest.getContent())
                     .or()
                     .like(OauthClient::getDescription, oauthClientRequest.getContent()));

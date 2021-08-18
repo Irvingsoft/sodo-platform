@@ -2,12 +2,12 @@ package cool.sodo.goods.controller;
 
 import cool.sodo.common.entity.Result;
 import cool.sodo.common.entity.ResultEnum;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.goods.entity.ShopRequest;
 import cool.sodo.goods.exception.GoodsException;
 import cool.sodo.goods.service.ShopService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -66,11 +66,11 @@ public class CustomerShopController {
     @ApiOperation(value = "条件查询店铺列表")
     public Result listShopBase(@RequestBody ShopRequest shopRequest) {
 
-        if (!StringUtils.isEmpty(shopRequest.getSchoolId())
-                && StringUtils.isEmpty(shopRequest.getCategoryId())) {
+        if (!StringUtil.isEmpty(shopRequest.getSchoolId())
+                && StringUtil.isEmpty(shopRequest.getCategoryId())) {
             return Result.success(shopService.pageShopBaseBySchool(shopRequest));
-        } else if (StringUtils.isEmpty(shopRequest.getSchoolId())
-                && !StringUtils.isEmpty(shopRequest.getCategoryId())) {
+        } else if (StringUtil.isEmpty(shopRequest.getSchoolId())
+                && !StringUtil.isEmpty(shopRequest.getCategoryId())) {
             return Result.success(shopService.pageShopBaseByCategory(shopRequest));
         } else {
             throw new GoodsException(ResultEnum.BAD_REQUEST, ERROR_PARAMS);

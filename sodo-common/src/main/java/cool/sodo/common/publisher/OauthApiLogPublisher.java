@@ -8,9 +8,9 @@ import cool.sodo.common.service.CommonAccessTokenService;
 import cool.sodo.common.service.CommonUserService;
 import cool.sodo.common.util.LogAbstractUtil;
 import cool.sodo.common.util.SpringUtil;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.WebUtil;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -50,12 +50,12 @@ public class OauthApiLogPublisher {
                              Long time) {
 
         String token = WebUtil.getAccessToken(request);
-        if (!StringUtils.isEmpty(token) && accessTokenService.validateAccessToken(token)) {
+        if (!StringUtil.isEmpty(token) && accessTokenService.validateAccessToken(token)) {
             logApi.setUserId(userService.getUserIdentityByIdentity(
                     accessTokenService.getAccessTokenCache(token).getIdentity()
             ).getUserId());
         }
-        logApi.setTime(StringUtils.isEmpty(time) ? null : Math.toIntExact(time));
+        logApi.setTime(StringUtil.isEmpty(time) ? null : Math.toIntExact(time));
         logApi.setResponseStatus(responseStatus);
         logApi.setResponseBody(responseBody);
         logApi.setRequestUrl(WebUtil.getRequestUrl(request, serviceInfo.getPath()));

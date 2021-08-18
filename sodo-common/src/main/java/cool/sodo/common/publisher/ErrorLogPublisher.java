@@ -6,12 +6,8 @@ import cool.sodo.common.entity.ServiceInfo;
 import cool.sodo.common.event.ErrorLogEvent;
 import cool.sodo.common.service.CommonAccessTokenService;
 import cool.sodo.common.service.CommonUserService;
-import cool.sodo.common.util.ExceptionUtil;
-import cool.sodo.common.util.LogAbstractUtil;
-import cool.sodo.common.util.SpringUtil;
-import cool.sodo.common.util.WebUtil;
+import cool.sodo.common.util.*;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -43,14 +39,14 @@ public class ErrorLogPublisher {
 
         LogError logError = new LogError();
 
-        if (!StringUtils.isEmpty(error)) {
+        if (!StringUtil.isEmpty(error)) {
             logError.setStackTrace(ExceptionUtil.getStackTraceAsString(error));
             logError.setExceptionName(error.getClass().getName());
             logError.setMessage(error.getMessage());
             logError.setParams(params);
 
             StackTraceElement[] elements = error.getStackTrace();
-            if (!StringUtils.isEmpty(elements)) {
+            if (!StringUtil.isEmpty(elements)) {
                 StackTraceElement element = elements[0];
                 logError.setClassName(element.getClassName());
                 logError.setMethodName(element.getMethodName());
@@ -59,9 +55,9 @@ public class ErrorLogPublisher {
             }
         }
 
-        if (!StringUtils.isEmpty(request)) {
+        if (!StringUtil.isEmpty(request)) {
             String token = WebUtil.getAccessToken(request);
-            if (!StringUtils.isEmpty(token) &&
+            if (!StringUtil.isEmpty(token) &&
                     accessTokenService.validateAccessToken(token)) {
                 logError.setUserId(userService.getUserIdentityByIdentity(
                         accessTokenService.getAccessTokenCache(token).getIdentity()

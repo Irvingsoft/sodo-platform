@@ -6,12 +6,12 @@ import cool.sodo.common.domain.LogApi;
 import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.Result;
 import cool.sodo.common.publisher.OauthApiLogPublisher;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.WebUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.annotation.Resource;
@@ -39,7 +39,7 @@ public class ExceptionHandlerAspect {
         HttpServletRequest request = WebUtil.getRequest();
         Object result = point.proceed();
         LogApi logApi = getLogApiCache(WebUtil.getHeaderNullable(request, Constants.REQUEST_ID));
-        if (!StringUtils.isEmpty(logApi)) {
+        if (!StringUtil.isEmpty(logApi)) {
             apiLogPublisher.publishEvent(request,
                     logApi,
                     getResponseStatus(result),
@@ -60,6 +60,6 @@ public class ExceptionHandlerAspect {
     }
 
     private String getResponseBody(Object result) {
-        return !StringUtils.isEmpty(result) ? JSON.toJSONString(result) : null;
+        return !StringUtil.isEmpty(result) ? JSON.toJSONString(result) : null;
     }
 }

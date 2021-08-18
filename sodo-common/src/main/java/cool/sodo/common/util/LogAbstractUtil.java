@@ -4,7 +4,6 @@ import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.LogAbstract;
 import cool.sodo.common.entity.ServiceInfo;
 import eu.bitwalker.useragentutils.UserAgent;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,7 +23,7 @@ public class LogAbstractUtil {
      */
     public static void addRequestInfo(LogAbstract logAbstract, HttpServletRequest request) {
 
-        if (!StringUtils.isEmpty(request)) {
+        if (!StringUtil.isEmpty(request)) {
             UserAgent userAgent = UserAgent.parseUserAgentString(WebUtil.getHeader(request, Constants.USER_AGENT));
 
             logAbstract.setClientId(WebUtil.getHeaderNullable(request, Constants.CLIENT_ID));

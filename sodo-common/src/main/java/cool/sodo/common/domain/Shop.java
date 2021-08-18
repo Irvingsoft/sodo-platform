@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import cool.sodo.common.util.StringUtil;
 import lombok.Data;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -109,31 +109,31 @@ public class Shop implements Serializable {
     }
 
     public void update(Shop shop) {
-        if (!StringUtils.isEmpty(shop.name)) {
+        if (!StringUtil.isEmpty(shop.name)) {
             this.name = shop.name;
         }
-        if (!StringUtils.isEmpty(shop.avatarUrl)) {
+        if (!StringUtil.isEmpty(shop.avatarUrl)) {
             this.avatarUrl = shop.avatarUrl;
         }
-        if (!StringUtils.isEmpty(shop.backgroundUrl)) {
+        if (!StringUtil.isEmpty(shop.backgroundUrl)) {
             this.backgroundUrl = shop.backgroundUrl;
         }
-        if (!StringUtils.isEmpty(shop.notice)) {
+        if (!StringUtil.isEmpty(shop.notice)) {
             this.notice = shop.notice;
         }
-        if (!StringUtils.isEmpty(shop.phone)) {
+        if (!StringUtil.isEmpty(shop.phone)) {
             this.phone = shop.phone;
         }
-        if (!StringUtils.isEmpty(shop.leastPrice)) {
+        if (!StringUtil.isEmpty(shop.leastPrice)) {
             this.leastPrice = shop.leastPrice;
         }
-        if (!StringUtils.isEmpty(shop.predestine)) {
+        if (!StringUtil.isEmpty(shop.predestine)) {
             this.predestine = shop.predestine;
         }
-        if (!StringUtils.isEmpty(shop.pick)) {
+        if (!StringUtil.isEmpty(shop.pick)) {
             this.pick = shop.pick;
         }
-        if (!StringUtils.isEmpty(shop.delivery)) {
+        if (!StringUtil.isEmpty(shop.delivery)) {
             this.delivery = shop.delivery;
         }
     }

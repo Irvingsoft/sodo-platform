@@ -11,10 +11,10 @@ import cool.sodo.common.entity.IDContent;
 import cool.sodo.common.entity.Result;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.util.RsaUtil;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.UUIDUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -78,16 +78,16 @@ public class AuthenticationController {
         AuthType authType = oauthAuthService.getAuthType(authenticateRequest);
 
         if (AuthType.WECHATAPP.equals(authType)) {
-            if (StringUtils.isEmpty(authenticateRequest.getCode())
-                    || StringUtils.isEmpty(authenticateRequest.getEncryptedData())
-                    || StringUtils.isEmpty(authenticateRequest.getIv())) {
+            if (StringUtil.isEmpty(authenticateRequest.getCode())
+                    || StringUtil.isEmpty(authenticateRequest.getEncryptedData())
+                    || StringUtil.isEmpty(authenticateRequest.getIv())) {
                 return Result.badRequest(ERROR_PARAMS);
             }
 
             return Result.success(oauthAuthService.loginWxApp(authenticateRequest, request));
         } else if (AuthType.BASIC.equals(authType)) {
-            if (StringUtils.isEmpty(authenticateRequest.getUsername())
-                    || StringUtils.isEmpty(authenticateRequest.getPassword())) {
+            if (StringUtil.isEmpty(authenticateRequest.getUsername())
+                    || StringUtil.isEmpty(authenticateRequest.getPassword())) {
                 return Result.badRequest(ERROR_PARAMS);
             }
 

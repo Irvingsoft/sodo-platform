@@ -8,7 +8,6 @@ import cool.sodo.housekeeper.mapper.OauthClientMapper;
 import cool.sodo.housekeeper.service.OauthApiService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -22,16 +21,16 @@ public class HousekeeperApplicationTest {
     private OauthApiService oauthApiService;
 
     /**
-     * org.springframework.util.StringUtils 可以判断对象是否为空
+     * org.springframework.util.StringUtil 可以判断对象是否为空
      *
      * @author TimeChaser
      * @date 2021/5/31 22:51
      */
     @Test
-    public void testSpringFrameworkStringUtils(Boolean aBoolean) {
+    public void testSpringFrameworkStringUtil(Boolean aBoolean) {
 
 
-        if (!StringUtils.isEmpty(aBoolean)) {
+        if (!StringUtil.isEmpty(aBoolean)) {
             System.out.println(aBoolean);
         } else {
             System.out.println("is null");
@@ -39,10 +38,10 @@ public class HousekeeperApplicationTest {
     }
 
     @Test
-    public void testSpringFrameworkStringUtils(OauthApi aBoolean) {
+    public void testSpringFrameworkStringUtil(OauthApi aBoolean) {
 
 
-        if (!StringUtils.isEmpty(aBoolean)) {
+        if (!StringUtil.isEmpty(aBoolean)) {
             System.out.println(aBoolean);
         } else {
             System.out.println("is null");
@@ -52,7 +51,7 @@ public class HousekeeperApplicationTest {
     @Test
     public void test() {
 
-        testSpringFrameworkStringUtils(oauthApiService.getOauthApiIdentityNullable("a"));
+        testSpringFrameworkStringUtil(oauthApiService.getOauthApiIdentityNullable("a"));
     }
 
     @Test

@@ -11,7 +11,7 @@ import cool.sodo.common.domain.OauthUser;
 import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
-import org.apache.commons.lang.StringUtils;
+import cool.sodo.common.util.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -48,7 +48,7 @@ public class WechatAuthServiceImpl implements WechatAuthService {
         String url = String.format(ACCESS_TOKEN_OPENID_URL, oauthClient.getClientId(), oauthClient.getClientSecret(), code);
         String object = restTemplate.getForObject(url, String.class);
 
-        if (!StringUtils.isEmpty(object) && object.contains(Constants.OPEN_ID)) {
+        if (!StringUtil.isEmpty(object) && object.contains(Constants.OPEN_ID)) {
             return JSONObject.parseObject(object, WechatToken.class);
         } else {
             try {
@@ -65,7 +65,7 @@ public class WechatAuthServiceImpl implements WechatAuthService {
         String url = String.format(USER_INFO_URL, accessToken, openId);
         String object = restTemplate.getForObject(url, String.class);
 
-        if (!StringUtils.isEmpty(object) && object.contains(Constants.WX_ERROR_CODE)) {
+        if (!StringUtil.isEmpty(object) && object.contains(Constants.WX_ERROR_CODE)) {
             try {
                 throw new WeChatException(ERROR_TOKEN, objectMapper.readValue(object, WeChatException.WeChatError.class));
             } catch (JsonProcessingException e) {

@@ -6,8 +6,8 @@ import cool.sodo.common.domain.ClientApi;
 import cool.sodo.common.domain.User;
 import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.Result;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.housekeeper.service.ClientApiService;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -35,11 +35,11 @@ public class ClientApiController {
 
         for (ClientApi clientApi : clientApiList) {
 
-            if (StringUtils.isEmpty(clientApi.getApiId()) || StringUtils.isEmpty(clientApi.getClientId())) {
+            if (StringUtil.isEmpty(clientApi.getApiId()) || StringUtil.isEmpty(clientApi.getClientId())) {
                 return Result.badRequest(ERROR_EMPTY);
             }
-            if (!StringUtils.isEmpty(clientApi.getId())
-                    && !StringUtils.isEmpty(clientApiService.getClientApiIdentityNullable(clientApi.getId()))) {
+            if (!StringUtil.isEmpty(clientApi.getId())
+                    && !StringUtil.isEmpty(clientApiService.getClientApiIdentityNullable(clientApi.getId()))) {
                 return Result.badRequest(ERROR_INSERT);
             }
             clientApi.setCreateBy(user.getUserId());

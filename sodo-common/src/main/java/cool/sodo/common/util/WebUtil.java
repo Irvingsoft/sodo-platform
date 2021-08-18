@@ -4,7 +4,6 @@ import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -34,35 +33,35 @@ public class WebUtil {
 
         Assert.notNull(request, "HttpServletRequest is null");
         String ip = request.getHeader("X-Requested-For");
-        if (StringUtils.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
+        if (StringUtil.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("X-Forwarded-For");
         }
-        if (StringUtils.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
+        if (StringUtil.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
         }
-        if (StringUtils.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
+        if (StringUtil.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("WL-Proxy-Client-IP");
         }
-        if (StringUtils.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
+        if (StringUtil.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("HTTP_CLIENT_IP");
         }
-        if (StringUtils.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
+        if (StringUtil.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
             ip = request.getHeader("HTTP_X_FORWARDED_FOR");
         }
-        if (StringUtils.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
+        if (StringUtil.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
         }
-        return StringUtils.isEmpty(ip) ? null : ip.split(",")[0];
+        return StringUtil.isEmpty(ip) ? null : ip.split(",")[0];
     }
 
     public static HttpServletRequest getRequest() {
 
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        if (StringUtils.isEmpty(requestAttributes)) {
+        if (StringUtil.isEmpty(requestAttributes)) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_REQUEST);
         }
         HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-        if (StringUtils.isEmpty(request)) {
+        if (StringUtil.isEmpty(request)) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_REQUEST);
         }
         return request;
@@ -91,11 +90,11 @@ public class WebUtil {
     public static HttpServletResponse getResponse() {
 
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        if (StringUtils.isEmpty(requestAttributes)) {
+        if (StringUtil.isEmpty(requestAttributes)) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_REQUEST);
         }
         HttpServletResponse response = ((ServletRequestAttributes) requestAttributes).getResponse();
-        if (StringUtils.isEmpty(response)) {
+        if (StringUtil.isEmpty(response)) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_REQUEST);
         }
         return response;
@@ -127,7 +126,7 @@ public class WebUtil {
 
     public static String getHeader(HttpServletRequest request, String key) {
         String header = request.getHeader(key);
-        if (StringUtils.isEmpty(header)) {
+        if (StringUtil.isEmpty(header)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_HEADER, key);
         }
         return header;
@@ -152,7 +151,7 @@ public class WebUtil {
         if (servicePath.equals(Constants.GATEWAY_PATH)) {
             return requestUrl;
         }
-        if (!StringUtils.substringMatch(requestUrl, 0, servicePath)) {
+        if (!StringUtil.substringMatch(requestUrl, 0, servicePath)) {
 
             StringBuilder stringBuilder = new StringBuilder();
             String requestUri = request.getRequestURI();
@@ -167,7 +166,7 @@ public class WebUtil {
 
     public static String getAccessToken(HttpServletRequest request) {
         String header = getHeaderNullable(request, Constants.AUTHORIZATION);
-        if (!StringUtils.isEmpty(header)) {
+        if (!StringUtil.isEmpty(header)) {
             return header.split(StringPool.BLANK)[1];
         }
         return null;
@@ -175,7 +174,7 @@ public class WebUtil {
 
     public static String getAccessToken(WebRequest request) {
         String header = getHeaderNullable(request, Constants.AUTHORIZATION);
-        if (!StringUtils.isEmpty(header)) {
+        if (!StringUtil.isEmpty(header)) {
             return header.split(StringPool.BLANK)[1];
         }
         return null;

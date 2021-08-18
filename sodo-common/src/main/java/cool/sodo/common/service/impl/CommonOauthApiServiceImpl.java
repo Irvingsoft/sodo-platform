@@ -7,8 +7,8 @@ import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.mapper.CommonOauthApiMapper;
 import cool.sodo.common.service.CommonOauthApiService;
+import cool.sodo.common.util.StringUtil;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 
@@ -68,7 +68,7 @@ public class CommonOauthApiServiceImpl implements CommonOauthApiService {
                 .eq(OauthApi::getMethod, method);
 
         OauthApi oauthApi = commonOauthApiMapper.selectOne(oauthApiLambdaQueryWrapper);
-        if (StringUtils.isEmpty(oauthApi)) {
+        if (StringUtil.isEmpty(oauthApi)) {
             throw new SoDoException(ResultEnum.UNKNOWN_API, ERROR_SELECT);
         }
         return oauthApi;

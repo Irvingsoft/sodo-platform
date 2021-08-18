@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.OauthClient;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.zuul.mapper.OauthClientMapper;
 import cool.sodo.zuul.service.OauthClientService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 
@@ -43,7 +43,7 @@ public class OauthClientServiceImpl implements OauthClientService {
     @Override
     public boolean validateClient(String clientId) {
 
-        if (StringUtils.isEmpty(clientId)) {
+        if (StringUtil.isEmpty(clientId)) {
             return false;
         }
         return getOauthClientIdentity(clientId).getInUse();
@@ -57,7 +57,7 @@ public class OauthClientServiceImpl implements OauthClientService {
         oauthClientLambdaQueryWrapper.eq(OauthClient::getClientId, clientId);
         OauthClient oauthClient = oauthClientMapper.selectOne(oauthClientLambdaQueryWrapper);
 
-        if (StringUtils.isEmpty(oauthClient)) {
+        if (StringUtil.isEmpty(oauthClient)) {
             throw new SoDoException(ResultEnum.INVALID_CLIENT, ERROR_SELECT, clientId);
         }
         return oauthClient;

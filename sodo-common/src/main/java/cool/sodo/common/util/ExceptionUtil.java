@@ -1,7 +1,6 @@
 package cool.sodo.common.util;
 
 import cool.sodo.common.support.FastStringWriter;
-import org.springframework.util.StringUtils;
 
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
@@ -61,7 +60,7 @@ public class ExceptionUtil {
      */
     public static String getStackTraceAsString(Throwable ex) {
         FastStringWriter stringWriter = new FastStringWriter();
-        if (!StringUtils.isEmpty(ex)) {
+        if (!StringUtil.isEmpty(ex)) {
             ex.printStackTrace(new PrintWriter(stringWriter));
         }
         return stringWriter.toString();

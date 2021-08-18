@@ -5,13 +5,13 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.Address;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.user.mapper.AddressMapper;
 import cool.sodo.user.service.AddressService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -112,7 +112,7 @@ public class AddressServiceImpl implements AddressService {
     public Address getAddress(String addressId) {
 
         Address address = addressMapper.selectById(addressId);
-        if (StringUtils.isEmpty(address)) {
+        if (StringUtil.isEmpty(address)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
         }
         return address;
@@ -134,7 +134,7 @@ public class AddressServiceImpl implements AddressService {
         addressLambdaQueryWrapper.eq(Address::getAddressId, addressId);
 
         Address address = addressMapper.selectOne(addressLambdaQueryWrapper);
-        if (StringUtils.isEmpty(address)) {
+        if (StringUtil.isEmpty(address)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
         }
         return address;
@@ -146,7 +146,7 @@ public class AddressServiceImpl implements AddressService {
         LambdaQueryWrapper<Address> addressLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_IDENTITY);
         addressLambdaQueryWrapper.eq(Address::getAddressId, addressId);
         Address address = addressMapper.selectOne(addressLambdaQueryWrapper);
-        if (StringUtils.isEmpty(address)) {
+        if (StringUtil.isEmpty(address)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
         }
         return address;

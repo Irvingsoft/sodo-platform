@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import cool.sodo.common.util.StringUtil;
 import lombok.Data;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -37,10 +37,10 @@ public class GoodsSet implements Serializable {
     private List<GoodsChoice> goodsChoiceList;
 
     public void update(GoodsSet goodsSet) {
-        if (!StringUtils.isEmpty(goodsSet.name)) {
+        if (!StringUtil.isEmpty(goodsSet.name)) {
             this.name = goodsSet.name;
         }
-        if (!StringUtils.isEmpty(goodsSet.sort)) {
+        if (!StringUtil.isEmpty(goodsSet.sort)) {
             this.sort = goodsSet.sort;
         }
     }

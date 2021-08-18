@@ -41,7 +41,7 @@
         <module>sodo-user</module>
         <module>sodo-goods</module>
         <module>sodo-auth</module>
-        <module>sodo-logger</module>
+        <module>sodo-log</module>
         <module>sodo-order</module>
         <module>sodo-payment</module>
         <module>sodo-housekeeper</module>

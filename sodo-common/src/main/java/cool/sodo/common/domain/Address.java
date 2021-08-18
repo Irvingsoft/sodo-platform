@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import cool.sodo.common.util.StringUtil;
 import lombok.Data;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -48,25 +48,25 @@ public class Address implements Serializable {
 
     public void update(Address address) {
 
-        if (!StringUtils.isEmpty(address.getSchoolId())) {
+        if (!StringUtil.isEmpty(address.getSchoolId())) {
             this.schoolId = address.getSchoolId();
         }
-        if (!StringUtils.isEmpty(address.getAreaId())) {
+        if (!StringUtil.isEmpty(address.getAreaId())) {
             this.areaId = address.getAreaId();
         }
-        if (!StringUtils.isEmpty(address.getDetail())) {
+        if (!StringUtil.isEmpty(address.getDetail())) {
             this.detail = address.getDetail();
         }
-        if (!StringUtils.isEmpty(address.getName())) {
+        if (!StringUtil.isEmpty(address.getName())) {
             this.name = address.getName();
         }
-        if (!StringUtils.isEmpty(address.getPhone())) {
+        if (!StringUtil.isEmpty(address.getPhone())) {
             this.phone = address.getPhone();
         }
-        if (!StringUtils.isEmpty(address.getGender())) {
+        if (!StringUtil.isEmpty(address.getGender())) {
             this.gender = address.getGender();
         }
-        if (!StringUtils.isEmpty(address.getDefaultAddress())) {
+        if (!StringUtil.isEmpty(address.getDefaultAddress())) {
             this.defaultAddress = address.getDefaultAddress();
         }
     }

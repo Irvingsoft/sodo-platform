@@ -8,9 +8,9 @@ import cool.sodo.common.service.CommonAccessTokenService;
 import cool.sodo.common.service.CommonUserService;
 import cool.sodo.common.util.LogAbstractUtil;
 import cool.sodo.common.util.SpringUtil;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.WebUtil;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +43,7 @@ public class BusinessLogPublisher {
     public void publishEvent(HttpServletRequest request, String businessType, String businessId, String businessData, String message) {
 
         LogBusiness logBusiness = new LogBusiness();
-        if (!StringUtils.isEmpty(WebUtil.getHeaderNullable(request, Constants.AUTHORIZATION))) {
+        if (!StringUtil.isEmpty(WebUtil.getHeaderNullable(request, Constants.AUTHORIZATION))) {
             logBusiness.setUserId(userService.getUserIdentityByIdentity(
                     accessTokenService.getAccessTokenCache(WebUtil.getHeaderNullable(request, Constants.AUTHORIZATION))
                             .getIdentity()

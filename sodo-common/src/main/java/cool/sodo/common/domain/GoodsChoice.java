@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import cool.sodo.common.util.StringUtil;
 import lombok.Data;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -37,10 +37,10 @@ public class GoodsChoice implements Serializable {
     private Date updateAt;
 
     public void update(GoodsChoice goodsChoice) {
-        if (!StringUtils.isEmpty(goodsChoice.getName())) {
+        if (!StringUtil.isEmpty(goodsChoice.getName())) {
             this.name = goodsChoice.name;
         }
-        if (!StringUtils.isEmpty(goodsChoice.getSort())) {
+        if (!StringUtil.isEmpty(goodsChoice.getSort())) {
             this.sort = goodsChoice.sort;
         }
     }

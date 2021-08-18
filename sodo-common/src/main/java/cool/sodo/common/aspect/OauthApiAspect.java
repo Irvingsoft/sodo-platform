@@ -25,7 +25,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.Resource;
@@ -106,7 +105,7 @@ public class OauthApiAspect {
         if (oauthApi.getAuth()) {
 
             String token = WebUtil.getAccessToken(request);
-            if (StringUtils.isEmpty(token)) {
+            if (StringUtil.isEmpty(token)) {
                 throw new SoDoException(ResultEnum.UNAUTHORIZED, ERROR_AUTHORIZATION);
             }
             // AccessToken Check, And User Status Check.
@@ -209,6 +208,6 @@ public class OauthApiAspect {
     }
 
     private String getResponseBody(Object result) {
-        return !StringUtils.isEmpty(result) ? JSON.toJSONString(result) : null;
+        return !StringUtil.isEmpty(result) ? JSON.toJSONString(result) : null;
     }
 }

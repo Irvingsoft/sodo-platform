@@ -31,13 +31,6 @@ public class SecurityConfig {
                 .permitAll();
         }*/
 
-/*
-    @Bean
-    public HttpWrapperFilter httpWrapperFilter() {
-        return new HttpWrapperFilter();
-    }
-*/
-
     @Bean
     public ExceptionFilter exceptionFilter() {
         return new ExceptionFilter();

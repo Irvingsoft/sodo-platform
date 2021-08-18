@@ -9,11 +9,11 @@ import cool.sodo.common.domain.OauthIp;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.AsyncException;
 import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.housekeeper.entity.OauthIpRequest;
 import cool.sodo.housekeeper.mapper.OauthIpMapper;
 import cool.sodo.housekeeper.service.OauthIpService;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 
@@ -101,7 +101,7 @@ public class OauthIpServiceImpl implements OauthIpService {
     public OauthIp getOauthIp(String id) {
 
         OauthIp oauthIp = oauthIpMapper.selectById(id);
-        if (StringUtils.isEmpty(oauthIp)) {
+        if (StringUtil.isEmpty(oauthIp)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
         }
         return oauthIp;
@@ -113,7 +113,7 @@ public class OauthIpServiceImpl implements OauthIpService {
         LambdaQueryWrapper<OauthIp> oauthIpLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_IDENTITY);
         oauthIpLambdaQueryWrapper.eq(OauthIp::getIpId, id);
         OauthIp oauthIp = oauthIpMapper.selectOne(oauthIpLambdaQueryWrapper);
-        if (StringUtils.isEmpty(oauthIp)) {
+        if (StringUtil.isEmpty(oauthIp)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
         }
         return oauthIp;
@@ -131,10 +131,10 @@ public class OauthIpServiceImpl implements OauthIpService {
 
         LambdaQueryWrapper<OauthIp> oauthIpLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_INFO);
 
-        if (!StringUtils.isEmpty(oauthIpRequest.getClientId())) {
+        if (!StringUtil.isEmpty(oauthIpRequest.getClientId())) {
             oauthIpLambdaQueryWrapper.eq(OauthIp::getClientId, oauthIpRequest.getClientId());
         }
-        if (!StringUtils.isEmpty(oauthIpRequest.getContent())) {
+        if (!StringUtil.isEmpty(oauthIpRequest.getContent())) {
             oauthIpLambdaQueryWrapper.and(
                     wrapper -> wrapper.like(OauthIp::getIp, oauthIpRequest.getContent())
                             .or()

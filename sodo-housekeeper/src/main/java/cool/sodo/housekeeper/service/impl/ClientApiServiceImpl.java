@@ -9,7 +9,6 @@ import cool.sodo.common.util.StringUtil;
 import cool.sodo.housekeeper.mapper.ClientApiMapper;
 import cool.sodo.housekeeper.service.ClientApiService;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -166,7 +165,7 @@ public class ClientApiServiceImpl implements ClientApiService {
         clientApiLambdaQueryWrapper.eq(ClientApi::getId, id)
                 .select(ClientApi::getId, ClientApi::getClientId, ClientApi::getApiId);
         ClientApi clientApi = clientApiMapper.selectOne(clientApiLambdaQueryWrapper);
-        if (StringUtils.isEmpty(clientApi)) {
+        if (StringUtil.isEmpty(clientApi)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
         }
         return clientApi;

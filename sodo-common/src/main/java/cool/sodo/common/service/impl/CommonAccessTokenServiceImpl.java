@@ -9,9 +9,9 @@ import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.mapper.CommonAccessTokenMapper;
 import cool.sodo.common.service.CommonAccessTokenService;
+import cool.sodo.common.util.StringUtil;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
@@ -56,7 +56,7 @@ public class CommonAccessTokenServiceImpl implements CommonAccessTokenService {
     public AccessToken getAccessToken(String token) {
 
         AccessToken accessToken = commonAccessTokenMapper.selectById(token);
-        if (StringUtils.isEmpty(accessToken)) {
+        if (StringUtil.isEmpty(accessToken)) {
             throw new SoDoException(ResultEnum.INVALID_TOKEN, INVALID_TOKEN, token);
         }
         return accessToken;
@@ -108,7 +108,7 @@ public class CommonAccessTokenServiceImpl implements CommonAccessTokenService {
     @Override
     public void checkAccessToken(AccessToken accessToken, String clientId) {
 
-        if (StringUtils.isEmpty(accessToken) || accessToken.getExpireAt().getTime() < System.currentTimeMillis()) {
+        if (StringUtil.isEmpty(accessToken) || accessToken.getExpireAt().getTime() < System.currentTimeMillis()) {
             throw new SoDoException(ResultEnum.INVALID_TOKEN, INVALID_TOKEN);
         }
         if (!accessToken.getClientId().equals(clientId)) {

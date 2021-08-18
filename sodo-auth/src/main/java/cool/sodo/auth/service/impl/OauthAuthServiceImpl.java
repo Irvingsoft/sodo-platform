@@ -28,7 +28,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -86,7 +85,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
 
         List<String> authTypes = Arrays.stream(AuthType.values()).map(AuthType::name).collect(Collectors.toList());
 
-        if (StringUtils.isEmpty(authenticateRequest.getAuthType()) || !authTypes.contains(authenticateRequest.getAuthType())) {
+        if (StringUtil.isEmpty(authenticateRequest.getAuthType()) || !authTypes.contains(authenticateRequest.getAuthType())) {
             return AuthType.UNRECOGNIZED;
         }
         return AuthType.valueOf(authenticateRequest.getAuthType().toUpperCase());
@@ -97,7 +96,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
 
         List<String> grantTypes = Arrays.stream(GrantType.values()).map(GrantType::name).collect(Collectors.toList());
 
-        if (StringUtils.isEmpty(authorizeRequest.getGrantType()) && !grantTypes.contains(authorizeRequest.getGrantType())) {
+        if (StringUtil.isEmpty(authorizeRequest.getGrantType()) && !grantTypes.contains(authorizeRequest.getGrantType())) {
             return GrantType.UNRECOGNIZED;
         }
         return GrantType.valueOf(authorizeRequest.getGrantType().toUpperCase());
@@ -111,14 +110,14 @@ public class OauthAuthServiceImpl implements OauthAuthService {
     @Override
     public boolean validateCaptcha(String captcha, HttpServletRequest request) {
         String captchaCache = (String) redisCacheHelper.get(Constants.CAPTCHA_KEY_CACHE_PREFIX + WebUtil.getHeader(request, Constants.CAPTCHA_KEY));
-        return !StringUtils.isEmpty(captcha) &&
+        return !StringUtil.isEmpty(captcha) &&
                 captcha.toUpperCase(Locale.ROOT).equals(captchaCache.toUpperCase(Locale.ROOT));
     }
 
     @Override
     public AuthenticationIdentity getAuthIdentityByAuthCode(String authCode) {
         AuthenticationIdentity authenticationIdentity = (AuthenticationIdentity) redisCacheHelper.get(Constants.AUTH_CODE_CACHE_PREFIX + authCode);
-        if (StringUtils.isEmpty(authenticationIdentity)) {
+        if (StringUtil.isEmpty(authenticationIdentity)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_AUTH_CODE, authenticationIdentity);
         }
         return authenticationIdentity;
@@ -186,7 +185,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
 
         WechatToken wechatToken = wechatAuthService.getAccessToken(authenticateRequest.getCode(), oauthClient);
 
-        if (wechatToken == null || StringUtils.isEmpty(wechatToken.getSessionKey())) {
+        if (wechatToken == null || StringUtil.isEmpty(wechatToken.getSessionKey())) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_WECHAT_TOKEN);
         }
 

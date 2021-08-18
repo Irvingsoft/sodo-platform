@@ -3,8 +3,8 @@ package cool.sodo.common.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import cool.sodo.common.util.StringUtil;
 import lombok.Data;
-import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -42,19 +42,19 @@ public class OauthIp implements Serializable {
 
     public void update(OauthIp oauthIp) {
 
-        if (!StringUtils.isEmpty(oauthIp.getClientId())) {
+        if (!StringUtil.isEmpty(oauthIp.getClientId())) {
             this.clientId = oauthIp.getClientId();
         }
-        if (!StringUtils.isEmpty(oauthIp.getIp())) {
+        if (!StringUtil.isEmpty(oauthIp.getIp())) {
             this.ip = oauthIp.getIp();
         }
-        if (!StringUtils.isEmpty(oauthIp.getDescription())) {
+        if (!StringUtil.isEmpty(oauthIp.getDescription())) {
             this.description = oauthIp.getDescription();
         }
-        if (!StringUtils.isEmpty(oauthIp.getValid())) {
+        if (!StringUtil.isEmpty(oauthIp.getValid())) {
             this.valid = oauthIp.getValid();
         }
-        if (!StringUtils.isEmpty(oauthIp.getUpdateBy())) {
+        if (!StringUtil.isEmpty(oauthIp.getUpdateBy())) {
             this.updateBy = oauthIp.getUpdateBy();
         }
         this.updateAt = new Date();

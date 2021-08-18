@@ -5,9 +5,9 @@ import cool.sodo.auth.entity.GrantType;
 import cool.sodo.auth.service.OauthAuthService;
 import cool.sodo.common.entity.Result;
 import cool.sodo.common.entity.ResultEnum;
+import cool.sodo.common.util.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +38,7 @@ public class AuthorizationController {
         GrantType grantType = oauthAuthService.getGrantType(authorizeRequest);
 
         if (GrantType.AUTHCODE.equals(grantType)) {
-            if (StringUtils.isEmpty(authorizeRequest.getCode())) {
+            if (StringUtil.isEmpty(authorizeRequest.getCode())) {
                 return Result.of(ResultEnum.BAD_REQUEST);
             }
 

@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import cool.sodo.common.util.StringUtil;
 import lombok.Data;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -83,31 +83,31 @@ public class Goods implements Serializable {
     private List<GoodsSet> goodsSetList;
 
     public void update(Goods goods) {
-        if (!StringUtils.isEmpty(goods.menuId)) {
+        if (!StringUtil.isEmpty(goods.menuId)) {
             this.menuId = goods.menuId;
         }
-        if (!StringUtils.isEmpty(goods.name)) {
+        if (!StringUtil.isEmpty(goods.name)) {
             this.name = goods.name;
         }
-        if (!StringUtils.isEmpty(goods.avatarUrl)) {
+        if (!StringUtil.isEmpty(goods.avatarUrl)) {
             this.avatarUrl = goods.avatarUrl;
         }
-        if (!StringUtils.isEmpty(goods.originalPrice)) {
+        if (!StringUtil.isEmpty(goods.originalPrice)) {
             this.originalPrice = goods.originalPrice;
         }
-        if (!StringUtils.isEmpty(goods.discountPrice)) {
+        if (!StringUtil.isEmpty(goods.discountPrice)) {
             this.discountPrice = goods.discountPrice;
         }
-        if (!StringUtils.isEmpty(goods.discount)) {
+        if (!StringUtil.isEmpty(goods.discount)) {
             this.discount = goods.discount;
         }
-        if (!StringUtils.isEmpty(goods.stockNum)) {
+        if (!StringUtil.isEmpty(goods.stockNum)) {
             this.stockNum = goods.stockNum;
         }
-        if (!StringUtils.isEmpty(goods.stock)) {
+        if (!StringUtil.isEmpty(goods.stock)) {
             this.stock = goods.stock;
         }
-        if (!StringUtils.isEmpty(goods.sort)) {
+        if (!StringUtil.isEmpty(goods.sort)) {
             this.sort = goods.sort;
         }
     }

@@ -89,6 +89,9 @@ zuul:
     user:
       path: /user/**
       serviceId: user
+    log:
+      path: /log/**
+      serviceId: log
     goods:
       path: /goods/**
       serviceId: goods

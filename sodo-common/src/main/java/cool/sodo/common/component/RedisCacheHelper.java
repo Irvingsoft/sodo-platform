@@ -1,9 +1,9 @@
 package cool.sodo.common.component;
 
+import cool.sodo.common.util.StringUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -572,7 +572,7 @@ public class RedisCacheHelper {
      * @return 移除的个数
      */
     public Long listDelete(String key, Long count, Object value) {
-        if (StringUtils.isEmpty(key)) {
+        if (StringUtil.isEmpty(key)) {
             return 0L;
         }
         try {

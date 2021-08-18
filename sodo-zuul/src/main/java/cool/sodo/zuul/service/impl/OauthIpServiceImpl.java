@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.OauthIp;
 import cool.sodo.common.publisher.OauthIpCheckPublisher;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.zuul.mapper.OauthIpMapper;
 import cool.sodo.zuul.service.OauthIpService;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -42,7 +42,7 @@ public class OauthIpServiceImpl implements OauthIpService {
     @Override
     public boolean validOauthIp(String clientId, String ip) {
 
-        if (StringUtils.isEmpty(ip)) {
+        if (StringUtil.isEmpty(ip)) {
             return false;
         }
 

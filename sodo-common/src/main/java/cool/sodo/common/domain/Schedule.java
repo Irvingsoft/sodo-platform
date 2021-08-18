@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import cool.sodo.common.util.StringUtil;
 import lombok.Data;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -41,16 +41,16 @@ public class Schedule implements Serializable {
     }
 
     public void update(Schedule schedule) {
-        if (!StringUtils.isEmpty(schedule.openHour)) {
+        if (!StringUtil.isEmpty(schedule.openHour)) {
             this.openHour = schedule.openHour;
         }
-        if (!StringUtils.isEmpty(schedule.openMinute)) {
+        if (!StringUtil.isEmpty(schedule.openMinute)) {
             this.openMinute = schedule.openMinute;
         }
-        if (!StringUtils.isEmpty(schedule.closeHour)) {
+        if (!StringUtil.isEmpty(schedule.closeHour)) {
             this.closeHour = schedule.closeHour;
         }
-        if (!StringUtils.isEmpty(schedule.closeMinute)) {
+        if (!StringUtil.isEmpty(schedule.closeMinute)) {
             this.closeMinute = schedule.closeMinute;
         }
     }

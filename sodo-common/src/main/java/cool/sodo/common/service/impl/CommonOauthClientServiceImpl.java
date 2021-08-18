@@ -8,9 +8,9 @@ import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.mapper.CommonOauthClientMapper;
 import cool.sodo.common.service.CommonOauthClientService;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.WebUtil;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +39,7 @@ public class CommonOauthClientServiceImpl implements CommonOauthClientService {
                         OauthClient::getRegister, OauthClient::getCaptcha, OauthClient::getUserStatus,
                         OauthClient::getTokenExpire, OauthClient::getRedirectUri, OauthClient::getUserStatus);
         OauthClient oauthClient = commonOauthClientMapper.selectOne(oauthClientLambdaQueryWrapper);
-        if (StringUtils.isEmpty(oauthClient)) {
+        if (StringUtil.isEmpty(oauthClient)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT, clientId);
         }
         return oauthClient;
@@ -49,7 +49,7 @@ public class CommonOauthClientServiceImpl implements CommonOauthClientService {
     public boolean validateOauthClientRegister(String clientId) {
 
         OauthClient oauthClient = commonOauthClientMapper.selectById(clientId);
-        if (StringUtils.isEmpty(oauthClient)) {
+        if (StringUtil.isEmpty(oauthClient)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT, clientId);
         }
         return oauthClient.getRegister();

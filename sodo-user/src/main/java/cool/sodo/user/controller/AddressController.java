@@ -4,10 +4,10 @@ import cool.sodo.common.annotation.CurrentUser;
 import cool.sodo.common.domain.Address;
 import cool.sodo.common.domain.User;
 import cool.sodo.common.entity.Result;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.user.service.AddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -29,8 +29,8 @@ public class AddressController {
     @ApiOperation(value = "添加地址")
     public Result insertAddress(@RequestBody @Valid Address address, @CurrentUser User user) {
 
-        if (!StringUtils.isEmpty(address.getAddressId())
-                && !StringUtils.isEmpty(addressService.getAddressIdentityNullable(address.getAddressId()))) {
+        if (!StringUtil.isEmpty(address.getAddressId())
+                && !StringUtil.isEmpty(addressService.getAddressIdentityNullable(address.getAddressId()))) {
             return Result.badRequest(ERROR_INSERT);
         }
         address.setUserId(user.getUserId());
@@ -53,7 +53,7 @@ public class AddressController {
     @ApiOperation(value = "更新地址")
     public Result updateAddress(@RequestBody Address address, @CurrentUser User user) {
 
-        if (StringUtils.isEmpty(address.getAddressId())) {
+        if (StringUtil.isEmpty(address.getAddressId())) {
             return Result.badRequest(ERROR_UPDATE);
         }
         if (!addressService.getAddressIdentity(address.getAddressId()).getUserId().equals(user.getUserId())) {

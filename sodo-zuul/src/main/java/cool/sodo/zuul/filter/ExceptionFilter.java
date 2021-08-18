@@ -64,6 +64,7 @@ public class ExceptionFilter extends ZuulFilter {
             currentContext.setResponseBody(JSON.toJSONString(new cool.sodo.zuul.exception.ZuulException(soDoException)));
             response.setContentType(CONTENT_TYPE);
             response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             errorLogPublisher.publishEvent(currentContext.getRequest(), (Throwable) e, null);
         }
         return null;

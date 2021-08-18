@@ -4,9 +4,9 @@ import cool.sodo.common.annotation.CurrentUser;
 import cool.sodo.common.domain.OauthIp;
 import cool.sodo.common.domain.User;
 import cool.sodo.common.entity.Result;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.housekeeper.entity.OauthIpRequest;
 import cool.sodo.housekeeper.service.OauthIpService;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -25,8 +25,8 @@ public class OauthIpController {
     @PostMapping(value = "")
     public Result insertOauthIp(@RequestBody OauthIp oauthIp, @CurrentUser User user) {
 
-        if (!StringUtils.isEmpty(oauthIp.getIpId())
-                && !StringUtils.isEmpty(oauthIpService.getOauthIpIdentityNullable(oauthIp.getIpId()))) {
+        if (!StringUtil.isEmpty(oauthIp.getIpId())
+                && !StringUtil.isEmpty(oauthIpService.getOauthIpIdentityNullable(oauthIp.getIpId()))) {
             return Result.badRequest(ERROR_INSERT);
         }
         oauthIp.setCreateBy(user.getUserId());
@@ -37,7 +37,7 @@ public class OauthIpController {
     @DeleteMapping(value = "{ipId}")
     public Result deleteOauthIp(@PathVariable String ipId, @CurrentUser User user) {
 
-        if (StringUtils.isEmpty(oauthIpService.getOauthIpIdentityNullable(ipId))) {
+        if (StringUtil.isEmpty(oauthIpService.getOauthIpIdentityNullable(ipId))) {
             return Result.badRequest(ERROR_DELETE);
         }
         oauthIpService.deleteOauthIp(ipId);
@@ -47,7 +47,7 @@ public class OauthIpController {
     @PatchMapping(value = "")
     public Result updateOauthIp(@RequestBody OauthIp oauthIp, @CurrentUser User user) {
 
-        if (StringUtils.isEmpty(oauthIp.getIpId())) {
+        if (StringUtil.isEmpty(oauthIp.getIpId())) {
             return Result.badRequest(ERROR_UPDATE);
         }
         oauthIp.setUpdateBy(user.getUserId());

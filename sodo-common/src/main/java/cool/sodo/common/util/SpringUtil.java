@@ -6,7 +6,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 /**
  * Spring 工具类，注册成组件后自动装配 ApplicationContext
@@ -31,7 +30,7 @@ public class SpringUtil implements ApplicationContextAware {
 
     public static void publishEvent(ApplicationEvent applicationEvent) {
 
-        if (StringUtils.isEmpty(applicationContext)) {
+        if (StringUtil.isEmpty(applicationContext)) {
             return;
         }
         applicationContext.publishEvent(applicationEvent);

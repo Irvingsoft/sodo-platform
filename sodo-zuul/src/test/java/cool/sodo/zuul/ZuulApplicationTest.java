@@ -4,7 +4,6 @@ import cool.sodo.common.domain.LogApi;
 import cool.sodo.common.domain.LogError;
 import cool.sodo.common.entity.ServiceInfo;
 import cool.sodo.common.exception.AsyncException;
-import cool.sodo.zuul.service.AccessTokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -18,17 +17,9 @@ import java.util.Arrays;
 public class ZuulApplicationTest {
 
     @Resource
-    private AccessTokenService accessTokenService;
-    @Resource
     private ServiceInfo serviceInfo;
     @Resource
     private ServerProperties serverProperties;
-
-    @Test
-    public void testAccessToken() {
-
-        System.out.println(accessTokenService.validateAccessToken("1", "1"));
-    }
 
     @Test
     public void testProperties() {
