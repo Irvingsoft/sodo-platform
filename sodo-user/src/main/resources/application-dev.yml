@@ -72,10 +72,13 @@ mybatis-plus:
   type-aliases-package: cool.sodo.common.domain
   mapper-locations: classpath:mapper/*.xml
   configuration:
-    jdbc-type-for-null: null # 数据库中的空字段对应的实体类属性的值
+    jdbc-type-for-null: null
     map-underscore-to-camel-case: true
   global-config:
-    banner: false # 关闭 mybatis-plus的 banner
+    banner: false
+    db-config:
+      logic-delete-value: true
+      logic-not-delete-value: false
 logging:
   config: classpath:log/logback_${spring.application.env}.xml
 # 消息异构

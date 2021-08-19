@@ -2,7 +2,6 @@ package cool.sodo.common.listener;
 
 import cool.sodo.common.config.LogMqConfig;
 import cool.sodo.common.domain.LogBusiness;
-import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.Notification;
 import cool.sodo.common.entity.ServiceInfo;
 import cool.sodo.common.event.BusinessLogEvent;
@@ -15,7 +14,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 
 @Component
 @ConditionalOnBean({LogMqConfig.class})

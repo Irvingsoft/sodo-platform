@@ -1,7 +1,6 @@
 package cool.sodo.common.publisher;
 
 import cool.sodo.common.domain.LogError;
-import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ServiceInfo;
 import cool.sodo.common.event.ErrorLogEvent;
 import cool.sodo.common.service.CommonAccessTokenService;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 
 /**
  * LogError 事件发布者

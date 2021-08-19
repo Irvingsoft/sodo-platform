@@ -2,7 +2,9 @@ package cool.sodo.common.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import cool.sodo.common.util.StringUtil;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -34,4 +36,32 @@ public class Role implements Serializable {
     private Date createAt;
 
     private Date updateAt;
+
+    private String createBy;
+
+    private String updateBy;
+
+    @TableLogic
+    private Boolean deleted;
+
+    public void init(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public void update(Role role, String updateBy) {
+
+        this.parentId = role.getParentId();
+        this.description = role.getDescription();
+        if (!StringUtil.isEmpty(role.getName())) {
+            this.name = role.getName();
+        }
+        if (!StringUtil.isEmpty(role.getSort())) {
+            this.sort = role.getSort();
+        }
+        this.updateBy = updateBy;
+    }
+
+    public void delete(String updateBy) {
+        this.updateBy = updateBy;
+    }
 }

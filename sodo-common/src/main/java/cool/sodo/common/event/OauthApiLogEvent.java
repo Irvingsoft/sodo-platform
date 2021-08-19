@@ -3,8 +3,6 @@ package cool.sodo.common.event;
 import cool.sodo.common.domain.LogApi;
 import org.springframework.context.ApplicationEvent;
 
-import java.util.HashMap;
-
 public class OauthApiLogEvent extends ApplicationEvent {
 
     private final LogApi logApi;

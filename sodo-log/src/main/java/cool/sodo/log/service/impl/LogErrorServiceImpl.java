@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import cool.sodo.common.domain.LogBusiness;
 import cool.sodo.common.domain.LogError;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.AsyncException;

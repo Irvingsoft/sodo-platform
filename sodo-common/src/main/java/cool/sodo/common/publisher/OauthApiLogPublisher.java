@@ -1,7 +1,6 @@
 package cool.sodo.common.publisher;
 
 import cool.sodo.common.domain.LogApi;
-import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ServiceInfo;
 import cool.sodo.common.event.OauthApiLogEvent;
 import cool.sodo.common.service.CommonAccessTokenService;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 
 /**
  * LogApi 事件发布者

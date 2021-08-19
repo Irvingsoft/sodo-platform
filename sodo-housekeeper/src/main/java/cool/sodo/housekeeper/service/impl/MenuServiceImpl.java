@@ -16,7 +16,6 @@ import cool.sodo.housekeeper.service.MenuService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +32,7 @@ public class MenuServiceImpl implements MenuService {
     @Resource
     private MenuMapper menuMapper;
 
-    private LambdaQueryWrapper<Menu> generateQueryWrapperInUse(int type) {
+    private LambdaQueryWrapper<Menu> generateSelectQueryWrapper(int type) {
 
         LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = Wrappers.lambdaQuery();
 
@@ -42,7 +41,7 @@ public class MenuServiceImpl implements MenuService {
                 menuLambdaQueryWrapper.select(Menu::getMenuId, Menu::getParentId, Menu::getName, Menu::getSort);
                 break;
             case SELECT_LIST:
-                menuLambdaQueryWrapper.select(Menu::getMenuId, Menu::getParentId, Menu::getCode, Menu::getClientId,
+                menuLambdaQueryWrapper.select(Menu::getMenuId, Menu::getParentId, Menu::getCode,
                         Menu::getName, Menu::getIcon, Menu::getPath, Menu::getDescription, Menu::getSort,
                         Menu::getMenuType, Menu::getButtonType, Menu::getNewWindow,
                         Menu::getCreateAt, Menu::getUpdateAt, Menu::getCreateBy, Menu::getUpdateBy);
@@ -135,18 +134,18 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<MenuVO> tree(String clientId) {
 
-        LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = generateQueryWrapperInUse(SELECT_TREE);
+        LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_TREE);
         menuLambdaQueryWrapper.eq(Menu::getClientId, clientId)
-                .eq(Menu::getMenuType, Constants.MENU_TYPE_MENU);
+                .eq(Menu::getMenuType, Constants.MENU_TYPE_MENU)
+                .orderByAsc(Menu::getSort);
         List<Menu> menuList = menuMapper.selectList(menuLambdaQueryWrapper);
-        menuList.sort(Comparator.comparing(Menu::getSort));
         return ForestNodeMerger.merge(toMenuVO(menuList));
     }
 
     @Override
     public List<MenuVO> listMenu(MenuRequest menuRequest) {
 
-        LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = generateQueryWrapperInUse(SELECT_LIST);
+        LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_LIST);
         menuLambdaQueryWrapper.eq(Menu::getClientId, menuRequest.getClientId());
         if (!StringUtil.isEmpty(menuRequest.getContent())) {
             menuLambdaQueryWrapper.and(wrapper -> wrapper.like(Menu::getName, menuRequest.getContent())
@@ -157,8 +156,8 @@ public class MenuServiceImpl implements MenuService {
                     .or()
                     .like(Menu::getDescription, menuRequest.getContent()));
         }
+        menuLambdaQueryWrapper.orderByAsc(Menu::getSort);
         List<Menu> menuList = menuMapper.selectList(menuLambdaQueryWrapper);
-        menuList.sort(Comparator.comparing(Menu::getSort));
         return ForestNodeMerger.merge(toMenuVO(menuList));
     }
 }
