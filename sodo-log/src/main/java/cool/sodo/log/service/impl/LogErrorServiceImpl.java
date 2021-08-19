@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cool.sodo.common.domain.LogBusiness;
 import cool.sodo.common.domain.LogError;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.AsyncException;
@@ -36,15 +37,16 @@ public class LogErrorServiceImpl implements LogErrorService {
             case SELECT_BASE:
                 logErrorLambdaQueryWrapper.select(LogError::getId, LogError::getServiceId, LogError::getServiceIp,
                         LogError::getServiceHost, LogError::getEnv, LogError::getClientId, LogError::getUserId,
-                        LogError::getUserIp, LogError::getExceptionName, LogError::getCreateAt);
+                        LogError::getUserIp, LogError::getRequestMethod, LogError::getExceptionName,
+                        LogError::getMessage, LogError::getCreateAt);
                 break;
             case SELECT_INFO:
                 logErrorLambdaQueryWrapper.select(LogError::getId, LogError::getServiceId, LogError::getServiceIp,
-                        LogError::getServiceHost, LogError::getEnv, LogError::getClientId, LogError::getUserId,
-                        LogError::getUserIp, LogError::getSystemName, LogError::getBrowserName, LogError::getRequestUrl,
-                        LogError::getRequestMethod, LogError::getClassName, LogError::getMethodName,
-                        LogError::getStackTrace, LogError::getExceptionName, LogError::getMessage, LogError::getFileName,
-                        LogError::getLineNum, LogError::getParams, LogError::getCreateAt);
+                        LogError::getServiceHost, LogError::getEnv, LogError::getClientId, LogError::getRequestId,
+                        LogError::getUserId, LogError::getUserIp, LogError::getSystemName, LogError::getBrowserName,
+                        LogError::getRequestUrl, LogError::getRequestMethod, LogError::getClassName, LogError::getMethodName,
+                        LogError::getStackTrace, LogError::getExceptionName, LogError::getMessage,
+                        LogError::getFileName, LogError::getLineNum, LogError::getParams, LogError::getCreateAt);
                 break;
             default:
                 break;
@@ -86,6 +88,9 @@ public class LogErrorServiceImpl implements LogErrorService {
         if (!StringUtil.isEmpty(logErrorRequest.getUserId())) {
             logErrorLambdaQueryWrapper.eq(LogError::getUserId, logErrorRequest.getUserId());
         }
+        if (!StringUtil.isEmpty(logErrorRequest.getRequestId())) {
+            logErrorLambdaQueryWrapper.eq(LogError::getRequestId, logErrorRequest.getRequestId());
+        }
         if (!StringUtil.isEmpty(logErrorRequest.getRequestMethod())) {
             logErrorLambdaQueryWrapper.eq(LogError::getRequestMethod, logErrorRequest.getRequestMethod());
         }
@@ -121,6 +126,7 @@ public class LogErrorServiceImpl implements LogErrorService {
             logErrorLambdaQueryWrapper.le(LogError::getCreateAt, logErrorRequest.getCreateEnd());
         }
 
+        logErrorLambdaQueryWrapper.orderByDesc(LogError::getCreateAt);
         return logErrorMapper.selectPage(new Page<>(logErrorRequest.getPageNum(), logErrorRequest.getPageSize()),
                 logErrorLambdaQueryWrapper);
     }

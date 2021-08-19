@@ -61,8 +61,6 @@ public class OauthApiLogPublisher {
         logApi.setRequestUrl(WebUtil.getRequestUrl(request, serviceInfo.getPath()));
         LogAbstractUtil.addRequestInfo(logApi, request);
 
-        HashMap<String, Object> eventSource = new HashMap<>(Constants.HASHMAP_SIZE_DEFAULT);
-        eventSource.put(Constants.LOG_EVENT, logApi);
-        SpringUtil.publishEvent(new OauthApiLogEvent(eventSource));
+        SpringUtil.publishEvent(new OauthApiLogEvent(this, logApi));
     }
 }

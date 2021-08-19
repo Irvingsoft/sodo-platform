@@ -56,8 +56,6 @@ public class BusinessLogPublisher {
         logBusiness.setRequestUrl(WebUtil.getRequestUrl(request, serviceInfo.getPath()));
         LogAbstractUtil.addRequestInfo(logBusiness, request);
 
-        HashMap<String, Object> eventSource = new HashMap<>(Constants.HASHMAP_SIZE_DEFAULT);
-        eventSource.put(Constants.LOG_EVENT, logBusiness);
-        SpringUtil.publishEvent(new BusinessLogEvent(eventSource));
+        SpringUtil.publishEvent(new BusinessLogEvent(this, logBusiness));
     }
 }

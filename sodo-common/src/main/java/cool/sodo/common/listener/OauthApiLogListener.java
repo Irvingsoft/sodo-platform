@@ -32,8 +32,7 @@ public class OauthApiLogListener {
     @EventListener(OauthApiLogEvent.class)
     public void logApi(OauthApiLogEvent event) {
 
-        HashMap<String, Object> eventSource = (HashMap<String, Object>) event.getSource();
-        LogApi logApi = (LogApi) eventSource.get(Constants.LOG_EVENT);
+        LogApi logApi = event.getLogApi();
         LogAbstractUtil.addOtherInfo(logApi, serviceInfo);
 
         logMqProducer.sendMessage(new Notification(

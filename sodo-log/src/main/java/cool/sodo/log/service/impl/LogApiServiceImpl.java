@@ -40,7 +40,7 @@ public class LogApiServiceImpl implements LogApiService {
             case SELECT_BASE:
                 logApiLambdaQueryWrapper.select(LogApi::getId, LogApi::getServiceId, LogApi::getServiceIp,
                         LogApi::getServiceHost, LogApi::getEnv, LogApi::getClientId, LogApi::getApiId,
-                        LogApi::getRequestId, LogApi::getUserId, LogApi::getUserIp, LogApi::getRequestMethod,
+                        LogApi::getUserId, LogApi::getUserIp, LogApi::getRequestMethod,
                         LogApi::getTime, LogApi::getResponseStatus, LogApi::getCreateAt);
                 break;
             case SELECT_INFO:

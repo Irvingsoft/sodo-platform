@@ -38,8 +38,7 @@ public class ErrorLogEventListener {
     @EventListener(ErrorLogEvent.class)
     public void logError(ErrorLogEvent event) {
 
-        HashMap<String, Object> eventSource = (HashMap<String, Object>) event.getSource();
-        LogError logError = (LogError) eventSource.get(Constants.LOG_EVENT);
+        LogError logError = event.getLogError();
         LogAbstractUtil.addOtherInfo(logError, serviceInfo);
 
         logMqProducer.sendMessage(new Notification(

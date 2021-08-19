@@ -296,7 +296,8 @@ public class OauthApiServiceImpl implements OauthApiService {
 
         LambdaQueryWrapper<OauthApi> oauthApiLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_BASE);
         oauthApiLambdaQueryWrapper.in(OauthApi::getApiId, clientApiService.listClientApiApiId(clientId))
-                .eq(OauthApi::getInUse, true);
+                .eq(OauthApi::getInUse, true)
+                .orderByAsc(OauthApi::getPath);
         return oauthApiMapper.selectList(oauthApiLambdaQueryWrapper);
     }
 

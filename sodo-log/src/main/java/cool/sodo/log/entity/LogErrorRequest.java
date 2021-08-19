@@ -11,6 +11,7 @@ public class LogErrorRequest implements Serializable {
     private String serviceId;
     private String clientId;
     private String userId;
+    private String requestId;
     private String requestMethod;
     private String content;
     private Date createBegin;

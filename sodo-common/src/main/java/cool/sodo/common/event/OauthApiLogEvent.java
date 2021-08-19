@@ -1,12 +1,20 @@
 package cool.sodo.common.event;
 
+import cool.sodo.common.domain.LogApi;
 import org.springframework.context.ApplicationEvent;
 
 import java.util.HashMap;
 
 public class OauthApiLogEvent extends ApplicationEvent {
 
-    public OauthApiLogEvent(HashMap<String, Object> source) {
+    private final LogApi logApi;
+
+    public OauthApiLogEvent(Object source, LogApi logApi) {
         super(source);
+        this.logApi = logApi;
+    }
+
+    public LogApi getLogApi() {
+        return logApi;
     }
 }

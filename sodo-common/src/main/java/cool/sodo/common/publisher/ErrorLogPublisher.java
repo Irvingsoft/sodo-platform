@@ -67,9 +67,6 @@ public class ErrorLogPublisher {
             LogAbstractUtil.addRequestInfo(logError, request);
         }
 
-        HashMap<String, Object> eventSource = new HashMap<>(Constants.HASHMAP_SIZE_DEFAULT);
-        eventSource.put(Constants.LOG_EVENT, logError);
-
-        SpringUtil.publishEvent(new ErrorLogEvent(eventSource));
+        SpringUtil.publishEvent(new ErrorLogEvent(this, logError));
     }
 }

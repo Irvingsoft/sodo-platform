@@ -32,8 +32,7 @@ public class BusinessLogListener {
     @EventListener(BusinessLogEvent.class)
     public void logBusiness(BusinessLogEvent event) {
 
-        HashMap<String, Object> eventSource = (HashMap<String, Object>) event.getSource();
-        LogBusiness logBusiness = (LogBusiness) eventSource.get(Constants.LOG_EVENT);
+        LogBusiness logBusiness = event.getLogBusiness();
         LogAbstractUtil.addOtherInfo(logBusiness, serviceInfo);
 
         logMqProducer.sendMessage(new Notification(

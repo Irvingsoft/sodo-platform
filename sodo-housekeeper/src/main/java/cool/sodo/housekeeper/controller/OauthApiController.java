@@ -83,7 +83,7 @@ public class OauthApiController {
      * @author TimeChaser
      * @date 2021/6/7 8:49
      */
-    @GetMapping(value = "list/client/{clientId}")
+    @GetMapping(value = "list/use/{clientId}")
     public Result listOauthApiBaseUse(@PathVariable String clientId) {
 
         return Result.success(oauthApiService.listOauthApiBaseUse(clientId));

@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import cool.sodo.common.domain.LogApi;
 import cool.sodo.common.domain.LogBusiness;
+import cool.sodo.common.domain.LogError;
 import cool.sodo.common.exception.AsyncException;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.util.StringUtil;
@@ -35,13 +37,16 @@ public class LogBusinessServiceImpl implements LogBusinessService {
             case SELECT_BASE:
                 logBusinessLambdaQueryWrapper.select(LogBusiness::getId, LogBusiness::getServiceId, LogBusiness::getServiceIp,
                         LogBusiness::getServiceHost, LogBusiness::getEnv, LogBusiness::getClientId, LogBusiness::getUserId,
-                        LogBusiness::getUserIp, LogBusiness::getMessage, LogBusiness::getCreateAt);
+                        LogBusiness::getUserIp, LogBusiness::getRequestMethod, LogBusiness::getBusinessType,
+                        LogBusiness::getMessage, LogBusiness::getCreateAt);
                 break;
             case SELECT_INFO:
                 logBusinessLambdaQueryWrapper.select(LogBusiness::getId, LogBusiness::getServiceId, LogBusiness::getServiceIp,
-                        LogBusiness::getServiceHost, LogBusiness::getEnv, LogBusiness::getClientId, LogBusiness::getUserId,
-                        LogBusiness::getUserIp, LogBusiness::getSystemName, LogBusiness::getBrowserName, LogBusiness::getRequestUrl,
-                        LogBusiness::getRequestMethod, LogBusiness::getClassName, LogBusiness::getMethodName, LogBusiness::getCreateAt);
+                        LogBusiness::getServiceHost, LogBusiness::getEnv, LogBusiness::getClientId, LogBusiness::getRequestId,
+                        LogBusiness::getUserId, LogBusiness::getUserIp, LogBusiness::getSystemName, LogBusiness::getBrowserName,
+                        LogBusiness::getRequestUrl, LogBusiness::getRequestMethod, LogBusiness::getClassName, LogBusiness::getMethodName,
+                        LogBusiness::getBusinessType, LogBusiness::getBusinessId, LogBusiness::getBusinessData, LogBusiness::getMessage,
+                        LogBusiness::getCreateAt);
                 break;
             default:
                 break;
@@ -83,6 +88,9 @@ public class LogBusinessServiceImpl implements LogBusinessService {
         if (!StringUtil.isEmpty(logBusinessRequest.getUserId())) {
             logBusinessLambdaQueryWrapper.eq(LogBusiness::getUserId, logBusinessRequest.getUserId());
         }
+        if (!StringUtil.isEmpty(logBusinessRequest.getRequestId())) {
+            logBusinessLambdaQueryWrapper.eq(LogBusiness::getRequestId, logBusinessRequest.getRequestId());
+        }
         if (!StringUtil.isEmpty(logBusinessRequest.getRequestMethod())) {
             logBusinessLambdaQueryWrapper.eq(LogBusiness::getRequestMethod, logBusinessRequest.getRequestMethod());
         }
@@ -116,6 +124,7 @@ public class LogBusinessServiceImpl implements LogBusinessService {
             logBusinessLambdaQueryWrapper.le(LogBusiness::getCreateAt, logBusinessRequest.getCreateEnd());
         }
 
+        logBusinessLambdaQueryWrapper.orderByDesc(LogBusiness::getCreateAt);
         return logBusinessMapper.selectPage(new Page<>(logBusinessRequest.getPageNum(),
                 logBusinessRequest.getPageSize()), logBusinessLambdaQueryWrapper);
     }

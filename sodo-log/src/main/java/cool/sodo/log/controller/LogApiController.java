@@ -25,5 +25,4 @@ public class LogApiController {
 
         return Result.success(logApiService.pageLogApiBaseDetail(logApiRequest));
     }
-
 }
