@@ -8,6 +8,7 @@ import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.util.HttpUtil;
 import cool.sodo.common.util.WebUtil;
+import cool.sodo.zuul.service.OauthClientService;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.PatternMatchUtils;
@@ -29,6 +30,8 @@ public class ApiSignatureFilter extends ZuulFilter {
 
     @Resource
     private RedisCacheHelper redisCacheHelper;
+    @Resource
+    private OauthClientService oauthClientService;
 
     @Override
     public String filterType() {
@@ -77,6 +80,11 @@ public class ApiSignatureFilter extends ZuulFilter {
 
         RequestContext currentContext = RequestContext.getCurrentContext();
         HttpServletRequest request = currentContext.getRequest();
+
+        String clientId = WebUtil.getHeader(request, Constants.CLIENT_ID);
+        if (!oauthClientService.isSignature(clientId)) {
+            return null;
+        }
         if (PatternMatchUtils.simpleMatch(cool.sodo.zuul.common.Constants.SIGNATURE_IGNORE, request.getRequestURI())) {
             return null;
         }
@@ -85,7 +93,6 @@ public class ApiSignatureFilter extends ZuulFilter {
             currentContext.setResponseStatusCode(ResultEnum.INVALID_SIGNATURE.getCode());
             throw new SoDoException(ResultEnum.INVALID_SIGNATURE, ERROR_SIGNATURE);
         }
-        String clientId = WebUtil.getHeader(request, Constants.CLIENT_ID);
         String nonce = WebUtil.getHeader(request, Constants.NONCE);
         long timestamp = Long.parseLong(WebUtil.getHeader(request, Constants.TIMESTAMP));
         String body = HttpUtil.getBodyString(WebUtil.transformToContentCachingRequest(request));

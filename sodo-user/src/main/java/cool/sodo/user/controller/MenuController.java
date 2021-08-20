@@ -3,10 +3,9 @@ package cool.sodo.user.controller;
 import cool.sodo.common.annotation.CurrentUser;
 import cool.sodo.common.domain.User;
 import cool.sodo.common.entity.Result;
+import cool.sodo.common.service.CommonRoleService;
 import cool.sodo.user.service.MenuService;
-import cool.sodo.user.service.RoleService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,19 +19,19 @@ public class MenuController {
     @Resource
     private MenuService menuService;
     @Resource
-    private RoleService roleService;
+    private CommonRoleService roleService;
 
-    @GetMapping(value = "route/{clientId}")
-    public Result route(@PathVariable String clientId, @CurrentUser User user) {
+    @GetMapping(value = "route")
+    public Result route(@CurrentUser User user) {
 
-        List<String> roleIdList = roleService.listRoleRoleId(user.getUserId(), clientId);
-        return Result.success(menuService.route(roleIdList, clientId));
+        List<String> roleIdList = roleService.listRoleRoleId(user.getUserId());
+        return Result.success(menuService.route(roleIdList));
     }
 
-    @GetMapping(value = "button/{clientId}")
-    public Result button(@PathVariable String clientId, @CurrentUser User user) {
+    @GetMapping(value = "button")
+    public Result button(@CurrentUser User user) {
 
-        List<String> roleIdList = roleService.listRoleRoleId(user.getUserId(), clientId);
-        return Result.success(menuService.button(roleIdList, clientId));
+        List<String> roleIdList = roleService.listRoleRoleId(user.getUserId());
+        return Result.success(menuService.button(roleIdList));
     }
 }

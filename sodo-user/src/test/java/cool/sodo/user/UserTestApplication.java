@@ -3,6 +3,7 @@ package cool.sodo.user;
 import cool.sodo.common.component.PasswordHelper;
 import cool.sodo.common.domain.Role;
 import cool.sodo.common.domain.User;
+import cool.sodo.common.service.CommonUserService;
 import cool.sodo.common.util.StringUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,8 @@ public class UserTestApplication {
 
     @Resource
     private PasswordHelper passwordHelper;
+    @Resource
+    private CommonUserService commonUserService;
 
     @Test
     public void generateAdmin() {
@@ -52,5 +55,13 @@ public class UserTestApplication {
         } else {
             System.out.println("yes");
         }
+    }
+
+    @Test
+    public void testCache() {
+
+        System.out.println(commonUserService.getUserIdentityByIdentity("1"));
+        System.out.println(commonUserService.getUserIdentityByIdentity("1"));
+        System.out.println(commonUserService.getUserIdentityByIdentity("1"));
     }
 }

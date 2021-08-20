@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface MenuService {
 
-    List<MenuVO> route(List<String> roleIdList, String clientId);
+    List<MenuVO> route(List<String> roleIdList);
 
-    List<MenuVO> button(List<String> roleIdList, String clientId);
+    List<MenuVO> button(List<String> roleIdList);
 
-    List<Menu> listMenuInUse(List<String> menuIdList);
+    List<Menu> listMenu(List<String> menuIdList);
 
-    List<Menu> listMenuInUse(List<String> roleIdList, String clientId, Integer menuType);
+    List<Menu> listMenu(List<String> roleIdList, Integer menuType);
 }

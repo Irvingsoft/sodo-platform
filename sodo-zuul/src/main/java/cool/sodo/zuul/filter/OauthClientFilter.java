@@ -64,7 +64,7 @@ public class OauthClientFilter extends ZuulFilter {
         }
 
         String clientId = WebUtil.getHeaderNullable(request, Constants.CLIENT_ID);
-        if (StringUtil.isEmpty(clientId) || !oauthClientService.validateClient(clientId)) {
+        if (StringUtil.isEmpty(clientId) || !oauthClientService.isInUse(clientId)) {
             currentContext.setResponseStatusCode(ResultEnum.INVALID_CLIENT.getCode());
             throw new SoDoException(ResultEnum.INVALID_CLIENT, ERROR_CLIENT);
         }

@@ -83,11 +83,12 @@ logging:
   config: classpath:log/logback_${spring.application.env}.xml
 user-message:
   queue-name: user.sync.queue
-  exchange-name: auth-exchange
-  routing-key: auth.routingkey
+  exchange-name: user-exchange
+  routing-key: user.routingkey
   create-type: create
   update-type: update
   delete-type: delete
+  login-type: login
   full-type: full-dose
 log-message:
   enabled: true

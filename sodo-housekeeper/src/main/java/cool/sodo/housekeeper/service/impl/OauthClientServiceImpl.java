@@ -52,8 +52,8 @@ public class OauthClientServiceImpl implements OauthClientService {
                 break;
             case SELECT_INFO:
                 oauthClientLambdaQueryWrapper.select(OauthClient::getClientId, OauthClient::getClientSecret,
-                        OauthClient::getName, OauthClient::getDescription, OauthClient::getInUse,
-                        OauthClient::getRegister, OauthClient::getCaptcha, OauthClient::getUserStatus,
+                        OauthClient::getName, OauthClient::getDescription, OauthClient::getInUse, OauthClient::getRegister,
+                        OauthClient::getCaptcha, OauthClient::getSignature, OauthClient::getUserStatus,
                         OauthClient::getTokenExpire, OauthClient::getRedirectUri, OauthClient::getCreateAt,
                         OauthClient::getCreateBy, OauthClient::getUpdateAt, OauthClient::getUpdateBy);
                 break;

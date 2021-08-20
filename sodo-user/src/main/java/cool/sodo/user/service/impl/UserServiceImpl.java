@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 /**
@@ -51,8 +52,8 @@ public class UserServiceImpl implements UserService {
     public static final String ERROR_PHONE = "手机号无效！";
     public static final String ERROR_PASSWORD = "密码无效！";
 
-    public static final String ERROR_OLDPASSWORD = "原密码有误！";
-    public static final String ERROR_NEWPASSWORD = "原密码有误！";
+    public static final String ERROR_OLD_PASSWORD = "原密码有误！";
+    public static final String ERROR_NEW_PASSWORD = "原密码有误！";
 
     public static final int SELECT_BASE = 0;
     public static final int SELECT_GENERAL = 1;
@@ -112,8 +113,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Async
     @Override
+    @Async
     public void insertUserMq(User user) {
 
         LambdaQueryWrapper<User> queryWrapper = generateSelectQueryWrapper(SELECT_BASE);
@@ -151,19 +152,32 @@ public class UserServiceImpl implements UserService {
 
         if (StringUtil.isEmpty(passwordUpdateRequest.getOldPassword()) ||
                 !passwordHelper.validatePassword(user, passwordUpdateRequest.getOldPassword())) {
-            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_OLDPASSWORD, user);
+            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_OLD_PASSWORD, user);
         }
         if (StringUtil.isEmpty(passwordUpdateRequest.getNewPassword()) ||
                 !validatePassword(passwordUpdateRequest.getNewPassword())) {
-            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_NEWPASSWORD, user);
+            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_NEW_PASSWORD, user);
         }
-        user.setPassword(passwordUpdateRequest.getNewPassword());
+        user.updatePassword(passwordUpdateRequest.getNewPassword());
         passwordHelper.encryptPassword(user);
-        LambdaUpdateWrapper<User> userLambdaUpdateWrapper = Wrappers.lambdaUpdate();
-        userLambdaUpdateWrapper.set(User::getSalt, user.getSalt())
-                .set(User::getPassword, user.getPassword());
-        if (userMapper.update(null, userLambdaUpdateWrapper) <= 0) {
+        if (userMapper.updateById(user) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE, user);
+        }
+    }
+
+    @Override
+    @Async
+    public void updateUserLogin(String identity) {
+
+        LambdaUpdateWrapper<User> userLambdaUpdateWrapper = Wrappers.lambdaUpdate();
+        userLambdaUpdateWrapper.eq(User::getUserId, identity)
+                .or()
+                .eq(User::getUsername, identity)
+                .or()
+                .eq(User::getOpenId, identity)
+                .set(User::getLoginAt, new Date());
+        if (userMapper.update(null, userLambdaUpdateWrapper) <= 0) {
+            throw new AsyncException("更新用户登陆时间失败！");
         }
     }
 

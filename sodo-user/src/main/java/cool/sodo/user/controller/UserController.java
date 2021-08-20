@@ -45,7 +45,7 @@ public class UserController {
     @ApiOperation(value = "获取当前用户基本信息", notes = "登录成功后获取用户基本信息")
     public Result getUserBase(@CurrentUser User user) {
 
-        return Result.success(userService.getUserBase(user.getUserId()));
+        return Result.success(user);
     }
 
     @GetMapping(value = "info")

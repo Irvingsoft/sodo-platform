@@ -36,17 +36,16 @@ public class MenuServiceImpl implements MenuService {
      * 查询路由列表
      *
      * @param roleIdList 角色 ID 列表
-     * @param clientId   菜单所属客户端
      * @return java.util.List<cool.sodo.user.entity.MenuVO>
      */
     @Override
-    public List<MenuVO> route(List<String> roleIdList, String clientId) {
+    public List<MenuVO> route(List<String> roleIdList) {
 
         if (roleIdList.isEmpty()) {
             return null;
         }
-        List<Menu> allMenuList = listMenuInUse(null, clientId, Constants.MENU_TYPE_MENU);
-        List<Menu> roleMenuList = listMenuInUse(roleIdList, clientId, Constants.MENU_TYPE_MENU);
+        List<Menu> allMenuList = listMenu(null, Constants.MENU_TYPE_MENU);
+        List<Menu> roleMenuList = listMenu(roleIdList, Constants.MENU_TYPE_MENU);
         LinkedList<Menu> routeMenuList = new LinkedList<>(roleMenuList);
         roleMenuList.forEach(roleMenu -> recursionMenuParent(allMenuList, routeMenuList, roleMenu));
         routeMenuList.sort(Comparator.comparing(Menu::getSort));
@@ -78,14 +77,13 @@ public class MenuServiceImpl implements MenuService {
      * 查询按钮及其所属的页面
      *
      * @param roleIdList 角色 ID 列表
-     * @param clientId   菜单所属客户端
      * @return java.util.List<cool.sodo.user.entity.MenuVO>
      */
     @Override
-    public List<MenuVO> button(List<String> roleIdList, String clientId) {
+    public List<MenuVO> button(List<String> roleIdList) {
 
-        List<Menu> roleMenuList = listMenuInUse(roleIdList, clientId, Constants.MENU_TYPE_BUTTON);
-        List<Menu> parentMenuList = listMenuInUse(roleMenuList.stream().map(Menu::getParentId).collect(Collectors.toList()));
+        List<Menu> roleMenuList = listMenu(roleIdList, Constants.MENU_TYPE_BUTTON);
+        List<Menu> parentMenuList = listMenu(roleMenuList.stream().map(Menu::getParentId).collect(Collectors.toList()));
         LinkedList<Menu> buttonMenuList = new LinkedList<>(roleMenuList);
         buttonMenuList.addAll(parentMenuList);
         buttonMenuList.sort(Comparator.comparing(Menu::getSort));
@@ -94,7 +92,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> listMenuInUse(List<String> menuIdList) {
+    public List<Menu> listMenu(List<String> menuIdList) {
 
         LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = generateQueryWrapperInUse();
         menuLambdaQueryWrapper.in(Menu::getMenuId, menuIdList);
@@ -102,14 +100,11 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> listMenuInUse(List<String> roleIdList, String clientId, Integer menuType) {
+    public List<Menu> listMenu(List<String> roleIdList, Integer menuType) {
 
         LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = generateQueryWrapperInUse();
         if (!StringUtil.isEmpty(roleIdList)) {
             menuLambdaQueryWrapper.in(Menu::getMenuId, roleToMenuService.listRoleToMenuMenuIdByRole(roleIdList));
-        }
-        if (!StringUtil.isEmpty(clientId)) {
-            menuLambdaQueryWrapper.eq(Menu::getClientId, clientId);
         }
         if (!StringUtil.isEmpty(menuType)) {
             menuLambdaQueryWrapper.eq(Menu::getMenuType, menuType);

@@ -54,7 +54,7 @@ public class OauthApiServiceImpl implements OauthApiService {
                 oauthApiLambdaQueryWrapper.select(OauthApi::getApiId, OauthApi::getName, OauthApi::getPath, OauthApi::getDescription);
                 break;
             case SELECT_INFO:
-                oauthApiLambdaQueryWrapper.select(OauthApi::getApiId, OauthApi::getName, OauthApi::getPath,
+                oauthApiLambdaQueryWrapper.select(OauthApi::getApiId, OauthApi::getName, OauthApi::getCode, OauthApi::getPath,
                         OauthApi::getDescription, OauthApi::getService, OauthApi::getMethod, OauthApi::getRequestDay,
                         OauthApi::getRequestWeek, OauthApi::getRequestMonth, OauthApi::getRequestAll,
                         OauthApi::getInUse, OauthApi::getAuth, OauthApi::getLog, OauthApi::getRequestLimit,

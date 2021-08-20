@@ -1,6 +1,7 @@
 package cool.sodo.common.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,6 +9,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @TableName(value = "user")
@@ -64,6 +66,9 @@ public class User implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Date loginAt;
 
+    @TableField(exist = false)
+    private List<String> codeList;
+
     public void init() {
 
         this.userId = null;
@@ -73,5 +78,11 @@ public class User implements Serializable {
         this.schoolId = null;
         this.city = null;
         this.province = null;
+    }
+
+    public void updatePassword(String password) {
+
+        this.password = password;
+        this.updateAt = new Date();
     }
 }

@@ -5,8 +5,6 @@ import cool.sodo.common.component.RedisCacheHelper;
 import cool.sodo.common.domain.AccessToken;
 import cool.sodo.common.domain.User;
 import cool.sodo.common.entity.Constants;
-import cool.sodo.common.entity.ResultEnum;
-import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.service.CommonAccessTokenService;
 import cool.sodo.common.service.CommonUserService;
 import cool.sodo.common.util.WebUtil;
@@ -58,11 +56,6 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
             redisCacheHelper.set(Constants.ACCESS_TOKEN_CACHE_PREFIX + accessToken.getToken(), accessToken, Constants.ACCESS_TOKEN_CACHE_EXPIRE);
         }
 
-        User user = userService.getUserIdentityByIdentity(accessToken.getIdentity());
-        if (user == null) {
-            accessTokenService.removeAccessTokenByToken(accessToken.getToken());
-            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_USER_RESOLVER, token);
-        }
-        return user;
+        return userService.getUserIdentityByIdentity(accessToken.getIdentity());
     }
 }

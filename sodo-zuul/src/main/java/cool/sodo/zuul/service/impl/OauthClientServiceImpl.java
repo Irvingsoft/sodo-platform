@@ -30,8 +30,8 @@ public class OauthClientServiceImpl implements OauthClientService {
 
         switch (type) {
             case SELECT_IDENTITY:
-                oauthClientLambdaQueryWrapper.select(OauthClient::getClientId, OauthClient::getClientSecret
-                        , OauthClient::getInUse, OauthClient::getRegister, OauthClient::getCaptcha);
+                oauthClientLambdaQueryWrapper.select(OauthClient::getClientId, OauthClient::getClientSecret,
+                        OauthClient::getInUse, OauthClient::getRegister, OauthClient::getCaptcha, OauthClient::getSignature);
                 break;
             case SELECT_BASE:
             default:
@@ -41,7 +41,7 @@ public class OauthClientServiceImpl implements OauthClientService {
     }
 
     @Override
-    public boolean validateClient(String clientId) {
+    public boolean isInUse(String clientId) {
 
         if (StringUtil.isEmpty(clientId)) {
             return false;
@@ -61,5 +61,10 @@ public class OauthClientServiceImpl implements OauthClientService {
             throw new SoDoException(ResultEnum.INVALID_CLIENT, ERROR_SELECT, clientId);
         }
         return oauthClient;
+    }
+
+    @Override
+    public boolean isSignature(String clientId) {
+        return getOauthClientIdentity(clientId).getSignature();
     }
 }

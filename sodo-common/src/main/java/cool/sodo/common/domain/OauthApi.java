@@ -25,6 +25,8 @@ public class OauthApi implements Serializable {
 
     private String name;
 
+    private String code;
+
     @NotBlank(message = "OauthApi.path 字段不能为空！")
     private String path;
 
@@ -116,6 +118,7 @@ public class OauthApi implements Serializable {
 
     public void update(OauthApi oauthApi, String userId) {
 
+        this.code = oauthApi.getCode();
         if (!StringUtil.isEmpty(oauthApi.getName())) {
             this.name = oauthApi.getName();
         }

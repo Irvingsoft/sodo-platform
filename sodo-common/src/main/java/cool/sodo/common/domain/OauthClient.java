@@ -34,6 +34,8 @@ public class OauthClient implements Serializable {
 
     private Boolean captcha;
 
+    private Boolean signature;
+
     private Integer userStatus;
 
     private Integer tokenExpire;
@@ -60,15 +62,6 @@ public class OauthClient implements Serializable {
 
     public void init(String userId) {
 
-        if (StringUtil.isEmpty(this.inUse)) {
-            this.inUse = false;
-        }
-        if (StringUtil.isEmpty(this.register)) {
-            this.register = false;
-        }
-        if (StringUtil.isEmpty(this.captcha)) {
-            this.captcha = false;
-        }
         if (StringUtil.isEmpty(this.userStatus)) {
             this.userStatus = Constants.USER_STATUS_FREEZE;
         }
@@ -97,6 +90,9 @@ public class OauthClient implements Serializable {
         }
         if (!StringUtil.isEmpty(oauthClient.getCaptcha())) {
             this.captcha = oauthClient.getCaptcha();
+        }
+        if (!StringUtil.isEmpty(oauthClient.getSignature())) {
+            this.signature = oauthClient.getSignature();
         }
         if (!StringUtil.isEmpty(oauthClient.getUserStatus())) {
             this.userStatus = oauthClient.getUserStatus();

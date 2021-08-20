@@ -19,6 +19,8 @@ public interface UserService {
 
     void updatePassword(PasswordUpdateRequest passwordUpdateRequest, User user);
 
+    void updateUserLogin(String identity);
+
     User getUserBase(String id);
 
     User getUserGeneral(String id);

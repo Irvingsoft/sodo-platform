@@ -4,8 +4,9 @@ import cool.sodo.common.domain.OauthClient;
 
 public interface OauthClientService {
 
-    boolean validateClient(String cliendId);
+    boolean isInUse(String clientId);
 
     OauthClient getOauthClientIdentity(String clientId);
 
+    boolean isSignature(String clientId);
 }

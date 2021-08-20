@@ -24,5 +24,6 @@ public class UserMqProperty extends MqProperty {
     private String createType;
     private String updateType;
     private String deleteType;
+    private String loginType;
     private String fullType;
 }

@@ -89,6 +89,7 @@ user-message:
   create-type: create
   update-type: update
   delete-type: delete
+  login-type: login
   full-type: full-dose
 log-message:
   enabled: true

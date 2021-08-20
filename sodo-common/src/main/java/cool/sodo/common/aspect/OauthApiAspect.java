@@ -5,6 +5,7 @@ import cool.sodo.common.component.RedisCacheHelper;
 import cool.sodo.common.domain.AccessToken;
 import cool.sodo.common.domain.LogApi;
 import cool.sodo.common.domain.OauthApi;
+import cool.sodo.common.domain.User;
 import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.Result;
 import cool.sodo.common.entity.ResultEnum;
@@ -24,6 +25,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -47,12 +49,6 @@ import java.util.stream.Stream;
 @Component
 @Aspect
 public class OauthApiAspect {
-
-    public static final String ERROR_REQUEST = "解析请求失败！";
-    public static final String ERROR_API_UNUSED = "API 未启用！";
-    public static final String ERROR_CLIENT_API = "客户端权限不足！";
-    public static final String ERROR_REQUEST_LIMIT = "超出请求数限制，请稍后重试！";
-    public static final String ERROR_AUTHORIZATION = "请登录后重试！";
 
     @Resource
     private ServiceInfo serviceInfo;
@@ -89,13 +85,13 @@ public class OauthApiAspect {
                 getApiPath(request, method),
                 request.getMethod());
 
-        // Check Whether OauthApi is Enable.
+        // Check Whether OauthApi is Enabled.
         if (!oauthApi.getInUse()) {
-            throw new SoDoException(ResultEnum.UNUSED_API, ERROR_API_UNUSED);
+            throw new SoDoException(ResultEnum.UNUSED_API, "API 未启用！");
         }
         // Check Whether the OauthClient Has Permission to Access the OauthApi.
         if (!clientApiService.validateClientApi(clientId, oauthApi.getApiId())) {
-            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_CLIENT_API);
+            throw new SoDoException(ResultEnum.BAD_REQUEST, "客户端权限不足！");
         }
         // if OauthApi`s Request times in a Period is Limited.
         if (oauthApi.getRequestLimit()) {
@@ -106,12 +102,16 @@ public class OauthApiAspect {
 
             String token = WebUtil.getAccessToken(request);
             if (StringUtil.isEmpty(token)) {
-                throw new SoDoException(ResultEnum.UNAUTHORIZED, ERROR_AUTHORIZATION);
+                throw new SoDoException(ResultEnum.UNAUTHORIZED, "请登录后重试！");
             }
             // AccessToken Check, And User Status Check.
             accessToken = accessTokenService.getAccessTokenCache(token);
             accessTokenService.checkAccessToken(accessToken, clientId);
-            userService.checkUserStatus(accessToken.getIdentity());
+            User user = userService.getUserIdentityByIdentity(accessToken.getIdentity());
+            checkUserStatus(user);
+            if (!StringUtil.isEmpty(oauthApi.getCode())) {
+                checkUserAccess(user, oauthApi.getCode());
+            }
         }
 
         // Record Request Nums
@@ -168,7 +168,8 @@ public class OauthApiAspect {
         return logApi;
     }
 
-    private void saveLogApi(String requestId, LogApi logApi) {
+    @Async
+    void saveLogApi(String requestId, LogApi logApi) {
         redisCacheHelper.set(Constants.REQUEST_CACHE_PREFIX + requestId, logApi, Constants.REQUEST_CACHE_EXPIRE);
     }
 
@@ -184,10 +185,29 @@ public class OauthApiAspect {
             if (requestNum < oauthApi.getLimitNum()) {
                 redisCacheHelper.set(requestCacheId, requestNum + 1, redisCacheHelper.getExpire(requestCacheId));
             } else {
-                throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_REQUEST_LIMIT);
+                throw new SoDoException(ResultEnum.BAD_REQUEST, "超出请求数限制，请稍后重试！");
             }
         } else {
             redisCacheHelper.set(requestCacheId, 1, Long.valueOf(oauthApi.getLimitPeriod()));
+        }
+    }
+
+    private void checkUserStatus(User user) {
+        switch (user.getStatus()) {
+            case Constants.USER_STATUS_LOGOUT:
+                throw new SoDoException(ResultEnum.BAD_REQUEST, "用户已注销！");
+            case Constants.USER_STATUS_REVIEW:
+                throw new SoDoException(ResultEnum.BAD_REQUEST, "用户审核中！");
+            case Constants.USER_STATUS_FREEZE:
+                throw new SoDoException(ResultEnum.BAD_REQUEST, "用户已被冻结！");
+            default:
+                break;
+        }
+    }
+
+    private void checkUserAccess(User user, String code) {
+        if (!user.getCodeList().contains(code)) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, "权限不足！");
         }
     }
 

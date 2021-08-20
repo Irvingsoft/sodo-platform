@@ -36,9 +36,9 @@ public class CommonOauthApiServiceImpl implements CommonOauthApiService {
 
         switch (type) {
             case SELECT_IDENTITY:
-                oauthApiLambdaQueryWrapper.select(OauthApi::getApiId, OauthApi::getPath, OauthApi::getInUse,
-                        OauthApi::getAuth, OauthApi::getLog, OauthApi::getLimitNum, OauthApi::getLimitPeriod,
-                        OauthApi::getRequestLimit);
+                oauthApiLambdaQueryWrapper.select(OauthApi::getApiId, OauthApi::getCode, OauthApi::getPath,
+                        OauthApi::getInUse, OauthApi::getAuth, OauthApi::getLog, OauthApi::getLimitNum,
+                        OauthApi::getLimitPeriod, OauthApi::getRequestLimit);
                 break;
             case SELECT_BASE:
                 oauthApiLambdaQueryWrapper.select(OauthApi::getApiId, OauthApi::getName, OauthApi::getPath,
