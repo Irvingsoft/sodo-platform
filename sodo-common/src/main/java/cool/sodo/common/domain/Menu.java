@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import cool.sodo.common.entity.ResultEnum;
+import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.util.StringUtil;
 import lombok.Data;
 
@@ -90,7 +92,12 @@ public class Menu implements Serializable {
     }
 
     public void init(String createBy) {
+
         this.createBy = createBy;
+        if (!StringUtil.isEmpty(this.menuId) &&
+                this.menuId.equals(this.parentId)) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, "父菜单不能为本身！");
+        }
     }
 
     public void update(Menu menu, String updateBy) {
@@ -124,6 +131,10 @@ public class Menu implements Serializable {
             this.newWindow = menu.getNewWindow();
         }
         this.updateBy = updateBy;
+        if (!StringUtil.isEmpty(this.menuId) &&
+                this.menuId.equals(this.parentId)) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, "父菜单不能为本身！");
+        }
     }
 
     public void delete(String updateBy) {

@@ -55,7 +55,7 @@ public class MenuController {
         return Result.success();
     }
 
-    @DeleteMapping(value = "")
+    @DeleteMapping(value = "list")
     public Result deleteMenuList(@RequestBody List<String> menuIdList, @CurrentUser User user) {
 
         menuService.deleteMenu(menuIdList, user.getUserId());

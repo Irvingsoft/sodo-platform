@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "role")
@@ -44,6 +45,13 @@ public class RoleController {
     public Result deleteRole(@PathVariable String roleId, @CurrentUser User user) {
 
         roleService.deleteRole(roleId, user.getUserId());
+        return Result.success();
+    }
+
+    @DeleteMapping(value = "list")
+    public Result deleteRoleList(@RequestBody List<String> roleIdList, @CurrentUser User user) {
+
+        roleService.deleteRole(roleIdList, user.getUserId());
         return Result.success();
     }
 

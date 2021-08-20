@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import cool.sodo.common.entity.ResultEnum;
+import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.util.StringUtil;
 import lombok.Data;
 
@@ -29,6 +31,8 @@ public class Role implements Serializable {
 
     private String name;
 
+    private String code;
+
     private String description;
 
     private Integer sort;
@@ -45,7 +49,12 @@ public class Role implements Serializable {
     private Boolean deleted;
 
     public void init(String createBy) {
+
         this.createBy = createBy;
+        if (!StringUtil.isEmpty(this.roleId) &&
+                this.roleId.equals(this.parentId)) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, "父角色不能为本身！");
+        }
     }
 
     public void update(Role role, String updateBy) {
@@ -59,6 +68,10 @@ public class Role implements Serializable {
             this.sort = role.getSort();
         }
         this.updateBy = updateBy;
+        if (!StringUtil.isEmpty(this.roleId) &&
+                this.roleId.equals(this.parentId)) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, "父角色不能为本身！");
+        }
     }
 
     public void delete(String updateBy) {

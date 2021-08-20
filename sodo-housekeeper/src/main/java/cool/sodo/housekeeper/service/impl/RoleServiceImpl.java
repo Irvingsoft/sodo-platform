@@ -36,8 +36,8 @@ public class RoleServiceImpl implements RoleService {
                 roleLambdaQueryWrapper.select(Role::getRoleId, Role::getParentId, Role::getName, Role::getSort);
                 break;
             case SELECT_LIST:
-                roleLambdaQueryWrapper.select(Role::getRoleId, Role::getParentId, Role::getName, Role::getDescription,
-                        Role::getSort, Role::getCreateAt, Role::getUpdateAt);
+                roleLambdaQueryWrapper.select(Role::getRoleId, Role::getParentId, Role::getName, Role::getCode,
+                        Role::getDescription, Role::getSort, Role::getCreateAt, Role::getUpdateAt);
                 break;
             default:
                 break;
