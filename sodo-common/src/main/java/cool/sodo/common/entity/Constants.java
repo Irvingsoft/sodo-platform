@@ -75,6 +75,13 @@ public class Constants {
     public static final String CAPTCHA_KEY = "Captcha_Key";
     public static final String REQUEST_ID = "Request_ID";
 
+    /**
+     * HashMap Keys
+     *
+     * @author TimeChaser
+     */
+    public static final String USER_LOGIN_IDENTITY = "identity";
+    public static final String USER_LOGIN_IP = "ip";
 
     public static final String OPEN_ID = "openId";
     public static final String WX_ERROR_CODE = "errcode";

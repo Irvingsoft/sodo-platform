@@ -2,7 +2,7 @@ package cool.sodo.housekeeper.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import cool.sodo.common.domain.OauthClient;
-import cool.sodo.housekeeper.entity.OauthClientRequest;
+import cool.sodo.housekeeper.entity.OauthClientDTO;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public interface OauthClientService {
 
     OauthClient getOauthClientInfoDetail(String clientId);
 
-    IPage<OauthClient> pageOauthClientInfo(OauthClientRequest oauthClientRequest);
+    IPage<OauthClient> pageOauthClientInfo(OauthClientDTO oauthClientDTO);
 
     List<OauthClient> listOauthClientBaseUse();
 }

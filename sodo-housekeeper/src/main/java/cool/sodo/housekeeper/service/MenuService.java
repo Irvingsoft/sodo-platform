@@ -1,7 +1,7 @@
 package cool.sodo.housekeeper.service;
 
 import cool.sodo.common.domain.Menu;
-import cool.sodo.housekeeper.entity.MenuRequest;
+import cool.sodo.housekeeper.entity.MenuDTO;
 import cool.sodo.housekeeper.entity.MenuVO;
 
 import java.util.List;
@@ -22,7 +22,11 @@ public interface MenuService {
 
     Menu getMenuNullable(String menuId);
 
-    List<MenuVO> tree(String clientId);
+    List<MenuVO> treeMenu(String clientId);
 
-    List<MenuVO> listMenu(MenuRequest menuRequest);
+    List<MenuVO> treeMenu(List<String> roleIdList);
+
+    List<String> listMenu(String roleId);
+
+    List<MenuVO> listMenu(MenuDTO menuDTO);
 }

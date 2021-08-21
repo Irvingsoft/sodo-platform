@@ -6,17 +6,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class LogApiRequest implements Serializable {
+public class LogErrorDTO implements Serializable {
 
-    private String apiId;
     private String serviceId;
     private String clientId;
     private String userId;
     private String requestId;
     private String requestMethod;
-    private Integer responseStatus;
-    private Integer timeBegin;
-    private Integer timeEnd;
     private String content;
     private Date createBegin;
     private Date createEnd;

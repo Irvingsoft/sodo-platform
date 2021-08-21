@@ -274,10 +274,13 @@ public class OauthAuthServiceImpl implements OauthAuthService {
         // AuthCode 已换取 Token，失效
         removeAuthCode(authorizeRequest.getCode());
 
+        HashMap<String, String> messageMap = new HashMap<>(Constants.HASHMAP_SIZE_DEFAULT);
+        messageMap.put(Constants.USER_LOGIN_IDENTITY, accessToken.getIdentity());
+        messageMap.put(Constants.USER_LOGIN_IP, WebUtil.getIp(request));
         userMqProducer.sendMessage(new Notification(
                 userMqProperty.getLoginType(),
                 cool.sodo.auth.common.Constants.SERVICE_ID,
-                accessToken.getIdentity()));
+                messageMap));
         return new AuthorizationIdentity(accessToken.getToken(),
                 getRedirectUri(oauthClient, authenticationIdentity),
                 accessToken.getExpireAt());

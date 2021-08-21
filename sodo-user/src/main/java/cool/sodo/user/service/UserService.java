@@ -2,7 +2,7 @@ package cool.sodo.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import cool.sodo.common.domain.User;
-import cool.sodo.user.entity.PasswordUpdateRequest;
+import cool.sodo.user.entity.PasswordDTO;
 import cool.sodo.user.entity.UserInsertRequest;
 import cool.sodo.user.entity.UserRequest;
 import cool.sodo.user.entity.UserUpdateRequest;
@@ -17,9 +17,9 @@ public interface UserService {
 
     void updateUser(UserUpdateRequest userUpdateRequest, User user);
 
-    void updatePassword(PasswordUpdateRequest passwordUpdateRequest, User user);
+    void updatePassword(PasswordDTO passwordDTO, User user);
 
-    void updateUserLogin(String identity);
+    void updateUserLogin(String identity, String loginIp);
 
     User getUserBase(String id);
 

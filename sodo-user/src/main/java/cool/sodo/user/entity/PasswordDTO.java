@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @date 2021/7/27 16:48
  */
 @Data
-public class PasswordUpdateRequest implements Serializable {
+public class PasswordDTO implements Serializable {
 
     private String oldPassword;
 

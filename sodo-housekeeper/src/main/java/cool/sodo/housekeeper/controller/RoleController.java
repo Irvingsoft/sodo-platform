@@ -4,7 +4,8 @@ import cool.sodo.common.annotation.CurrentUser;
 import cool.sodo.common.domain.Role;
 import cool.sodo.common.domain.User;
 import cool.sodo.common.entity.Result;
-import cool.sodo.housekeeper.entity.RoleRequest;
+import cool.sodo.housekeeper.entity.GrantDTO;
+import cool.sodo.housekeeper.entity.RoleDTO;
 import cool.sodo.housekeeper.service.RoleService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +21,30 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping(value = "tree/{clientId}")
-    public Result tree(@PathVariable String clientId) {
-        return Result.success(roleService.tree(clientId));
+    public Result treeRole(@PathVariable String clientId) {
+        return Result.success(roleService.treeRoleByClient(clientId));
+    }
+
+    @GetMapping(value = "tree/grant")
+    public Result treeRole(@CurrentUser User user) {
+        return Result.success(roleService.treeRoleByUser(user.getUserId()));
     }
 
     @PostMapping(value = "list")
-    public Result listRole(@RequestBody @Valid RoleRequest roleRequest) {
-        return Result.success(roleService.listRole(roleRequest));
+    public Result listRole(@RequestBody @Valid RoleDTO roleDTO) {
+        return Result.success(roleService.listRole(roleDTO));
+    }
+
+    @GetMapping(value = "list/grant/{userId}")
+    public Result listRole(@PathVariable String userId) {
+        return Result.success(roleService.listRole(userId));
+    }
+
+    @PostMapping(value = "grant")
+    public Result grant(@RequestBody GrantDTO grantDTO) {
+
+        roleService.grant(grantDTO.getRoleIdList(), grantDTO.getMenuIdList());
+        return Result.success();
     }
 
     @GetMapping(value = "{roleId}")

@@ -3,7 +3,7 @@ package cool.sodo.housekeeper;
 import com.alibaba.fastjson.JSON;
 import cool.sodo.common.domain.OauthApi;
 import cool.sodo.common.util.StringUtil;
-import cool.sodo.housekeeper.entity.OauthApiRequest;
+import cool.sodo.housekeeper.entity.OauthApiDTO;
 import cool.sodo.housekeeper.mapper.OauthClientMapper;
 import cool.sodo.housekeeper.service.OauthApiService;
 import org.junit.jupiter.api.Test;
@@ -63,7 +63,7 @@ public class HousekeeperApplicationTest {
     @Test
     public void testPage() {
 
-        System.out.println(JSON.toJSON(oauthApiService.pageOauthApiInfo(new OauthApiRequest())));
+        System.out.println(JSON.toJSON(oauthApiService.pageOauthApiInfo(new OauthApiDTO())));
     }
 
     @Test

@@ -2,7 +2,7 @@ package cool.sodo.housekeeper.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import cool.sodo.common.domain.OauthIp;
-import cool.sodo.housekeeper.entity.OauthIpRequest;
+import cool.sodo.housekeeper.entity.OauthIpDTO;
 
 public interface OauthIpService {
 
@@ -20,5 +20,5 @@ public interface OauthIpService {
 
     OauthIp getOauthIpIdentityNullable(String id);
 
-    IPage<OauthIp> pageOauthIpInfo(OauthIpRequest oauthIpRequest);
+    IPage<OauthIp> pageOauthIpInfo(OauthIpDTO oauthIpDTO);
 }

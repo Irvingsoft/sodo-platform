@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Data
-public class RoleRequest implements Serializable {
+public class MenuDTO implements Serializable {
 
     @NotBlank(message = "客戶端信息不能为空！")
     private String clientId;

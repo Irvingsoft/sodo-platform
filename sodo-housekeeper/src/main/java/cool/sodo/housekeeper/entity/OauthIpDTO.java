@@ -5,12 +5,10 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class OauthClientRequest implements Serializable {
+public class OauthIpDTO implements Serializable {
 
     private String content;
-    private Boolean inUse;
-    private Boolean register;
-    private Boolean captcha;
+    private String clientId;
 
     private Integer pageNum = 1;
     private Integer pageSize = 10;

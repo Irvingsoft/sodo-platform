@@ -1,7 +1,7 @@
 package cool.sodo.housekeeper.service;
 
 import cool.sodo.common.domain.Role;
-import cool.sodo.housekeeper.entity.RoleRequest;
+import cool.sodo.housekeeper.entity.RoleDTO;
 import cool.sodo.housekeeper.entity.RoleVO;
 
 import java.util.List;
@@ -22,7 +22,13 @@ public interface RoleService {
 
     Role getRoleNullable(String roleId);
 
-    List<RoleVO> tree(String clientId);
+    List<RoleVO> treeRoleByClient(String clientId);
 
-    List<RoleVO> listRole(RoleRequest roleRequest);
+    List<RoleVO> treeRoleByUser(String userId);
+
+    List<String> listRole(String userId);
+
+    List<RoleVO> listRole(RoleDTO roleDTO);
+
+    void grant(List<String> roleIdList, List<String> menuIdList);
 }

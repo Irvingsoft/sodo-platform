@@ -17,7 +17,7 @@ import cool.sodo.common.service.CommonOauthClientService;
 import cool.sodo.common.util.RsaUtil;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.WebUtil;
-import cool.sodo.user.entity.PasswordUpdateRequest;
+import cool.sodo.user.entity.PasswordDTO;
 import cool.sodo.user.entity.UserInsertRequest;
 import cool.sodo.user.entity.UserRequest;
 import cool.sodo.user.entity.UserUpdateRequest;
@@ -148,17 +148,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(PasswordUpdateRequest passwordUpdateRequest, User user) {
+    public void updatePassword(PasswordDTO passwordDTO, User user) {
 
-        if (StringUtil.isEmpty(passwordUpdateRequest.getOldPassword()) ||
-                !passwordHelper.validatePassword(user, passwordUpdateRequest.getOldPassword())) {
+        if (StringUtil.isEmpty(passwordDTO.getOldPassword()) ||
+                !passwordHelper.validatePassword(user, passwordDTO.getOldPassword())) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_OLD_PASSWORD, user);
         }
-        if (StringUtil.isEmpty(passwordUpdateRequest.getNewPassword()) ||
-                !validatePassword(passwordUpdateRequest.getNewPassword())) {
+        if (StringUtil.isEmpty(passwordDTO.getNewPassword()) ||
+                !validatePassword(passwordDTO.getNewPassword())) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_NEW_PASSWORD, user);
         }
-        user.updatePassword(passwordUpdateRequest.getNewPassword());
+        user.updatePassword(passwordDTO.getNewPassword());
         passwordHelper.encryptPassword(user);
         if (userMapper.updateById(user) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE, user);
@@ -167,15 +167,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Async
-    public void updateUserLogin(String identity) {
+    public void updateUserLogin(String identity, String loginIp) {
 
+        // TODO IP 距离检查，发送异常登录消息
         LambdaUpdateWrapper<User> userLambdaUpdateWrapper = Wrappers.lambdaUpdate();
         userLambdaUpdateWrapper.eq(User::getUserId, identity)
                 .or()
                 .eq(User::getUsername, identity)
                 .or()
                 .eq(User::getOpenId, identity)
-                .set(User::getLoginAt, new Date());
+                .set(User::getLoginAt, new Date())
+                .set(User::getLoginIp, loginIp);
         if (userMapper.update(null, userLambdaUpdateWrapper) <= 0) {
             throw new AsyncException("更新用户登陆时间失败！");
         }

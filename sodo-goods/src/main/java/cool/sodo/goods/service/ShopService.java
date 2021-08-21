@@ -2,7 +2,7 @@ package cool.sodo.goods.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import cool.sodo.common.domain.Shop;
-import cool.sodo.goods.entity.ShopRequest;
+import cool.sodo.goods.entity.ShopDTO;
 
 public interface ShopService {
 
@@ -20,9 +20,9 @@ public interface ShopService {
 
     Shop getShopPrivacy(String shopId);
 
-    IPage<Shop> pageShopBaseBySchool(ShopRequest shopRequest);
+    IPage<Shop> pageShopBaseBySchool(ShopDTO shopDTO);
 
-    IPage<Shop> pageShopBaseByCategory(ShopRequest shopRequest);
+    IPage<Shop> pageShopBaseByCategory(ShopDTO shopDTO);
 
     Shop getShopDetail(String shopId);
 }

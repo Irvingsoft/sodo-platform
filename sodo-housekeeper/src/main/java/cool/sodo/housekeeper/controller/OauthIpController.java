@@ -5,7 +5,7 @@ import cool.sodo.common.domain.OauthIp;
 import cool.sodo.common.domain.User;
 import cool.sodo.common.entity.Result;
 import cool.sodo.common.util.StringUtil;
-import cool.sodo.housekeeper.entity.OauthIpRequest;
+import cool.sodo.housekeeper.entity.OauthIpDTO;
 import cool.sodo.housekeeper.service.OauthIpService;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,9 +56,9 @@ public class OauthIpController {
     }
 
     @PostMapping(value = "page")
-    public Result pageOauthIpInfo(@RequestBody OauthIpRequest oauthIpRequest) {
+    public Result pageOauthIpInfo(@RequestBody OauthIpDTO oauthIpDTO) {
 
-        return Result.success(oauthIpService.pageOauthIpInfo(oauthIpRequest));
+        return Result.success(oauthIpService.pageOauthIpInfo(oauthIpDTO));
     }
 
     // TODO 日志 Log 管理、

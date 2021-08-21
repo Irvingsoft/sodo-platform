@@ -8,7 +8,7 @@ import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.Result;
 import cool.sodo.common.service.CommonOauthClientService;
 import cool.sodo.common.util.WebUtil;
-import cool.sodo.user.entity.PasswordUpdateRequest;
+import cool.sodo.user.entity.PasswordDTO;
 import cool.sodo.user.entity.UserInsertRequest;
 import cool.sodo.user.entity.UserRequest;
 import cool.sodo.user.entity.UserUpdateRequest;
@@ -45,7 +45,7 @@ public class UserController {
     @ApiOperation(value = "获取当前用户基本信息", notes = "登录成功后获取用户基本信息")
     public Result getUserBase(@CurrentUser User user) {
 
-        return Result.success(user);
+        return Result.success(userService.getUserBase(user.getUserId()));
     }
 
     @GetMapping(value = "info")
@@ -108,13 +108,13 @@ public class UserController {
     }
 
     @PostMapping(value = "password")
-    public Result updatePassword(@RequestBody PasswordUpdateRequest passwordUpdateRequest,
+    public Result updatePassword(@RequestBody PasswordDTO passwordDTO,
                                  @CurrentUser User user,
                                  HttpServletRequest request) {
 
-        passwordUpdateRequest.setOldPassword(passwordHelper.decryptPassword(request, passwordUpdateRequest.getOldPassword()));
-        passwordUpdateRequest.setNewPassword(passwordHelper.decryptPassword(request, passwordUpdateRequest.getNewPassword()));
-        userService.updatePassword(passwordUpdateRequest, user);
+        passwordDTO.setOldPassword(passwordHelper.decryptPassword(request, passwordDTO.getOldPassword()));
+        passwordDTO.setNewPassword(passwordHelper.decryptPassword(request, passwordDTO.getNewPassword()));
+        userService.updatePassword(passwordDTO, user);
         return Result.success();
     }
 }

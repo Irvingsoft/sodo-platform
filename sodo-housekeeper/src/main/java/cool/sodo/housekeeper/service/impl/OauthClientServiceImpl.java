@@ -9,7 +9,7 @@ import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.service.CommonUserService;
 import cool.sodo.common.util.StringUtil;
-import cool.sodo.housekeeper.entity.OauthClientRequest;
+import cool.sodo.housekeeper.entity.OauthClientDTO;
 import cool.sodo.housekeeper.mapper.OauthClientMapper;
 import cool.sodo.housekeeper.service.ClientApiService;
 import cool.sodo.housekeeper.service.OauthClientService;
@@ -161,25 +161,25 @@ public class OauthClientServiceImpl implements OauthClientService {
     }
 
     @Override
-    public IPage<OauthClient> pageOauthClientInfo(OauthClientRequest oauthClientRequest) {
+    public IPage<OauthClient> pageOauthClientInfo(OauthClientDTO oauthClientDTO) {
 
         LambdaQueryWrapper<OauthClient> oauthClientLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_INFO);
-        if (!StringUtil.isEmpty(oauthClientRequest.getInUse())) {
-            oauthClientLambdaQueryWrapper.eq(OauthClient::getInUse, oauthClientRequest.getInUse());
+        if (!StringUtil.isEmpty(oauthClientDTO.getInUse())) {
+            oauthClientLambdaQueryWrapper.eq(OauthClient::getInUse, oauthClientDTO.getInUse());
         }
-        if (!StringUtil.isEmpty(oauthClientRequest.getRegister())) {
-            oauthClientLambdaQueryWrapper.eq(OauthClient::getRegister, oauthClientRequest.getRegister());
+        if (!StringUtil.isEmpty(oauthClientDTO.getRegister())) {
+            oauthClientLambdaQueryWrapper.eq(OauthClient::getRegister, oauthClientDTO.getRegister());
         }
-        if (!StringUtil.isEmpty(oauthClientRequest.getCaptcha())) {
-            oauthClientLambdaQueryWrapper.eq(OauthClient::getCaptcha, oauthClientRequest.getCaptcha());
+        if (!StringUtil.isEmpty(oauthClientDTO.getCaptcha())) {
+            oauthClientLambdaQueryWrapper.eq(OauthClient::getCaptcha, oauthClientDTO.getCaptcha());
         }
-        if (!StringUtil.isEmpty(oauthClientRequest.getContent())) {
-            oauthClientLambdaQueryWrapper.and(wrapper -> wrapper.like(OauthClient::getName, oauthClientRequest.getContent())
+        if (!StringUtil.isEmpty(oauthClientDTO.getContent())) {
+            oauthClientLambdaQueryWrapper.and(wrapper -> wrapper.like(OauthClient::getName, oauthClientDTO.getContent())
                     .or()
-                    .like(OauthClient::getDescription, oauthClientRequest.getContent()));
+                    .like(OauthClient::getDescription, oauthClientDTO.getContent()));
         }
         return oauthClientMapper.selectPage(
-                new Page<>(oauthClientRequest.getPageNum(), oauthClientRequest.getPageSize()),
+                new Page<>(oauthClientDTO.getPageNum(), oauthClientDTO.getPageSize()),
                 oauthClientLambdaQueryWrapper);
     }
 

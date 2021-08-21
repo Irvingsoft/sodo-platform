@@ -2,7 +2,7 @@ package cool.sodo.housekeeper.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import cool.sodo.common.domain.OauthApi;
-import cool.sodo.housekeeper.entity.OauthApiRequest;
+import cool.sodo.housekeeper.entity.OauthApiDTO;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public interface OauthApiService {
 
     OauthApi getOauthApiInfoDetail(String apiId);
 
-    IPage<OauthApi> pageOauthApiInfo(OauthApiRequest oauthApiRequest);
+    IPage<OauthApi> pageOauthApiInfo(OauthApiDTO oauthApiDTO);
 
     List<OauthApi> listOauthApiBaseUse();
 

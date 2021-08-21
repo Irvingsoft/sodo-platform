@@ -28,4 +28,16 @@ public class CommonRoleToMenuServiceImpl implements CommonRoleToMenuService {
                 .map(RoleToMenu::getMenuId)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<String> listRoleToMenuMenuIdByRole(String roleId) {
+
+        LambdaQueryWrapper<RoleToMenu> roleToMenuLambdaQueryWrapper = Wrappers.lambdaQuery();
+        roleToMenuLambdaQueryWrapper.select(RoleToMenu::getMenuId)
+                .eq(RoleToMenu::getRoleId, roleId);
+        return commonRoleToMenuMapper.selectList(roleToMenuLambdaQueryWrapper)
+                .stream()
+                .map(RoleToMenu::getMenuId)
+                .collect(Collectors.toList());
+    }
 }

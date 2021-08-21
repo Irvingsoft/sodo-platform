@@ -3,7 +3,7 @@ package cool.sodo.goods.controller;
 import cool.sodo.common.entity.Result;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.util.StringUtil;
-import cool.sodo.goods.entity.ShopRequest;
+import cool.sodo.goods.entity.ShopDTO;
 import cool.sodo.goods.exception.GoodsException;
 import cool.sodo.goods.service.ShopService;
 import io.swagger.annotations.Api;
@@ -64,14 +64,14 @@ public class CustomerShopController {
      */
     @PostMapping(value = "list")
     @ApiOperation(value = "条件查询店铺列表")
-    public Result listShopBase(@RequestBody ShopRequest shopRequest) {
+    public Result listShopBase(@RequestBody ShopDTO shopDTO) {
 
-        if (!StringUtil.isEmpty(shopRequest.getSchoolId())
-                && StringUtil.isEmpty(shopRequest.getCategoryId())) {
-            return Result.success(shopService.pageShopBaseBySchool(shopRequest));
-        } else if (StringUtil.isEmpty(shopRequest.getSchoolId())
-                && !StringUtil.isEmpty(shopRequest.getCategoryId())) {
-            return Result.success(shopService.pageShopBaseByCategory(shopRequest));
+        if (!StringUtil.isEmpty(shopDTO.getSchoolId())
+                && StringUtil.isEmpty(shopDTO.getCategoryId())) {
+            return Result.success(shopService.pageShopBaseBySchool(shopDTO));
+        } else if (StringUtil.isEmpty(shopDTO.getSchoolId())
+                && !StringUtil.isEmpty(shopDTO.getCategoryId())) {
+            return Result.success(shopService.pageShopBaseByCategory(shopDTO));
         } else {
             throw new GoodsException(ResultEnum.BAD_REQUEST, ERROR_PARAMS);
         }

@@ -11,6 +11,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 
 /**
  * 监听异步消息，微信平台新用户登录注册
@@ -50,8 +51,10 @@ public class UserMqListener {
                 User user = mapper.readValue(dataString, User.class);
                 userService.insertUserMq(user);
             } else if (notification.getEventType().equalsIgnoreCase(userMqProperty.getLoginType())) {
-                String identity = mapper.readValue(dataString, String.class);
-                userService.updateUserLogin(identity);
+                HashMap<String, String> messageMap = mapper.readValue(dataString, HashMap.class);
+                userService.updateUserLogin(
+                        messageMap.get(Constants.USER_LOGIN_IDENTITY),
+                        messageMap.get(Constants.USER_LOGIN_IP));
             }
         }
     }

@@ -1,7 +1,7 @@
 package cool.sodo.log.controller;
 
 import cool.sodo.common.entity.Result;
-import cool.sodo.log.entity.LogBusinessRequest;
+import cool.sodo.log.entity.LogBusinessDTO;
 import cool.sodo.log.service.LogBusinessService;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +21,9 @@ public class LogBusinessController {
     }
 
     @PostMapping(value = "page")
-    public Result pageLogBusiness(@RequestBody LogBusinessRequest logBusinessRequest) {
+    public Result pageLogBusiness(@RequestBody LogBusinessDTO logBusinessDTO) {
 
-        return Result.success(logBusinessService.pageLogBusinessBase(logBusinessRequest));
+        return Result.success(logBusinessService.pageLogBusinessBase(logBusinessDTO));
     }
 
 }

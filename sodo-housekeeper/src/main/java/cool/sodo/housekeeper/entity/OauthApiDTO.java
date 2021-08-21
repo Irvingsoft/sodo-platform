@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @date 2021/5/31 21:15
  */
 @Data
-public class OauthApiRequest implements Serializable {
+public class OauthApiDTO implements Serializable {
 
     private String clientId;
     private String content;

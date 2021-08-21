@@ -11,7 +11,7 @@ import cool.sodo.common.exception.AsyncException;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.service.CommonUserService;
 import cool.sodo.common.util.StringUtil;
-import cool.sodo.housekeeper.entity.OauthApiRequest;
+import cool.sodo.housekeeper.entity.OauthApiDTO;
 import cool.sodo.housekeeper.mapper.OauthApiMapper;
 import cool.sodo.housekeeper.service.ClientApiService;
 import cool.sodo.housekeeper.service.OauthApiService;
@@ -240,45 +240,45 @@ public class OauthApiServiceImpl implements OauthApiService {
     }
 
     @Override
-    public IPage<OauthApi> pageOauthApiInfo(OauthApiRequest oauthApiRequest) {
+    public IPage<OauthApi> pageOauthApiInfo(OauthApiDTO oauthApiDTO) {
 
         LambdaQueryWrapper<OauthApi> oauthApiLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_INFO);
-        if (!StringUtil.isEmpty(oauthApiRequest.getClientId())) {
-            List<String> apiIdList = clientApiService.listClientApiApiId(oauthApiRequest.getClientId());
+        if (!StringUtil.isEmpty(oauthApiDTO.getClientId())) {
+            List<String> apiIdList = clientApiService.listClientApiApiId(oauthApiDTO.getClientId());
             if (apiIdList.size() == 0) {
                 apiIdList.add("");
             }
             oauthApiLambdaQueryWrapper.in(OauthApi::getApiId
                     , apiIdList);
         }
-        if (!StringUtil.isEmpty(oauthApiRequest.getService())) {
-            oauthApiLambdaQueryWrapper.eq(OauthApi::getService, oauthApiRequest.getService());
+        if (!StringUtil.isEmpty(oauthApiDTO.getService())) {
+            oauthApiLambdaQueryWrapper.eq(OauthApi::getService, oauthApiDTO.getService());
         }
-        if (!StringUtil.isEmpty(oauthApiRequest.getMethod())) {
-            oauthApiLambdaQueryWrapper.eq(OauthApi::getMethod, oauthApiRequest.getMethod());
+        if (!StringUtil.isEmpty(oauthApiDTO.getMethod())) {
+            oauthApiLambdaQueryWrapper.eq(OauthApi::getMethod, oauthApiDTO.getMethod());
         }
-        if (!StringUtil.isEmpty(oauthApiRequest.getInUse())) {
-            oauthApiLambdaQueryWrapper.eq(OauthApi::getInUse, oauthApiRequest.getInUse());
+        if (!StringUtil.isEmpty(oauthApiDTO.getInUse())) {
+            oauthApiLambdaQueryWrapper.eq(OauthApi::getInUse, oauthApiDTO.getInUse());
         }
-        if (!StringUtil.isEmpty(oauthApiRequest.getAuth())) {
-            oauthApiLambdaQueryWrapper.eq(OauthApi::getAuth, oauthApiRequest.getAuth());
+        if (!StringUtil.isEmpty(oauthApiDTO.getAuth())) {
+            oauthApiLambdaQueryWrapper.eq(OauthApi::getAuth, oauthApiDTO.getAuth());
         }
-        if (!StringUtil.isEmpty(oauthApiRequest.getRequestLimit())) {
-            oauthApiLambdaQueryWrapper.eq(OauthApi::getRequestLimit, oauthApiRequest.getRequestLimit());
+        if (!StringUtil.isEmpty(oauthApiDTO.getRequestLimit())) {
+            oauthApiLambdaQueryWrapper.eq(OauthApi::getRequestLimit, oauthApiDTO.getRequestLimit());
         }
-        if (!StringUtil.isEmpty(oauthApiRequest.getLog())) {
-            oauthApiLambdaQueryWrapper.eq(OauthApi::getLog, oauthApiRequest.getLog());
+        if (!StringUtil.isEmpty(oauthApiDTO.getLog())) {
+            oauthApiLambdaQueryWrapper.eq(OauthApi::getLog, oauthApiDTO.getLog());
         }
-        if (!StringUtil.isEmpty(oauthApiRequest.getContent())) {
+        if (!StringUtil.isEmpty(oauthApiDTO.getContent())) {
             oauthApiLambdaQueryWrapper.and(wrapper ->
-                    wrapper.like(OauthApi::getName, oauthApiRequest.getContent())
+                    wrapper.like(OauthApi::getName, oauthApiDTO.getContent())
                             .or()
-                            .like(OauthApi::getDescription, oauthApiRequest.getContent())
+                            .like(OauthApi::getDescription, oauthApiDTO.getContent())
             );
         }
         oauthApiLambdaQueryWrapper.orderByDesc(OauthApi::getCreateAt)
                 .orderByDesc(OauthApi::getUpdateAt);
-        Page<OauthApi> oauthApiPage = new Page<>(oauthApiRequest.getPageNum(), oauthApiRequest.getPageSize());
+        Page<OauthApi> oauthApiPage = new Page<>(oauthApiDTO.getPageNum(), oauthApiDTO.getPageSize());
         return oauthApiMapper.selectPage(oauthApiPage, oauthApiLambdaQueryWrapper);
     }
 

@@ -3,18 +3,22 @@ package cool.sodo.housekeeper.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.Role;
+import cool.sodo.common.domain.RoleToMenu;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.service.CommonUserToRoleService;
 import cool.sodo.common.util.BeanUtil;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.node.ForestNodeMerger;
-import cool.sodo.housekeeper.entity.RoleRequest;
+import cool.sodo.housekeeper.entity.RoleDTO;
 import cool.sodo.housekeeper.entity.RoleVO;
 import cool.sodo.housekeeper.mapper.RoleMapper;
 import cool.sodo.housekeeper.service.RoleService;
+import cool.sodo.housekeeper.service.RoleToMenuService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,9 +27,14 @@ public class RoleServiceImpl implements RoleService {
 
     public static final int SELECT_TREE = 0;
     public static final int SELECT_LIST = 1;
+    public static final int SELECT_OTHER = 2;
 
     @Resource
     private RoleMapper roleMapper;
+    @Resource
+    private RoleToMenuService roleToMenuService;
+    @Resource
+    private CommonUserToRoleService userToRoleService;
 
     private LambdaQueryWrapper<Role> generateSelectQueryWrapper(int type) {
 
@@ -42,6 +51,7 @@ public class RoleServiceImpl implements RoleService {
             default:
                 break;
         }
+        roleLambdaQueryWrapper.orderByAsc(Role::getSort);
         return roleLambdaQueryWrapper;
     }
 
@@ -125,27 +135,70 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleVO> tree(String clientId) {
+    public List<RoleVO> treeRoleByClient(String clientId) {
 
         LambdaQueryWrapper<Role> roleLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_TREE);
-        roleLambdaQueryWrapper.eq(Role::getClientId, clientId)
-                .orderByAsc(Role::getSort);
+        roleLambdaQueryWrapper.eq(Role::getClientId, clientId);
         List<Role> roleList = roleMapper.selectList(roleLambdaQueryWrapper);
         return ForestNodeMerger.merge(toRoleVO(roleList));
     }
 
     @Override
-    public List<RoleVO> listRole(RoleRequest roleRequest) {
+    public List<RoleVO> treeRoleByUser(String userId) {
 
-        LambdaQueryWrapper<Role> roleLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_LIST);
-        roleLambdaQueryWrapper.eq(Role::getClientId, roleRequest.getClientId());
-        if (!StringUtil.isEmpty(roleRequest.getContent())) {
-            roleLambdaQueryWrapper.and(wrapper -> wrapper.like(Role::getName, roleRequest.getContent())
-                    .or()
-                    .like(Role::getDescription, roleRequest.getContent()));
+        List<String> roleIdList = userToRoleService.listUserToRoleRoleId(userId);
+        if (StringUtil.isEmpty(roleIdList)) {
+            return null;
         }
-        roleLambdaQueryWrapper.orderByAsc(Role::getSort);
+        LambdaQueryWrapper<Role> roleLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_TREE);
+        roleLambdaQueryWrapper.in(Role::getRoleId, roleIdList);
         List<Role> roleList = roleMapper.selectList(roleLambdaQueryWrapper);
         return ForestNodeMerger.merge(toRoleVO(roleList));
+    }
+
+    @Override
+    public List<String> listRole(String userId) {
+
+        List<String> roleIdList = userToRoleService.listUserToRoleRoleId(userId);
+        if (StringUtil.isEmpty(roleIdList)) {
+            return null;
+        }
+        LambdaQueryWrapper<Role> roleLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_OTHER);
+        roleLambdaQueryWrapper.in(Role::getRoleId, roleIdList)
+                .select(Role::getRoleId);
+        return roleMapper.selectList(roleLambdaQueryWrapper)
+                .stream()
+                .map(Role::getRoleId)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RoleVO> listRole(RoleDTO roleDTO) {
+
+        LambdaQueryWrapper<Role> roleLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_LIST);
+        roleLambdaQueryWrapper.eq(Role::getClientId, roleDTO.getClientId());
+        if (!StringUtil.isEmpty(roleDTO.getContent())) {
+            roleLambdaQueryWrapper.and(wrapper -> wrapper.like(Role::getName, roleDTO.getContent())
+                    .or()
+                    .like(Role::getDescription, roleDTO.getContent()));
+        }
+        List<Role> roleList = roleMapper.selectList(roleLambdaQueryWrapper);
+        return ForestNodeMerger.merge(toRoleVO(roleList));
+    }
+
+    @Override
+    public void grant(List<String> roleIdList, List<String> menuIdList) {
+
+        if (StringUtil.isEmpty(roleIdList)) {
+            return;
+        }
+        roleToMenuService.deleteByRole(roleIdList);
+        ArrayList<RoleToMenu> roleToMenuList = new ArrayList<>();
+        for (String roleId : roleIdList) {
+            for (String menuId : menuIdList) {
+                roleToMenuList.add(new RoleToMenu(roleId, menuId));
+            }
+        }
+        roleToMenuService.insert(roleToMenuList);
     }
 }

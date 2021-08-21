@@ -4,7 +4,7 @@ import cool.sodo.common.annotation.CurrentUser;
 import cool.sodo.common.domain.OauthApi;
 import cool.sodo.common.domain.User;
 import cool.sodo.common.entity.Result;
-import cool.sodo.housekeeper.entity.OauthApiRequest;
+import cool.sodo.housekeeper.entity.OauthApiDTO;
 import cool.sodo.housekeeper.service.OauthApiService;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,9 +60,9 @@ public class OauthApiController {
     }
 
     @PostMapping(value = "page")
-    public Result pageOauthApiInfo(@RequestBody OauthApiRequest oauthApiRequest) {
+    public Result pageOauthApiInfo(@RequestBody OauthApiDTO oauthApiDTO) {
 
-        return Result.success(oauthApiService.pageOauthApiInfo(oauthApiRequest));
+        return Result.success(oauthApiService.pageOauthApiInfo(oauthApiDTO));
     }
 
     /**

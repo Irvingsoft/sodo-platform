@@ -3,7 +3,9 @@ package cool.sodo.common.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,6 +17,8 @@ import java.util.Date;
  * @date 2021/7/21 14:00
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName(value = "role_to_menu")
 public class RoleToMenu implements Serializable {
 
@@ -26,4 +30,9 @@ public class RoleToMenu implements Serializable {
     private String menuId;
 
     private Date createAt;
+
+    public RoleToMenu(String roleId, String menuId) {
+        this.roleId = roleId;
+        this.menuId = menuId;
+    }
 }

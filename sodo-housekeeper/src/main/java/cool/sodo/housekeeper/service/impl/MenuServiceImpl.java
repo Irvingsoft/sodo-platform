@@ -5,11 +5,12 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.Menu;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.service.CommonRoleToMenuService;
 import cool.sodo.common.util.BeanUtil;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.node.ForestNodeMerger;
 import cool.sodo.housekeeper.common.Constants;
-import cool.sodo.housekeeper.entity.MenuRequest;
+import cool.sodo.housekeeper.entity.MenuDTO;
 import cool.sodo.housekeeper.entity.MenuVO;
 import cool.sodo.housekeeper.mapper.MenuMapper;
 import cool.sodo.housekeeper.service.MenuService;
@@ -28,9 +29,12 @@ public class MenuServiceImpl implements MenuService {
 
     public static final int SELECT_TREE = 0;
     public static final int SELECT_LIST = 1;
+    public static final int SELECT_OTHER = 2;
 
     @Resource
     private MenuMapper menuMapper;
+    @Resource
+    private CommonRoleToMenuService roleToMenuService;
 
     private LambdaQueryWrapper<Menu> generateSelectQueryWrapper(int type) {
 
@@ -49,6 +53,7 @@ public class MenuServiceImpl implements MenuService {
             default:
                 break;
         }
+        menuLambdaQueryWrapper.orderByAsc(Menu::getSort);
         return menuLambdaQueryWrapper;
     }
 
@@ -132,31 +137,57 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuVO> tree(String clientId) {
+    public List<MenuVO> treeMenu(String clientId) {
 
         LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_TREE);
         menuLambdaQueryWrapper.eq(Menu::getClientId, clientId)
-                .eq(Menu::getMenuType, Constants.MENU_TYPE_MENU)
-                .orderByAsc(Menu::getSort);
+                .eq(Menu::getMenuType, Constants.MENU_TYPE_MENU);
         List<Menu> menuList = menuMapper.selectList(menuLambdaQueryWrapper);
         return ForestNodeMerger.merge(toMenuVO(menuList));
     }
 
     @Override
-    public List<MenuVO> listMenu(MenuRequest menuRequest) {
+    public List<MenuVO> treeMenu(List<String> roleIdList) {
+
+        List<String> menuIdList = roleToMenuService.listRoleToMenuMenuIdByRole(roleIdList);
+        if (StringUtil.isEmpty(menuIdList)) {
+            return null;
+        }
+        LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_TREE);
+        menuLambdaQueryWrapper.in(Menu::getMenuId, menuIdList);
+        List<Menu> menuList = menuMapper.selectList(menuLambdaQueryWrapper);
+        return ForestNodeMerger.merge(toMenuVO(menuList));
+    }
+
+    @Override
+    public List<String> listMenu(String roleId) {
+        List<String> menuIdList = roleToMenuService.listRoleToMenuMenuIdByRole(roleId);
+        if (StringUtil.isEmpty(menuIdList)) {
+            return null;
+        }
+        LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_OTHER);
+        menuLambdaQueryWrapper.in(Menu::getMenuId, menuIdList)
+                .select(Menu::getMenuId);
+        return menuMapper.selectList(menuLambdaQueryWrapper)
+                .stream()
+                .map(Menu::getMenuId)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MenuVO> listMenu(MenuDTO menuDTO) {
 
         LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_LIST);
-        menuLambdaQueryWrapper.eq(Menu::getClientId, menuRequest.getClientId());
-        if (!StringUtil.isEmpty(menuRequest.getContent())) {
-            menuLambdaQueryWrapper.and(wrapper -> wrapper.like(Menu::getName, menuRequest.getContent())
+        menuLambdaQueryWrapper.eq(Menu::getClientId, menuDTO.getClientId());
+        if (!StringUtil.isEmpty(menuDTO.getContent())) {
+            menuLambdaQueryWrapper.and(wrapper -> wrapper.like(Menu::getName, menuDTO.getContent())
                     .or()
-                    .like(Menu::getPath, menuRequest.getContent())
+                    .like(Menu::getPath, menuDTO.getContent())
                     .or()
-                    .like(Menu::getIcon, menuRequest.getContent())
+                    .like(Menu::getIcon, menuDTO.getContent())
                     .or()
-                    .like(Menu::getDescription, menuRequest.getContent()));
+                    .like(Menu::getDescription, menuDTO.getContent()));
         }
-        menuLambdaQueryWrapper.orderByAsc(Menu::getSort);
         List<Menu> menuList = menuMapper.selectList(menuLambdaQueryWrapper);
         return ForestNodeMerger.merge(toMenuVO(menuList));
     }

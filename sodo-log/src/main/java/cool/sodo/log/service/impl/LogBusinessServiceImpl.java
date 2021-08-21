@@ -8,7 +8,7 @@ import cool.sodo.common.domain.LogBusiness;
 import cool.sodo.common.exception.AsyncException;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.util.StringUtil;
-import cool.sodo.log.entity.LogBusinessRequest;
+import cool.sodo.log.entity.LogBusinessDTO;
 import cool.sodo.log.mapper.LogBusinessMapper;
 import cool.sodo.log.service.LogBusinessService;
 import org.springframework.stereotype.Service;
@@ -73,57 +73,57 @@ public class LogBusinessServiceImpl implements LogBusinessService {
     }
 
     @Override
-    public IPage<LogBusiness> pageLogBusinessBase(LogBusinessRequest logBusinessRequest) {
+    public IPage<LogBusiness> pageLogBusinessBase(LogBusinessDTO logBusinessDTO) {
 
         LambdaQueryWrapper<LogBusiness> logBusinessLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_BASE);
 
-        if (!StringUtil.isEmpty(logBusinessRequest.getServiceId())) {
-            logBusinessLambdaQueryWrapper.eq(LogBusiness::getServiceId, logBusinessRequest.getServiceId());
+        if (!StringUtil.isEmpty(logBusinessDTO.getServiceId())) {
+            logBusinessLambdaQueryWrapper.eq(LogBusiness::getServiceId, logBusinessDTO.getServiceId());
         }
-        if (!StringUtil.isEmpty(logBusinessRequest.getClientId())) {
-            logBusinessLambdaQueryWrapper.eq(LogBusiness::getClientId, logBusinessRequest.getClientId());
+        if (!StringUtil.isEmpty(logBusinessDTO.getClientId())) {
+            logBusinessLambdaQueryWrapper.eq(LogBusiness::getClientId, logBusinessDTO.getClientId());
         }
-        if (!StringUtil.isEmpty(logBusinessRequest.getUserId())) {
-            logBusinessLambdaQueryWrapper.eq(LogBusiness::getUserId, logBusinessRequest.getUserId());
+        if (!StringUtil.isEmpty(logBusinessDTO.getUserId())) {
+            logBusinessLambdaQueryWrapper.eq(LogBusiness::getUserId, logBusinessDTO.getUserId());
         }
-        if (!StringUtil.isEmpty(logBusinessRequest.getRequestId())) {
-            logBusinessLambdaQueryWrapper.eq(LogBusiness::getRequestId, logBusinessRequest.getRequestId());
+        if (!StringUtil.isEmpty(logBusinessDTO.getRequestId())) {
+            logBusinessLambdaQueryWrapper.eq(LogBusiness::getRequestId, logBusinessDTO.getRequestId());
         }
-        if (!StringUtil.isEmpty(logBusinessRequest.getRequestMethod())) {
-            logBusinessLambdaQueryWrapper.eq(LogBusiness::getRequestMethod, logBusinessRequest.getRequestMethod());
+        if (!StringUtil.isEmpty(logBusinessDTO.getRequestMethod())) {
+            logBusinessLambdaQueryWrapper.eq(LogBusiness::getRequestMethod, logBusinessDTO.getRequestMethod());
         }
-        if (!StringUtil.isEmpty(logBusinessRequest.getBusinessId())) {
-            logBusinessLambdaQueryWrapper.eq(LogBusiness::getBusinessId, logBusinessRequest.getBusinessId());
+        if (!StringUtil.isEmpty(logBusinessDTO.getBusinessId())) {
+            logBusinessLambdaQueryWrapper.eq(LogBusiness::getBusinessId, logBusinessDTO.getBusinessId());
         }
-        if (!StringUtil.isEmpty(logBusinessRequest.getBusinessType())) {
-            logBusinessLambdaQueryWrapper.eq(LogBusiness::getBusinessType, logBusinessRequest.getBusinessType());
+        if (!StringUtil.isEmpty(logBusinessDTO.getBusinessType())) {
+            logBusinessLambdaQueryWrapper.eq(LogBusiness::getBusinessType, logBusinessDTO.getBusinessType());
         }
-        if (!StringUtil.isEmpty(logBusinessRequest.getContent())) {
-            logBusinessLambdaQueryWrapper.and(wrapper -> wrapper.like(LogBusiness::getMessage, logBusinessRequest.getContent())
+        if (!StringUtil.isEmpty(logBusinessDTO.getContent())) {
+            logBusinessLambdaQueryWrapper.and(wrapper -> wrapper.like(LogBusiness::getMessage, logBusinessDTO.getContent())
                     .or()
-                    .like(LogBusiness::getBusinessData, logBusinessRequest.getContent())
+                    .like(LogBusiness::getBusinessData, logBusinessDTO.getContent())
                     .or()
-                    .like(LogBusiness::getServiceHost, logBusinessRequest.getContent())
+                    .like(LogBusiness::getServiceHost, logBusinessDTO.getContent())
                     .or()
-                    .like(LogBusiness::getSystemName, logBusinessRequest.getContent())
+                    .like(LogBusiness::getSystemName, logBusinessDTO.getContent())
                     .or()
-                    .like(LogBusiness::getBrowserName, logBusinessRequest.getContent())
+                    .like(LogBusiness::getBrowserName, logBusinessDTO.getContent())
                     .or()
-                    .like(LogBusiness::getRequestUrl, logBusinessRequest.getContent())
+                    .like(LogBusiness::getRequestUrl, logBusinessDTO.getContent())
                     .or()
-                    .like(LogBusiness::getClassName, logBusinessRequest.getContent())
+                    .like(LogBusiness::getClassName, logBusinessDTO.getContent())
                     .or()
-                    .like(LogBusiness::getMethodName, logBusinessRequest.getContent()));
+                    .like(LogBusiness::getMethodName, logBusinessDTO.getContent()));
         }
-        if (!StringUtil.isEmpty(logBusinessRequest.getCreateBegin())) {
-            logBusinessLambdaQueryWrapper.ge(LogBusiness::getCreateAt, logBusinessRequest.getCreateBegin());
+        if (!StringUtil.isEmpty(logBusinessDTO.getCreateBegin())) {
+            logBusinessLambdaQueryWrapper.ge(LogBusiness::getCreateAt, logBusinessDTO.getCreateBegin());
         }
-        if (!StringUtil.isEmpty(logBusinessRequest.getCreateEnd())) {
-            logBusinessLambdaQueryWrapper.le(LogBusiness::getCreateAt, logBusinessRequest.getCreateEnd());
+        if (!StringUtil.isEmpty(logBusinessDTO.getCreateEnd())) {
+            logBusinessLambdaQueryWrapper.le(LogBusiness::getCreateAt, logBusinessDTO.getCreateEnd());
         }
 
         logBusinessLambdaQueryWrapper.orderByDesc(LogBusiness::getCreateAt);
-        return logBusinessMapper.selectPage(new Page<>(logBusinessRequest.getPageNum(),
-                logBusinessRequest.getPageSize()), logBusinessLambdaQueryWrapper);
+        return logBusinessMapper.selectPage(new Page<>(logBusinessDTO.getPageNum(),
+                logBusinessDTO.getPageSize()), logBusinessLambdaQueryWrapper);
     }
 }

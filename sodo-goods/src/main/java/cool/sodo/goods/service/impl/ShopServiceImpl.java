@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cool.sodo.common.domain.Shop;
 import cool.sodo.common.entity.ResultEnum;
-import cool.sodo.goods.entity.ShopRequest;
+import cool.sodo.goods.entity.ShopDTO;
 import cool.sodo.goods.exception.GoodsException;
 import cool.sodo.goods.mapper.ShopMapper;
 import cool.sodo.goods.service.ScheduleService;
@@ -182,15 +182,15 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public IPage<Shop> pageShopBaseBySchool(ShopRequest shopRequest) {
+    public IPage<Shop> pageShopBaseBySchool(ShopDTO shopDTO) {
 
         LambdaQueryWrapper<Shop> shopLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_BASE);
-        shopLambdaQueryWrapper.eq(Shop::getSchoolId, shopRequest.getSchoolId())
+        shopLambdaQueryWrapper.eq(Shop::getSchoolId, shopDTO.getSchoolId())
                 .eq(Shop::getOpen, true)
                 .eq(Shop::getValid, true);
-        setSelectOrderBy(shopLambdaQueryWrapper, shopRequest.getType());
+        setSelectOrderBy(shopLambdaQueryWrapper, shopDTO.getType());
 
-        Page<Shop> shopPage = new Page<>(shopRequest.getPageNum(), shopRequest.getPageSize());
+        Page<Shop> shopPage = new Page<>(shopDTO.getPageNum(), shopDTO.getPageSize());
         IPage<Shop> shopInPage = shopMapper.selectPage(shopPage, shopLambdaQueryWrapper);
         shopInPage.getRecords().forEach(
                 shop -> shop.setInBusiness(scheduleService.isInSchedule(shop.getShopId()))
@@ -199,17 +199,17 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public IPage<Shop> pageShopBaseByCategory(ShopRequest shopRequest) {
+    public IPage<Shop> pageShopBaseByCategory(ShopDTO shopDTO) {
 
         LambdaQueryWrapper<Shop> shopLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_BASE);
-        List<String> shopIdList = shopToCategoryService.listShopIdByCategory(shopRequest.getCategoryId());
+        List<String> shopIdList = shopToCategoryService.listShopIdByCategory(shopDTO.getCategoryId());
         if (shopIdList.size() != 0) {
             shopLambdaQueryWrapper.in(Shop::getShopId, shopIdList);
             shopLambdaQueryWrapper.eq(Shop::getOpen, true)
                     .eq(Shop::getValid, true);
-            setSelectOrderBy(shopLambdaQueryWrapper, shopRequest.getType());
+            setSelectOrderBy(shopLambdaQueryWrapper, shopDTO.getType());
 
-            Page<Shop> shopPage = new Page<>(shopRequest.getPageNum(), shopRequest.getPageSize());
+            Page<Shop> shopPage = new Page<>(shopDTO.getPageNum(), shopDTO.getPageSize());
             IPage<Shop> shopInPage = shopMapper.selectPage(shopPage, shopLambdaQueryWrapper);
             shopInPage.getRecords().forEach(
                     shop -> shop.setInBusiness(scheduleService.isInSchedule(shop.getShopId()))

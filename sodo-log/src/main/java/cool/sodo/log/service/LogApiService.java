@@ -2,7 +2,7 @@ package cool.sodo.log.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import cool.sodo.common.domain.LogApi;
-import cool.sodo.log.entity.LogApiRequest;
+import cool.sodo.log.entity.LogApiDTO;
 
 /**
  * LogApi Service 层
@@ -25,8 +25,8 @@ public interface LogApiService {
     /**
      * 多条件分页查询 LogApi 基本信息，并填充外部属性
      *
-     * @param logApiRequest LogApi 查询多条件实体
+     * @param logApiDTO LogApi 查询多条件实体
      * @return com.baomidou.mybatisplus.core.metadata.IPage<cool.sodo.common.domain.LogApi>
      */
-    IPage<LogApi> pageLogApiBaseDetail(LogApiRequest logApiRequest);
+    IPage<LogApi> pageLogApiBaseDetail(LogApiDTO logApiDTO);
 }

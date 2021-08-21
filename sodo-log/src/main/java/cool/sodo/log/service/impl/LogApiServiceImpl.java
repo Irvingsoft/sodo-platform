@@ -11,7 +11,7 @@ import cool.sodo.common.exception.AsyncException;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.service.CommonOauthApiService;
 import cool.sodo.common.util.StringUtil;
-import cool.sodo.log.entity.LogApiRequest;
+import cool.sodo.log.entity.LogApiDTO;
 import cool.sodo.log.mapper.LogApiMapper;
 import cool.sodo.log.service.LogApiService;
 import org.springframework.scheduling.annotation.Async;
@@ -86,61 +86,61 @@ public class LogApiServiceImpl implements LogApiService {
     }
 
     @Override
-    public IPage<LogApi> pageLogApiBaseDetail(LogApiRequest logApiRequest) {
+    public IPage<LogApi> pageLogApiBaseDetail(LogApiDTO logApiDTO) {
 
         LambdaQueryWrapper<LogApi> logApiLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_BASE);
 
-        if (!StringUtil.isEmpty(logApiRequest.getApiId())) {
-            logApiLambdaQueryWrapper.eq(LogApi::getApiId, logApiRequest.getApiId());
+        if (!StringUtil.isEmpty(logApiDTO.getApiId())) {
+            logApiLambdaQueryWrapper.eq(LogApi::getApiId, logApiDTO.getApiId());
         }
-        if (!StringUtil.isEmpty(logApiRequest.getServiceId())) {
-            logApiLambdaQueryWrapper.eq(LogApi::getServiceId, logApiRequest.getServiceId());
+        if (!StringUtil.isEmpty(logApiDTO.getServiceId())) {
+            logApiLambdaQueryWrapper.eq(LogApi::getServiceId, logApiDTO.getServiceId());
         }
-        if (!StringUtil.isEmpty(logApiRequest.getClientId())) {
-            logApiLambdaQueryWrapper.eq(LogApi::getClientId, logApiRequest.getClientId());
+        if (!StringUtil.isEmpty(logApiDTO.getClientId())) {
+            logApiLambdaQueryWrapper.eq(LogApi::getClientId, logApiDTO.getClientId());
         }
-        if (!StringUtil.isEmpty(logApiRequest.getUserId())) {
-            logApiLambdaQueryWrapper.eq(LogApi::getUserId, logApiRequest.getUserId());
+        if (!StringUtil.isEmpty(logApiDTO.getUserId())) {
+            logApiLambdaQueryWrapper.eq(LogApi::getUserId, logApiDTO.getUserId());
         }
-        if (!StringUtil.isEmpty(logApiRequest.getRequestId())) {
-            logApiLambdaQueryWrapper.eq(LogApi::getRequestId, logApiRequest.getRequestId());
+        if (!StringUtil.isEmpty(logApiDTO.getRequestId())) {
+            logApiLambdaQueryWrapper.eq(LogApi::getRequestId, logApiDTO.getRequestId());
         }
-        if (!StringUtil.isEmpty(logApiRequest.getRequestMethod())) {
-            logApiLambdaQueryWrapper.eq(LogApi::getRequestMethod, logApiRequest.getRequestMethod());
+        if (!StringUtil.isEmpty(logApiDTO.getRequestMethod())) {
+            logApiLambdaQueryWrapper.eq(LogApi::getRequestMethod, logApiDTO.getRequestMethod());
         }
-        if (!StringUtil.isEmpty(logApiRequest.getResponseStatus())) {
-            logApiLambdaQueryWrapper.eq(LogApi::getResponseStatus, logApiRequest.getResponseStatus());
+        if (!StringUtil.isEmpty(logApiDTO.getResponseStatus())) {
+            logApiLambdaQueryWrapper.eq(LogApi::getResponseStatus, logApiDTO.getResponseStatus());
         }
-        if (!StringUtil.isEmpty(logApiRequest.getContent())) {
-            logApiLambdaQueryWrapper.and(wrapper -> wrapper.like(LogApi::getServiceHost, logApiRequest.getContent())
+        if (!StringUtil.isEmpty(logApiDTO.getContent())) {
+            logApiLambdaQueryWrapper.and(wrapper -> wrapper.like(LogApi::getServiceHost, logApiDTO.getContent())
                     .or()
-                    .like(LogApi::getSystemName, logApiRequest.getContent())
+                    .like(LogApi::getSystemName, logApiDTO.getContent())
                     .or()
-                    .like(LogApi::getBrowserName, logApiRequest.getContent())
+                    .like(LogApi::getBrowserName, logApiDTO.getContent())
                     .or()
-                    .like(LogApi::getRequestUrl, logApiRequest.getContent())
+                    .like(LogApi::getRequestUrl, logApiDTO.getContent())
                     .or()
-                    .like(LogApi::getClassName, logApiRequest.getContent())
+                    .like(LogApi::getClassName, logApiDTO.getContent())
                     .or()
-                    .like(LogApi::getMethodName, logApiRequest.getContent())
+                    .like(LogApi::getMethodName, logApiDTO.getContent())
                     .or()
-                    .like(LogApi::getRequestBody, logApiRequest.getContent()));
+                    .like(LogApi::getRequestBody, logApiDTO.getContent()));
         }
-        if (!StringUtil.isEmpty(logApiRequest.getTimeBegin())) {
-            logApiLambdaQueryWrapper.ge(LogApi::getTime, logApiRequest.getTimeBegin());
+        if (!StringUtil.isEmpty(logApiDTO.getTimeBegin())) {
+            logApiLambdaQueryWrapper.ge(LogApi::getTime, logApiDTO.getTimeBegin());
         }
-        if (!StringUtil.isEmpty(logApiRequest.getTimeEnd())) {
-            logApiLambdaQueryWrapper.le(LogApi::getTime, logApiRequest.getTimeEnd());
+        if (!StringUtil.isEmpty(logApiDTO.getTimeEnd())) {
+            logApiLambdaQueryWrapper.le(LogApi::getTime, logApiDTO.getTimeEnd());
         }
-        if (!StringUtil.isEmpty(logApiRequest.getCreateBegin())) {
-            logApiLambdaQueryWrapper.ge(LogApi::getCreateAt, logApiRequest.getCreateBegin());
+        if (!StringUtil.isEmpty(logApiDTO.getCreateBegin())) {
+            logApiLambdaQueryWrapper.ge(LogApi::getCreateAt, logApiDTO.getCreateBegin());
         }
-        if (!StringUtil.isEmpty(logApiRequest.getCreateEnd())) {
-            logApiLambdaQueryWrapper.le(LogApi::getCreateAt, logApiRequest.getCreateEnd());
+        if (!StringUtil.isEmpty(logApiDTO.getCreateEnd())) {
+            logApiLambdaQueryWrapper.le(LogApi::getCreateAt, logApiDTO.getCreateEnd());
         }
 
         logApiLambdaQueryWrapper.orderByDesc(LogApi::getCreateAt);
-        IPage<LogApi> logApiPage = logApiMapper.selectPage(new Page<>(logApiRequest.getPageNum(), logApiRequest.getPageSize()), logApiLambdaQueryWrapper);
+        IPage<LogApi> logApiPage = logApiMapper.selectPage(new Page<>(logApiDTO.getPageNum(), logApiDTO.getPageSize()), logApiLambdaQueryWrapper);
 
         for (LogApi logApi : logApiPage.getRecords()) {
 

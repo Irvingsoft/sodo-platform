@@ -10,7 +10,7 @@ import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.AsyncException;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.util.StringUtil;
-import cool.sodo.housekeeper.entity.OauthIpRequest;
+import cool.sodo.housekeeper.entity.OauthIpDTO;
 import cool.sodo.housekeeper.mapper.OauthIpMapper;
 import cool.sodo.housekeeper.service.OauthIpService;
 import org.springframework.stereotype.Service;
@@ -127,21 +127,21 @@ public class OauthIpServiceImpl implements OauthIpService {
     }
 
     @Override
-    public IPage<OauthIp> pageOauthIpInfo(OauthIpRequest oauthIpRequest) {
+    public IPage<OauthIp> pageOauthIpInfo(OauthIpDTO oauthIpDTO) {
 
         LambdaQueryWrapper<OauthIp> oauthIpLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_INFO);
 
-        if (!StringUtil.isEmpty(oauthIpRequest.getClientId())) {
-            oauthIpLambdaQueryWrapper.eq(OauthIp::getClientId, oauthIpRequest.getClientId());
+        if (!StringUtil.isEmpty(oauthIpDTO.getClientId())) {
+            oauthIpLambdaQueryWrapper.eq(OauthIp::getClientId, oauthIpDTO.getClientId());
         }
-        if (!StringUtil.isEmpty(oauthIpRequest.getContent())) {
+        if (!StringUtil.isEmpty(oauthIpDTO.getContent())) {
             oauthIpLambdaQueryWrapper.and(
-                    wrapper -> wrapper.like(OauthIp::getIp, oauthIpRequest.getContent())
+                    wrapper -> wrapper.like(OauthIp::getIp, oauthIpDTO.getContent())
                             .or()
-                            .like(OauthIp::getDescription, oauthIpRequest.getContent())
+                            .like(OauthIp::getDescription, oauthIpDTO.getContent())
             );
         }
 
-        return oauthIpMapper.selectPage(new Page<>(oauthIpRequest.getPageNum(), oauthIpRequest.getPageSize()), oauthIpLambdaQueryWrapper);
+        return oauthIpMapper.selectPage(new Page<>(oauthIpDTO.getPageNum(), oauthIpDTO.getPageSize()), oauthIpLambdaQueryWrapper);
     }
 }

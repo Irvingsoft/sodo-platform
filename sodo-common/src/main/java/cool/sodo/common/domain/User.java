@@ -66,6 +66,8 @@ public class User implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Date loginAt;
 
+    private String loginIp;
+
     @TableField(exist = false)
     private List<String> codeList;
 

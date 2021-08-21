@@ -2,7 +2,7 @@ package cool.sodo.log.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import cool.sodo.common.domain.LogBusiness;
-import cool.sodo.log.entity.LogBusinessRequest;
+import cool.sodo.log.entity.LogBusinessDTO;
 
 public interface LogBusinessService {
 
@@ -19,8 +19,8 @@ public interface LogBusinessService {
     /**
      * 分页查询 LogBusiness
      *
-     * @param logBusinessRequest LogBusiness 多条件查询实体
+     * @param logBusinessDTO LogBusiness 多条件查询实体
      * @return com.baomidou.mybatisplus.core.metadata.IPage<cool.sodo.common.domain.LogBusiness>
      */
-    IPage<LogBusiness> pageLogBusinessBase(LogBusinessRequest logBusinessRequest);
+    IPage<LogBusiness> pageLogBusinessBase(LogBusinessDTO logBusinessDTO);
 }

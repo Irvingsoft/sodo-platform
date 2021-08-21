@@ -9,7 +9,7 @@ import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.AsyncException;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.util.StringUtil;
-import cool.sodo.log.entity.LogErrorRequest;
+import cool.sodo.log.entity.LogErrorDTO;
 import cool.sodo.log.mapper.LogErrorMapper;
 import cool.sodo.log.service.LogErrorService;
 import org.springframework.stereotype.Service;
@@ -74,59 +74,59 @@ public class LogErrorServiceImpl implements LogErrorService {
     }
 
     @Override
-    public IPage<LogError> pageLogErrorBase(LogErrorRequest logErrorRequest) {
+    public IPage<LogError> pageLogErrorBase(LogErrorDTO logErrorDTO) {
 
         LambdaQueryWrapper<LogError> logErrorLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_BASE);
 
-        if (!StringUtil.isEmpty(logErrorRequest.getServiceId())) {
-            logErrorLambdaQueryWrapper.eq(LogError::getServiceId, logErrorRequest.getServiceId());
+        if (!StringUtil.isEmpty(logErrorDTO.getServiceId())) {
+            logErrorLambdaQueryWrapper.eq(LogError::getServiceId, logErrorDTO.getServiceId());
         }
-        if (!StringUtil.isEmpty(logErrorRequest.getClientId())) {
-            logErrorLambdaQueryWrapper.eq(LogError::getClientId, logErrorRequest.getClientId());
+        if (!StringUtil.isEmpty(logErrorDTO.getClientId())) {
+            logErrorLambdaQueryWrapper.eq(LogError::getClientId, logErrorDTO.getClientId());
         }
-        if (!StringUtil.isEmpty(logErrorRequest.getUserId())) {
-            logErrorLambdaQueryWrapper.eq(LogError::getUserId, logErrorRequest.getUserId());
+        if (!StringUtil.isEmpty(logErrorDTO.getUserId())) {
+            logErrorLambdaQueryWrapper.eq(LogError::getUserId, logErrorDTO.getUserId());
         }
-        if (!StringUtil.isEmpty(logErrorRequest.getRequestId())) {
-            logErrorLambdaQueryWrapper.eq(LogError::getRequestId, logErrorRequest.getRequestId());
+        if (!StringUtil.isEmpty(logErrorDTO.getRequestId())) {
+            logErrorLambdaQueryWrapper.eq(LogError::getRequestId, logErrorDTO.getRequestId());
         }
-        if (!StringUtil.isEmpty(logErrorRequest.getRequestMethod())) {
-            logErrorLambdaQueryWrapper.eq(LogError::getRequestMethod, logErrorRequest.getRequestMethod());
+        if (!StringUtil.isEmpty(logErrorDTO.getRequestMethod())) {
+            logErrorLambdaQueryWrapper.eq(LogError::getRequestMethod, logErrorDTO.getRequestMethod());
         }
-        if (!StringUtil.isEmpty(logErrorRequest.getContent())) {
-            logErrorLambdaQueryWrapper.and(wrapper -> wrapper.like(LogError::getStackTrace, logErrorRequest.getContent())
+        if (!StringUtil.isEmpty(logErrorDTO.getContent())) {
+            logErrorLambdaQueryWrapper.and(wrapper -> wrapper.like(LogError::getStackTrace, logErrorDTO.getContent())
                     .or()
-                    .like(LogError::getExceptionName, logErrorRequest.getContent())
+                    .like(LogError::getExceptionName, logErrorDTO.getContent())
                     .or()
-                    .like(LogError::getMessage, logErrorRequest.getContent())
+                    .like(LogError::getMessage, logErrorDTO.getContent())
                     .or()
-                    .like(LogError::getFileName, logErrorRequest.getContent())
+                    .like(LogError::getFileName, logErrorDTO.getContent())
                     .or()
-                    .like(LogError::getLineNum, logErrorRequest.getContent())
+                    .like(LogError::getLineNum, logErrorDTO.getContent())
                     .or()
-                    .like(LogError::getParams, logErrorRequest.getContent())
+                    .like(LogError::getParams, logErrorDTO.getContent())
                     .or()
-                    .like(LogError::getServiceHost, logErrorRequest.getContent())
+                    .like(LogError::getServiceHost, logErrorDTO.getContent())
                     .or()
-                    .like(LogError::getSystemName, logErrorRequest.getContent())
+                    .like(LogError::getSystemName, logErrorDTO.getContent())
                     .or()
-                    .like(LogError::getBrowserName, logErrorRequest.getContent())
+                    .like(LogError::getBrowserName, logErrorDTO.getContent())
                     .or()
-                    .like(LogError::getRequestUrl, logErrorRequest.getContent())
+                    .like(LogError::getRequestUrl, logErrorDTO.getContent())
                     .or()
-                    .like(LogError::getClassName, logErrorRequest.getContent())
+                    .like(LogError::getClassName, logErrorDTO.getContent())
                     .or()
-                    .like(LogError::getMethodName, logErrorRequest.getContent()));
+                    .like(LogError::getMethodName, logErrorDTO.getContent()));
         }
-        if (!StringUtil.isEmpty(logErrorRequest.getCreateBegin())) {
-            logErrorLambdaQueryWrapper.ge(LogError::getCreateAt, logErrorRequest.getCreateBegin());
+        if (!StringUtil.isEmpty(logErrorDTO.getCreateBegin())) {
+            logErrorLambdaQueryWrapper.ge(LogError::getCreateAt, logErrorDTO.getCreateBegin());
         }
-        if (!StringUtil.isEmpty(logErrorRequest.getCreateEnd())) {
-            logErrorLambdaQueryWrapper.le(LogError::getCreateAt, logErrorRequest.getCreateEnd());
+        if (!StringUtil.isEmpty(logErrorDTO.getCreateEnd())) {
+            logErrorLambdaQueryWrapper.le(LogError::getCreateAt, logErrorDTO.getCreateEnd());
         }
 
         logErrorLambdaQueryWrapper.orderByDesc(LogError::getCreateAt);
-        return logErrorMapper.selectPage(new Page<>(logErrorRequest.getPageNum(), logErrorRequest.getPageSize()),
+        return logErrorMapper.selectPage(new Page<>(logErrorDTO.getPageNum(), logErrorDTO.getPageSize()),
                 logErrorLambdaQueryWrapper);
     }
 }

@@ -4,7 +4,7 @@ import cool.sodo.common.annotation.CurrentUser;
 import cool.sodo.common.domain.OauthClient;
 import cool.sodo.common.domain.User;
 import cool.sodo.common.entity.Result;
-import cool.sodo.housekeeper.entity.OauthClientRequest;
+import cool.sodo.housekeeper.entity.OauthClientDTO;
 import cool.sodo.housekeeper.service.OauthClientService;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,9 +51,9 @@ public class OauthClientController {
     }
 
     @PostMapping(value = "page")
-    public Result pageOauthClientInfo(@RequestBody OauthClientRequest oauthClientRequest) {
+    public Result pageOauthClientInfo(@RequestBody OauthClientDTO oauthClientDTO) {
 
-        return Result.success(oauthClientService.pageOauthClientInfo(oauthClientRequest));
+        return Result.success(oauthClientService.pageOauthClientInfo(oauthClientDTO));
     }
 
     @GetMapping(value = "list/use")

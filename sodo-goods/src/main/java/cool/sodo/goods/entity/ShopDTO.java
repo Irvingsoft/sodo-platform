@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class ShopRequest implements Serializable {
+public class ShopDTO implements Serializable {
 
     private String schoolId;
     private String categoryId;
