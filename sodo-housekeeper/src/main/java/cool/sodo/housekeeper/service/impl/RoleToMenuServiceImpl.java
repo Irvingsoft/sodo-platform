@@ -9,12 +9,14 @@ import cool.sodo.common.mapper.CommonRoleToMenuMapper;
 import cool.sodo.common.service.impl.CommonRoleToMenuServiceImpl;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.housekeeper.service.RoleToMenuService;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
+@Primary
 public class RoleToMenuServiceImpl extends CommonRoleToMenuServiceImpl implements RoleToMenuService {
 
     @Resource

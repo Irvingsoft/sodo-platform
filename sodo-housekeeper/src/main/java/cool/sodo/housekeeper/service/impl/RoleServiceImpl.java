@@ -15,6 +15,7 @@ import cool.sodo.housekeeper.entity.RoleVO;
 import cool.sodo.housekeeper.service.RoleService;
 import cool.sodo.housekeeper.service.RoleToMenuService;
 import cool.sodo.housekeeper.service.UserToRoleService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

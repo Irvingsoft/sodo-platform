@@ -9,12 +9,14 @@ import cool.sodo.common.mapper.CommonUserToRoleMapper;
 import cool.sodo.common.service.impl.CommonUserToRoleServiceImpl;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.housekeeper.service.UserToRoleService;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
+@Primary
 public class UserToRoleServiceImpl extends CommonUserToRoleServiceImpl implements UserToRoleService {
 
     @Resource
