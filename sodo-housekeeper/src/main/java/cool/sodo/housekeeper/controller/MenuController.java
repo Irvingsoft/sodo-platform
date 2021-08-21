@@ -4,7 +4,6 @@ import cool.sodo.common.annotation.CurrentUser;
 import cool.sodo.common.domain.Menu;
 import cool.sodo.common.domain.User;
 import cool.sodo.common.entity.Result;
-import cool.sodo.common.service.CommonRoleService;
 import cool.sodo.housekeeper.entity.MenuDTO;
 import cool.sodo.housekeeper.service.MenuService;
 import org.springframework.web.bind.annotation.*;
@@ -19,20 +18,10 @@ public class MenuController {
 
     @Resource
     private MenuService menuService;
-    @Resource
-    private CommonRoleService roleService;
 
     @GetMapping(value = "tree/{clientId}")
     public Result treeMenu(@PathVariable String clientId) {
         return Result.success(menuService.treeMenu(clientId));
-    }
-
-    // TODO client
-    @GetMapping(value = "tree/grant")
-    public Result treeMenu(@CurrentUser User user) {
-
-        List<String> roleIdList = roleService.listRoleRoleId(user.getUserId());
-        return Result.success(menuService.treeMenu(roleIdList));
     }
 
     @PostMapping(value = "list")
@@ -40,8 +29,7 @@ public class MenuController {
         return Result.success(menuService.listMenu(menuDTO));
     }
 
-    // TODO list/{roleId}
-    @GetMapping(value = "list/grant/{roleId}")
+    @GetMapping(value = "list/{roleId}")
     public Result listMenu(@PathVariable String roleId) {
         return Result.success(menuService.listMenu(roleId));
     }

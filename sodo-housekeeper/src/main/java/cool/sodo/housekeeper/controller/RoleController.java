@@ -25,17 +25,12 @@ public class RoleController {
         return Result.success(roleService.treeRoleByClient(clientId));
     }
 
-    @GetMapping(value = "tree/grant")
-    public Result treeRole(@CurrentUser User user) {
-        return Result.success(roleService.treeRoleByUser(user.getUserId()));
-    }
-
     @PostMapping(value = "list")
     public Result listRole(@RequestBody @Valid RoleDTO roleDTO) {
         return Result.success(roleService.listRole(roleDTO));
     }
 
-    @GetMapping(value = "list/grant/{userId}")
+    @GetMapping(value = "list/{userId}")
     public Result listRole(@PathVariable String userId) {
         return Result.success(roleService.listRole(userId));
     }

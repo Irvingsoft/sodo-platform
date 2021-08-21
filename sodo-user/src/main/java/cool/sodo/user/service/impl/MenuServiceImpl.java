@@ -3,14 +3,14 @@ package cool.sodo.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.Menu;
+import cool.sodo.common.mapper.CommonMenuMapper;
+import cool.sodo.common.service.CommonRoleToMenuService;
 import cool.sodo.common.util.BeanUtil;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.node.ForestNodeMerger;
 import cool.sodo.user.common.Constants;
 import cool.sodo.user.entity.MenuVO;
-import cool.sodo.user.mapper.MenuMapper;
 import cool.sodo.user.service.MenuService;
-import cool.sodo.user.service.RoleToMenuService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 public class MenuServiceImpl implements MenuService {
 
     @Resource
-    private MenuMapper menuMapper;
+    private CommonMenuMapper menuMapper;
     @Resource
-    private RoleToMenuService roleToMenuService;
+    private CommonRoleToMenuService roleToMenuService;
 
     private LambdaQueryWrapper<Menu> generateQueryWrapperInUse() {
         return Wrappers.lambdaQuery();

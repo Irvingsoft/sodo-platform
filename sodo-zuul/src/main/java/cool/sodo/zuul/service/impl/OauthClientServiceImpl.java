@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.OauthClient;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.mapper.CommonOauthClientMapper;
 import cool.sodo.common.util.StringUtil;
-import cool.sodo.zuul.mapper.OauthClientMapper;
 import cool.sodo.zuul.service.OauthClientService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class OauthClientServiceImpl implements OauthClientService {
     public static final int SELECT_BASE = 1;
 
     @Resource
-    private OauthClientMapper oauthClientMapper;
+    private CommonOauthClientMapper oauthClientMapper;
 
     private LambdaQueryWrapper<OauthClient> generateSelectQueryWrapper(int type) {
 

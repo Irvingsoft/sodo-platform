@@ -13,6 +13,7 @@ import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.AsyncException;
 import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.mapper.CommonUserMapper;
 import cool.sodo.common.service.CommonOauthClientService;
 import cool.sodo.common.util.RsaUtil;
 import cool.sodo.common.util.StringUtil;
@@ -21,7 +22,6 @@ import cool.sodo.user.entity.PasswordDTO;
 import cool.sodo.user.entity.UserInsertRequest;
 import cool.sodo.user.entity.UserRequest;
 import cool.sodo.user.entity.UserUpdateRequest;
-import cool.sodo.user.mapper.UserMapper;
 import cool.sodo.user.service.UserService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     public static final int SELECT_INFO = 2;
 
     @Resource
-    private UserMapper userMapper;
+    private CommonUserMapper userMapper;
     @Resource
     private RedisCacheHelper redisCacheHelper;
     @Resource

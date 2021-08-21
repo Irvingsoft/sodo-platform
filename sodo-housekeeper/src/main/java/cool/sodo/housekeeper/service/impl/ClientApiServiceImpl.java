@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.ClientApi;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.mapper.CommonClientApiMapper;
 import cool.sodo.common.util.StringUtil;
-import cool.sodo.housekeeper.mapper.ClientApiMapper;
 import cool.sodo.housekeeper.service.ClientApiService;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class ClientApiServiceImpl implements ClientApiService {
     public static final String ERROR_SELECT = "ClientApi 不存在！";
 
     @Resource
-    private ClientApiMapper clientApiMapper;
+    private CommonClientApiMapper clientApiMapper;
 
     @Override
     public void insertClientApi(ClientApi clientApi) {

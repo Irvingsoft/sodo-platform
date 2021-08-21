@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.RoleToMenu;
 import cool.sodo.common.mapper.CommonRoleToMenuMapper;
 import cool.sodo.common.service.CommonRoleToMenuService;
+import cool.sodo.common.util.StringUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +21,9 @@ public class CommonRoleToMenuServiceImpl implements CommonRoleToMenuService {
     @Override
     public List<String> listRoleToMenuMenuIdByRole(List<String> roleIdList) {
 
+        if (StringUtil.isEmpty(roleIdList)) {
+            return null;
+        }
         LambdaQueryWrapper<RoleToMenu> roleToMenuLambdaQueryWrapper = Wrappers.lambdaQuery();
         roleToMenuLambdaQueryWrapper.select(RoleToMenu::getMenuId)
                 .in(RoleToMenu::getRoleId, roleIdList);

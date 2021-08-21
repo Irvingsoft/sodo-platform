@@ -7,10 +7,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cool.sodo.common.domain.OauthClient;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.mapper.CommonOauthClientMapper;
 import cool.sodo.common.service.CommonUserService;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.housekeeper.entity.OauthClientDTO;
-import cool.sodo.housekeeper.mapper.OauthClientMapper;
 import cool.sodo.housekeeper.service.ClientApiService;
 import cool.sodo.housekeeper.service.OauthClientService;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class OauthClientServiceImpl implements OauthClientService {
     public static final int SELECT_INFO = 2;
 
     @Resource
-    private OauthClientMapper oauthClientMapper;
+    private CommonOauthClientMapper oauthClientMapper;
     @Resource
     private ClientApiService clientApiService;
     @Resource

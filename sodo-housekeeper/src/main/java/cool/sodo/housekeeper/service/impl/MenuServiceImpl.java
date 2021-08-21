@@ -5,15 +5,15 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.Menu;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
-import cool.sodo.common.service.CommonRoleToMenuService;
+import cool.sodo.common.mapper.CommonMenuMapper;
 import cool.sodo.common.util.BeanUtil;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.node.ForestNodeMerger;
 import cool.sodo.housekeeper.common.Constants;
 import cool.sodo.housekeeper.entity.MenuDTO;
 import cool.sodo.housekeeper.entity.MenuVO;
-import cool.sodo.housekeeper.mapper.MenuMapper;
 import cool.sodo.housekeeper.service.MenuService;
+import cool.sodo.housekeeper.service.RoleToMenuService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,9 +32,9 @@ public class MenuServiceImpl implements MenuService {
     public static final int SELECT_OTHER = 2;
 
     @Resource
-    private MenuMapper menuMapper;
+    private CommonMenuMapper menuMapper;
     @Resource
-    private CommonRoleToMenuService roleToMenuService;
+    private RoleToMenuService roleToMenuService;
 
     private LambdaQueryWrapper<Menu> generateSelectQueryWrapper(int type) {
 
@@ -86,11 +86,15 @@ public class MenuServiceImpl implements MenuService {
         if (menuMapper.deleteById(menuId) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 Menu 记录失败！");
         }
+        roleToMenuService.deleteByMenu(menuId);
     }
 
     @Override
     public void deleteMenu(List<String> menuIdList, String userId) {
 
+        if (StringUtil.isEmpty(menuIdList)) {
+            return;
+        }
         for (String menuId : menuIdList) {
             Menu menu = getMenu(menuId);
             menu.delete(userId);
@@ -99,6 +103,7 @@ public class MenuServiceImpl implements MenuService {
         if (menuMapper.deleteBatchIds(menuIdList) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 Menu 记录失败！");
         }
+        roleToMenuService.deleteByMenu(menuIdList);
     }
 
     @Override
@@ -149,6 +154,9 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<MenuVO> treeMenu(List<String> roleIdList) {
 
+        if (StringUtil.isEmpty(roleIdList)) {
+            return null;
+        }
         List<String> menuIdList = roleToMenuService.listRoleToMenuMenuIdByRole(roleIdList);
         if (StringUtil.isEmpty(menuIdList)) {
             return null;
@@ -161,6 +169,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<String> listMenu(String roleId) {
+
         List<String> menuIdList = roleToMenuService.listRoleToMenuMenuIdByRole(roleId);
         if (StringUtil.isEmpty(menuIdList)) {
             return null;

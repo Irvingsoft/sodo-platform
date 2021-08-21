@@ -6,15 +6,15 @@ import cool.sodo.common.domain.Role;
 import cool.sodo.common.domain.RoleToMenu;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
-import cool.sodo.common.service.CommonUserToRoleService;
+import cool.sodo.common.mapper.CommonRoleMapper;
 import cool.sodo.common.util.BeanUtil;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.node.ForestNodeMerger;
 import cool.sodo.housekeeper.entity.RoleDTO;
 import cool.sodo.housekeeper.entity.RoleVO;
-import cool.sodo.housekeeper.mapper.RoleMapper;
 import cool.sodo.housekeeper.service.RoleService;
 import cool.sodo.housekeeper.service.RoleToMenuService;
+import cool.sodo.housekeeper.service.UserToRoleService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,11 +30,11 @@ public class RoleServiceImpl implements RoleService {
     public static final int SELECT_OTHER = 2;
 
     @Resource
-    private RoleMapper roleMapper;
+    private CommonRoleMapper roleMapper;
     @Resource
     private RoleToMenuService roleToMenuService;
     @Resource
-    private CommonUserToRoleService userToRoleService;
+    private UserToRoleService userToRoleService;
 
     private LambdaQueryWrapper<Role> generateSelectQueryWrapper(int type) {
 
@@ -84,11 +84,16 @@ public class RoleServiceImpl implements RoleService {
         if (roleMapper.deleteById(roleId) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 Role 记录失败！");
         }
+        userToRoleService.deleteByRole(roleId);
+        roleToMenuService.deleteByRole(roleId);
     }
 
     @Override
     public void deleteRole(List<String> roleIdList, String userId) {
 
+        if (StringUtil.isEmpty(roleIdList)) {
+            return;
+        }
         for (String roleId : roleIdList) {
             Role role = getRole(roleId);
             role.delete(userId);
@@ -97,6 +102,8 @@ public class RoleServiceImpl implements RoleService {
         if (roleMapper.deleteBatchIds(roleIdList) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 Role 记录失败！");
         }
+        userToRoleService.deleteByRole(roleIdList);
+        roleToMenuService.deleteByRole(roleIdList);
     }
 
     @Override

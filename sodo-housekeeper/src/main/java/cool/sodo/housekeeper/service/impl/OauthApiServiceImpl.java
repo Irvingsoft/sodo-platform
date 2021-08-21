@@ -9,10 +9,10 @@ import cool.sodo.common.domain.OauthApi;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.AsyncException;
 import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.mapper.CommonOauthApiMapper;
 import cool.sodo.common.service.CommonUserService;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.housekeeper.entity.OauthApiDTO;
-import cool.sodo.housekeeper.mapper.OauthApiMapper;
 import cool.sodo.housekeeper.service.ClientApiService;
 import cool.sodo.housekeeper.service.OauthApiService;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public class OauthApiServiceImpl implements OauthApiService {
     public static final int SELECT_REQUEST_NUM = 3;
 
     @Resource
-    private OauthApiMapper oauthApiMapper;
+    private CommonOauthApiMapper oauthApiMapper;
     @Resource
     private ClientApiService clientApiService;
     @Resource
