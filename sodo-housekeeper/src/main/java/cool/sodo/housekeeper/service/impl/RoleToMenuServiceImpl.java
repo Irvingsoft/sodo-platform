@@ -23,10 +23,13 @@ public class RoleToMenuServiceImpl extends CommonRoleToMenuServiceImpl implement
     private CommonRoleToMenuMapper roleToMenuMapper;
 
     @Override
-    public void insert(List<RoleToMenu> roleToMenuList) {
+    public void insertByRole(String roleId, List<String> menuIdList) {
 
-        for (RoleToMenu roleToMenu : roleToMenuList) {
-            if (roleToMenuMapper.insert(roleToMenu) <= 0) {
+        if (StringUtil.isEmpty(menuIdList)) {
+            return;
+        }
+        for (String menuId : menuIdList) {
+            if (roleToMenuMapper.insert(new RoleToMenu(roleId, menuId)) <= 0) {
                 throw new SoDoException(ResultEnum.SERVER_ERROR, "新增 RoleToMenu 失败！");
             }
         }

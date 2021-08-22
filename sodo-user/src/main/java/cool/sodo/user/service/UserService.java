@@ -1,10 +1,8 @@
 package cool.sodo.user.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import cool.sodo.common.domain.User;
 import cool.sodo.user.entity.PasswordDTO;
 import cool.sodo.user.entity.UserInsertRequest;
-import cool.sodo.user.entity.UserRequest;
 import cool.sodo.user.entity.UserUpdateRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,10 +22,6 @@ public interface UserService {
     User getUserBase(String id);
 
     User getUserGeneral(String id);
-
-    User getUserInfo(String id);
-
-    IPage<User> pageUserBase(UserRequest userRequest);
 
     boolean validateUsername(String username);
 

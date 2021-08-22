@@ -3,7 +3,6 @@ package cool.sodo.housekeeper.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.Role;
-import cool.sodo.common.domain.RoleToMenu;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.mapper.CommonRoleMapper;
@@ -15,11 +14,9 @@ import cool.sodo.housekeeper.entity.RoleVO;
 import cool.sodo.housekeeper.service.RoleService;
 import cool.sodo.housekeeper.service.RoleToMenuService;
 import cool.sodo.housekeeper.service.UserToRoleService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -201,12 +198,8 @@ public class RoleServiceImpl implements RoleService {
             return;
         }
         roleToMenuService.deleteByRole(roleIdList);
-        ArrayList<RoleToMenu> roleToMenuList = new ArrayList<>();
         for (String roleId : roleIdList) {
-            for (String menuId : menuIdList) {
-                roleToMenuList.add(new RoleToMenu(roleId, menuId));
-            }
+            roleToMenuService.insertByRole(roleId, menuIdList);
         }
-        roleToMenuService.insert(roleToMenuList);
     }
 }

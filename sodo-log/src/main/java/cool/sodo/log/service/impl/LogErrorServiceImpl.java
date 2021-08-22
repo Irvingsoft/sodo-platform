@@ -12,6 +12,7 @@ import cool.sodo.common.util.StringUtil;
 import cool.sodo.log.entity.LogErrorDTO;
 import cool.sodo.log.mapper.LogErrorMapper;
 import cool.sodo.log.service.LogErrorService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -54,8 +55,10 @@ public class LogErrorServiceImpl implements LogErrorService {
     }
 
     @Override
+    @Async
     public void insertLogErrorByAsync(LogError logError) {
 
+        System.out.println(logError);
         if (logErrorMapper.insert(logError) <= 0) {
             throw new AsyncException(ERROR_INSERT_ASYNC);
         }

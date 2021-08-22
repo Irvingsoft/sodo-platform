@@ -81,20 +81,6 @@ public class UserController {
         return Result.success();
     }
 
-    @GetMapping(value = "{id}")
-    @ApiOperation(value = "查询用户详情信息", notes = "根据 ID 查询用户详情信息")
-    public Result getUserInfo(@PathVariable String id) {
-
-        return Result.success(userService.getUserInfo(id));
-    }
-
-    @PostMapping(value = "page")
-    @ApiOperation(value = "分页查询用户基本信息", notes = "多条件分页查询用户基本信息")
-    public Result pageUserBase(@RequestBody UserRequest userRequest) {
-
-        return Result.success(userService.pageUserBase(userRequest));
-    }
-
     @GetMapping(value = "username/{username}")
     public Result checkUserName(@PathVariable String username) {
 

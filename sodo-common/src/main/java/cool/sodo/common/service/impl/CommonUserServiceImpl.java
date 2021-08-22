@@ -35,12 +35,13 @@ public class CommonUserServiceImpl implements CommonUserService {
 
         switch (type) {
             case SELECT_IDENTITY:
-                userLambdaQueryWrapper.select(User::getUserId, User::getUsername, User::getPassword
-                        , User::getSalt, User::getOpenId, User::getUnionId, User::getClientId, User::getStatus);
+                userLambdaQueryWrapper.select(User::getUserId, User::getUsername, User::getPassword,
+                        User::getSalt, User::getOpenId, User::getUnionId, User::getClientId, User::getPhone,
+                        User::getEmail, User::getStatus);
                 break;
             case SELECT_BASE:
                 userLambdaQueryWrapper.select(User::getUserId, User::getNickname, User::getAvatarUrl
-                        , User::getDescription, User::getGender, User::getStatus);
+                        , User::getDescription, User::getGender);
                 break;
             default:
                 break;
@@ -70,7 +71,9 @@ public class CommonUserServiceImpl implements CommonUserService {
                 .or()
                 .eq(User::getOpenId, identity)
                 .or()
-                .eq(User::getPhone, identity);
+                .eq(User::getPhone, identity)
+                .or()
+                .eq(User::getEmail, identity);
         User user = commonUserMapper.selectOne(userLambdaQueryWrapper);
         if (user == null) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT, identity);
@@ -79,4 +82,12 @@ public class CommonUserServiceImpl implements CommonUserService {
         user.setCodeList(menuService.listMenuCode(roleIdList));
         return user;
     }
+
+    @Override
+    public void checkUserUniqueness(User user) {
+
+
+    }
+
+
 }

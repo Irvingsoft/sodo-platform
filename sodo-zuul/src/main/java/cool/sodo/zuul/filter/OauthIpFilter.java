@@ -58,16 +58,20 @@ public class OauthIpFilter extends ZuulFilter {
 
         RequestContext currentContext = RequestContext.getCurrentContext();
         HttpServletRequest request = currentContext.getRequest();
-        if (PatternMatchUtils.simpleMatch(cool.sodo.zuul.common.Constants.CLIENT_IGNORE, request.getRequestURI())) {
+        if (isSkip(request)) {
             return null;
         }
 
         String clientId = WebUtil.getHeader(request, Constants.CLIENT_ID);
         String ip = WebUtil.getIp(request);
-        if (!oauthIpService.validOauthIp(clientId, ip)) {
+        if (!oauthIpService.validateOauthIp(clientId, ip)) {
             currentContext.setResponseStatusCode(ResultEnum.INVALID_IP.getCode());
             throw new SoDoException(ResultEnum.INVALID_IP, ERROR_IP);
         }
         return null;
+    }
+
+    private Boolean isSkip(HttpServletRequest request) {
+        return PatternMatchUtils.simpleMatch(cool.sodo.zuul.common.Constants.CLIENT_IGNORE, request.getRequestURI());
     }
 }

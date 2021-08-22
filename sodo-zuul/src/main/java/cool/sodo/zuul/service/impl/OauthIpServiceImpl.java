@@ -40,7 +40,7 @@ public class OauthIpServiceImpl implements OauthIpService {
     }
 
     @Override
-    public boolean validOauthIp(String clientId, String ip) {
+    public boolean validateOauthIp(String clientId, String ip) {
 
         if (StringUtil.isEmpty(ip)) {
             return false;

@@ -121,6 +121,8 @@ logging:
 sodo:
   xss:
     enabled: true
+    url:
+      excludePatterns: /**/v2/api-docs
 ribbon:
   ReadTimeout: 60000
   ConnectTimeout: 60000

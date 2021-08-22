@@ -1,5 +1,6 @@
 package cool.sodo.zuul.filter;
 
+import cool.sodo.zuul.common.Constants;
 import cool.sodo.zuul.support.xss.XssHttpServletRequestWrapper;
 import cool.sodo.zuul.support.xss.XssProperties;
 import cool.sodo.zuul.support.xss.XssUrlProperties;
@@ -9,6 +10,8 @@ import org.springframework.util.AntPathMatcher;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * XSS过滤

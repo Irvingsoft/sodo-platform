@@ -11,6 +11,7 @@ import cool.sodo.common.util.StringUtil;
 import cool.sodo.log.entity.LogBusinessDTO;
 import cool.sodo.log.mapper.LogBusinessMapper;
 import cool.sodo.log.service.LogBusinessService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -53,6 +54,7 @@ public class LogBusinessServiceImpl implements LogBusinessService {
     }
 
     @Override
+    @Async
     public void insertLogBusinessByAsync(LogBusiness logBusiness) {
 
         if (logBusinessMapper.insert(logBusiness) <= 0) {

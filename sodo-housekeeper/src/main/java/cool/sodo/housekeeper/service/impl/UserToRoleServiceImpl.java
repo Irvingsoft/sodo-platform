@@ -23,6 +23,42 @@ public class UserToRoleServiceImpl extends CommonUserToRoleServiceImpl implement
     private CommonUserToRoleMapper userToRoleMapper;
 
     @Override
+    public void insertByUser(String userId, List<String> roleIdList) {
+
+        if (StringUtil.isEmpty(roleIdList)) {
+            return;
+        }
+        for (String roleId : roleIdList) {
+            if (userToRoleMapper.insert(new UserToRole(userId, roleId)) <= 0) {
+                throw new SoDoException(ResultEnum.SERVER_ERROR, "新增 UserToRole 失败！");
+            }
+        }
+    }
+
+    @Override
+    public void deleteByUser(String userId) {
+
+        LambdaQueryWrapper<UserToRole> userToRoleLambdaQueryWrapper = Wrappers.lambdaQuery();
+        userToRoleLambdaQueryWrapper.eq(UserToRole::getUserId, userId);
+        if (userToRoleMapper.delete(userToRoleLambdaQueryWrapper) < 0) {
+            throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 UserToRole 记录失败！");
+        }
+    }
+
+    @Override
+    public void deleteByUser(List<String> userIdList) {
+
+        if (StringUtil.isEmpty(userIdList)) {
+            return;
+        }
+        LambdaQueryWrapper<UserToRole> userToRoleLambdaQueryWrapper = Wrappers.lambdaQuery();
+        userToRoleLambdaQueryWrapper.in(UserToRole::getUserId, userIdList);
+        if (userToRoleMapper.delete(userToRoleLambdaQueryWrapper) < 0) {
+            throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 UserToRole 记录失败！");
+        }
+    }
+
+    @Override
     public void deleteByRole(String roleId) {
 
         LambdaQueryWrapper<UserToRole> userToRoleLambdaQueryWrapper = Wrappers.lambdaQuery();

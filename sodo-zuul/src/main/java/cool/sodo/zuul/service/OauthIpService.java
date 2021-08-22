@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface OauthIpService {
 
-    boolean validOauthIp(String clientId, String ip);
+    boolean validateOauthIp(String clientId, String ip);
 
     List<OauthIp> listOauthIpValidIdentityByClient(String clientId);
 

@@ -36,7 +36,7 @@ public class CommonOauthClientServiceImpl implements CommonOauthClientService {
         LambdaQueryWrapper<OauthClient> oauthClientLambdaQueryWrapper = Wrappers.lambdaQuery();
         oauthClientLambdaQueryWrapper.eq(OauthClient::getClientId, clientId)
                 .select(OauthClient::getClientId, OauthClient::getClientSecret, OauthClient::getInUse,
-                        OauthClient::getRegister, OauthClient::getCaptcha, OauthClient::getUserStatus,
+                        OauthClient::getRegister, OauthClient::getCaptcha, OauthClient::getSignature, OauthClient::getUserStatus,
                         OauthClient::getTokenExpire, OauthClient::getRedirectUri, OauthClient::getUserStatus);
         OauthClient oauthClient = commonOauthClientMapper.selectOne(oauthClientLambdaQueryWrapper);
         if (StringUtil.isEmpty(oauthClient)) {

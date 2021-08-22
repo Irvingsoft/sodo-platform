@@ -1,7 +1,11 @@
 package cool.sodo.housekeeper;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.OauthApi;
+import cool.sodo.common.domain.User;
+import cool.sodo.common.mapper.CommonUserMapper;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.housekeeper.entity.OauthApiDTO;
 import cool.sodo.housekeeper.service.OauthApiService;
@@ -10,12 +14,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 public class HousekeeperApplicationTest {
 
     @Resource
     private OauthApiService oauthApiService;
+    @Resource
+    private CommonUserMapper userMapper;
 
     /**
      * org.springframework.util.StringUtil 可以判断对象是否为空
@@ -71,5 +78,17 @@ public class HousekeeperApplicationTest {
 //        System.out.println(nullList.isEmpty());
         System.out.println(StringUtil.isEmpty(emptyList));
         System.out.println(emptyList.isEmpty());
+    }
+
+    @Test
+    public void testFor() {
+
+        LambdaQueryWrapper<User> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+        userLambdaQueryWrapper.eq(User::getUserId, "aaa");
+        List<User> userList = userMapper.selectList(userLambdaQueryWrapper);
+        for (User user : userList) {
+            user.setRoleIdList(new ArrayList<>());
+        }
+        System.out.println(userList);
     }
 }

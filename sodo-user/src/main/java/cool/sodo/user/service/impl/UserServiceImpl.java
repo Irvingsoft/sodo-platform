@@ -208,54 +208,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserInfo(String id) {
-
-        LambdaQueryWrapper<User> userLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_INFO);
-        userLambdaQueryWrapper.eq(User::getUserId, id);
-        User user = userMapper.selectOne(userLambdaQueryWrapper);
-        if (user == null) {
-            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
-        }
-        return user;
-    }
-
-    @Override
-    public IPage<User> pageUserBase(UserRequest userRequest) {
-
-        LambdaQueryWrapper<User> userLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_BASE);
-
-        if (!StringUtil.isEmpty(userRequest.getClientId())) {
-            userLambdaQueryWrapper.eq(User::getClientId, userRequest.getClientId());
-        }
-        if (!StringUtil.isEmpty(userRequest.getGender())) {
-            userLambdaQueryWrapper.eq(User::getGender, userRequest.getGender());
-        }
-        if (!StringUtil.isEmpty(userRequest.getStatus())) {
-            userLambdaQueryWrapper.eq(User::getStatus, userRequest.getStatus());
-        }
-        if (!StringUtil.isEmpty(userRequest.getProvince())) {
-            userLambdaQueryWrapper.eq(User::getProvince, userRequest.getProvince());
-        }
-        if (!StringUtil.isEmpty(userRequest.getCity())) {
-            userLambdaQueryWrapper.eq(User::getCity, userRequest.getCity());
-        }
-        if (!StringUtil.isEmpty(userRequest.getIdentity())) {
-            userLambdaQueryWrapper.and(wrapper -> wrapper.eq(User::getUsername, userRequest.getIdentity())
-                    .or()
-                    .eq(User::getOpenId, userRequest.getIdentity())
-                    .or()
-                    .eq(User::getPhone, userRequest.getIdentity()));
-        }
-        if (!StringUtil.isEmpty(userRequest.getContent())) {
-            userLambdaQueryWrapper.and(wrapper -> wrapper.eq(User::getNickname, userRequest.getContent())
-                    .or()
-                    .eq(User::getDescription, userRequest.getContent()));
-        }
-
-        return userMapper.selectPage(new Page<>(userRequest.getPageNum(), userRequest.getPageSize()), userLambdaQueryWrapper);
-    }
-
-    @Override
     public boolean validateUsername(String username) {
 
         LambdaQueryWrapper<User> userLambdaQueryWrapper = Wrappers.lambdaQuery();
@@ -283,10 +235,7 @@ public class UserServiceImpl implements UserService {
 
         String clientId = WebUtil.getHeader(request, Constants.CLIENT_ID);
         User user = userInsertRequest.toUser();
-        OauthClient oauthClient = oauthClientService.getOauthClientIdentity(clientId);
-        user.init();
-        user.setClientId(oauthClient.getClientId());
-        user.setStatus(oauthClient.getUserStatus());
+        user.init(oauthClientService.getOauthClientIdentity(clientId));
         return user;
     }
 

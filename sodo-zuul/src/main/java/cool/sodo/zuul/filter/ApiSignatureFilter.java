@@ -6,9 +6,9 @@ import cool.sodo.common.component.RedisCacheHelper;
 import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.service.CommonOauthClientService;
 import cool.sodo.common.util.HttpUtil;
 import cool.sodo.common.util.WebUtil;
-import cool.sodo.zuul.service.OauthClientService;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.PatternMatchUtils;
@@ -31,7 +31,7 @@ public class ApiSignatureFilter extends ZuulFilter {
     @Resource
     private RedisCacheHelper redisCacheHelper;
     @Resource
-    private OauthClientService oauthClientService;
+    private CommonOauthClientService oauthClientService;
 
     @Override
     public String filterType() {
@@ -80,25 +80,22 @@ public class ApiSignatureFilter extends ZuulFilter {
 
         RequestContext currentContext = RequestContext.getCurrentContext();
         HttpServletRequest request = currentContext.getRequest();
+        if (isSkip(request)) {
+            return null;
+        }
 
         String clientId = WebUtil.getHeader(request, Constants.CLIENT_ID);
-        if (!oauthClientService.isSignature(clientId)) {
-            return null;
-        }
-        if (PatternMatchUtils.simpleMatch(cool.sodo.zuul.common.Constants.SIGNATURE_IGNORE, request.getRequestURI())) {
-            return null;
-        }
-
-        if (!redisCacheHelper.hasKey(Constants.SIGNATURE_KEY_CACHE_PREFIX + request.getHeader(Constants.SIGNATURE_KEY))) {
-            currentContext.setResponseStatusCode(ResultEnum.INVALID_SIGNATURE.getCode());
-            throw new SoDoException(ResultEnum.INVALID_SIGNATURE, ERROR_SIGNATURE);
-        }
         String nonce = WebUtil.getHeader(request, Constants.NONCE);
         long timestamp = Long.parseLong(WebUtil.getHeader(request, Constants.TIMESTAMP));
         String body = HttpUtil.getBodyString(WebUtil.transformToContentCachingRequest(request));
         String signatureKey = (String) redisCacheHelper.get(Constants.SIGNATURE_KEY_CACHE_PREFIX + request.getHeader(Constants.SIGNATURE_KEY));
         String signature = WebUtil.getHeader(request, Constants.SIGNATURE);
 
+
+        if (!redisCacheHelper.hasKey(signatureKey)) {
+            currentContext.setResponseStatusCode(ResultEnum.INVALID_SIGNATURE.getCode());
+            throw new SoDoException(ResultEnum.INVALID_SIGNATURE, ERROR_SIGNATURE);
+        }
         if (System.currentTimeMillis() - timestamp > Constants.TIMESTAMP_EXPIRE) {
             currentContext.setResponseStatusCode(ResultEnum.BAD_REQUEST.getCode());
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_TIMESTAMP);
@@ -115,5 +112,10 @@ public class ApiSignatureFilter extends ZuulFilter {
 
         redisCacheHelper.set(Constants.NONCE_CACHE_PREFIX + nonce, signature, Constants.NONCE_CACHE_EXPIRE);
         return null;
+    }
+
+    private Boolean isSkip(HttpServletRequest request) {
+        return PatternMatchUtils.simpleMatch(cool.sodo.zuul.common.Constants.SIGNATURE_IGNORE, request.getRequestURI())
+                || oauthClientService.getOauthClientIdentity(WebUtil.getHeader(request, Constants.CLIENT_ID)).getSignature();
     }
 }

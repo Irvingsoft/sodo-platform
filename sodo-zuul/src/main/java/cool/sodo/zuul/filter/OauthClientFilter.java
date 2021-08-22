@@ -5,9 +5,9 @@ import com.netflix.zuul.context.RequestContext;
 import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.service.CommonOauthClientService;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.WebUtil;
-import cool.sodo.zuul.service.OauthClientService;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.util.PatternMatchUtils;
 
@@ -25,7 +25,7 @@ public class OauthClientFilter extends ZuulFilter {
     public static final String ERROR_CLIENT = "未知的客户端！";
 
     @Resource
-    private OauthClientService oauthClientService;
+    private CommonOauthClientService oauthClientService;
 
     @Override
     public String filterType() {
@@ -59,15 +59,23 @@ public class OauthClientFilter extends ZuulFilter {
 
         RequestContext currentContext = RequestContext.getCurrentContext();
         HttpServletRequest request = currentContext.getRequest();
-        if (PatternMatchUtils.simpleMatch(cool.sodo.zuul.common.Constants.CLIENT_IGNORE, request.getRequestURI())) {
+        if (isSkip(request)) {
             return null;
         }
 
         String clientId = WebUtil.getHeaderNullable(request, Constants.CLIENT_ID);
-        if (StringUtil.isEmpty(clientId) || !oauthClientService.isInUse(clientId)) {
+        if (StringUtil.isEmpty(clientId) || !validateOauthClientInUse(clientId)) {
             currentContext.setResponseStatusCode(ResultEnum.INVALID_CLIENT.getCode());
             throw new SoDoException(ResultEnum.INVALID_CLIENT, ERROR_CLIENT);
         }
         return null;
+    }
+
+    private Boolean isSkip(HttpServletRequest request) {
+        return PatternMatchUtils.simpleMatch(cool.sodo.zuul.common.Constants.CLIENT_IGNORE, request.getRequestURI());
+    }
+
+    private Boolean validateOauthClientInUse(String clientId) {
+        return oauthClientService.getOauthClientIdentity(clientId).getInUse();
     }
 }
