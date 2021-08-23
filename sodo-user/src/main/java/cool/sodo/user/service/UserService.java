@@ -1,5 +1,6 @@
 package cool.sodo.user.service;
 
+import cool.sodo.common.domain.OauthClient;
 import cool.sodo.common.domain.User;
 import cool.sodo.user.entity.PasswordDTO;
 import cool.sodo.user.entity.UserInsertRequest;
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface UserService {
 
-    void insertUser(User user);
+    void insertUser(User user, OauthClient client);
 
     void insertUserMq(User user);
 
@@ -31,5 +32,5 @@ public interface UserService {
 
     User initUser(UserInsertRequest userInsertRequest, HttpServletRequest request);
 
-    void decryptRsaPassword(User user, HttpServletRequest request);
+    void decryptRsaPassword(User user);
 }

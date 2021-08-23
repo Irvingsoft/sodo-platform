@@ -2,9 +2,7 @@ package cool.sodo.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cool.sodo.common.component.PasswordHelper;
 import cool.sodo.common.component.RedisCacheHelper;
 import cool.sodo.common.domain.OauthClient;
@@ -20,7 +18,6 @@ import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.WebUtil;
 import cool.sodo.user.entity.PasswordDTO;
 import cool.sodo.user.entity.UserInsertRequest;
-import cool.sodo.user.entity.UserRequest;
 import cool.sodo.user.entity.UserUpdateRequest;
 import cool.sodo.user.service.UserService;
 import org.springframework.scheduling.annotation.Async;
@@ -54,6 +51,8 @@ public class UserServiceImpl implements UserService {
 
     public static final String ERROR_OLD_PASSWORD = "原密码有误！";
     public static final String ERROR_NEW_PASSWORD = "原密码有误！";
+
+    public static final String ERROR_PRIVATE_KEY = "私钥已失效！";
 
     public static final int SELECT_BASE = 0;
     public static final int SELECT_GENERAL = 1;
@@ -96,7 +95,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public synchronized void insertUser(User user) {
+    public synchronized void insertUser(User user, OauthClient client) {
+
+        decryptRsaPassword(user);
+        passwordHelper.encryptPassword(user);
 
         user.setNickname(Constants.NICKNAME_PREFIX + userMapper.selectCount(null));
         if (StringUtil.isEmpty(user.getUsername()) || !validateUsername(user.getUsername())) {
@@ -240,9 +242,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void decryptRsaPassword(User user, HttpServletRequest request) {
+    public void decryptRsaPassword(User user) {
 
-        String privateKey = (String) redisCacheHelper.get(Constants.RSA_PRIVATE_KEY_CACHE_PREFIX + WebUtil.getHeader(request, Constants.PASSWORD_KEY));
+        HttpServletRequest request = WebUtil.getRequest();
+        String privateKeyCacheKey = Constants.RSA_PRIVATE_KEY_CACHE_PREFIX + WebUtil.getHeader(request, Constants.PASSWORD_KEY);
+        if (!redisCacheHelper.hasKey(privateKeyCacheKey)) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_PRIVATE_KEY);
+        }
+        String privateKey = (String) redisCacheHelper.get(privateKeyCacheKey);
         user.setPassword(RsaUtil.decryptByPrivateKey(user.getPassword(), privateKey));
     }
 }
