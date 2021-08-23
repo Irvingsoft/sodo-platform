@@ -105,9 +105,9 @@ public class OauthApiAspect {
                 throw new SoDoException(ResultEnum.UNAUTHORIZED, "请登录后重试！");
             }
             // AccessToken Check, And User Status Check.
-            accessToken = accessTokenService.getAccessTokenCache(token);
-            accessTokenService.checkAccessToken(accessToken, clientId);
-            User user = userService.getUserIdentityByIdentity(accessToken.getIdentity());
+            accessToken = accessTokenService.getFromCache(token);
+            checkAccessToken(accessToken, clientId);
+            User user = userService.getIdentityDetail(accessToken.getIdentity());
             checkUserStatus(user);
             if (!StringUtil.isEmpty(oauthApi.getCode())) {
                 checkUserAccess(user, oauthApi.getCode());
@@ -140,6 +140,12 @@ public class OauthApiAspect {
             return point.proceed();
         }
 
+    }
+
+    private void checkAccessToken(AccessToken accessToken, String clientId) {
+        if (!accessToken.getClientId().equals(clientId)) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, "令牌不属于当前客户端！");
+        }
     }
 
     private String getApiPath(HttpServletRequest request, Method method) {

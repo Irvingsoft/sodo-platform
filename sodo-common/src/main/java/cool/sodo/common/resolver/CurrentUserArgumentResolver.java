@@ -52,10 +52,10 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
         if (redisCacheHelper.hasKey(Constants.ACCESS_TOKEN_CACHE_PREFIX + token)) {
             accessToken = (AccessToken) redisCacheHelper.get(Constants.ACCESS_TOKEN_CACHE_PREFIX + token);
         } else {
-            accessToken = accessTokenService.getAccessToken(token);
+            accessToken = accessTokenService.get(token);
             redisCacheHelper.set(Constants.ACCESS_TOKEN_CACHE_PREFIX + accessToken.getToken(), accessToken, Constants.ACCESS_TOKEN_CACHE_EXPIRE);
         }
 
-        return userService.getUserIdentityByIdentity(accessToken.getIdentity());
+        return userService.getIdentity(accessToken.getIdentity());
     }
 }

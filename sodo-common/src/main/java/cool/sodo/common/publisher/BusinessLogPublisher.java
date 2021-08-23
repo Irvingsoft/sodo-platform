@@ -39,13 +39,14 @@ public class BusinessLogPublisher {
      * @param businessData 业务数据
      * @param message      业务备注
      */
-    public void publishEvent(HttpServletRequest request, String businessType, String businessId, String businessData, String message) {
+    public void publishEvent(HttpServletRequest request, String businessType, String businessId,
+                             String businessData, String message) {
 
         LogBusiness logBusiness = new LogBusiness();
-        if (!StringUtil.isEmpty(WebUtil.getHeaderNullable(request, Constants.AUTHORIZATION))) {
-            logBusiness.setUserId(userService.getUserIdentityByIdentity(
-                    accessTokenService.getAccessTokenCache(WebUtil.getHeaderNullable(request, Constants.AUTHORIZATION))
-                            .getIdentity()
+        String token = WebUtil.getHeaderNullable(request, Constants.AUTHORIZATION);
+        if (!StringUtil.isEmpty(token)) {
+            logBusiness.setUserId(userService.getIdentity(
+                    accessTokenService.getFromCache(token).getIdentity()
             ).getUserId());
         }
         logBusiness.setBusinessType(businessType);

@@ -55,10 +55,9 @@ public class ErrorLogPublisher {
 
         if (!StringUtil.isEmpty(request)) {
             String token = WebUtil.getAccessToken(request);
-            if (!StringUtil.isEmpty(token) &&
-                    accessTokenService.validateAccessToken(token)) {
-                logError.setUserId(userService.getUserIdentityByIdentity(
-                        accessTokenService.getAccessTokenCache(token).getIdentity()
+            if (!StringUtil.isEmpty(token)) {
+                logError.setUserId(userService.getIdentity(
+                        accessTokenService.getFromCache(token).getIdentity()
                 ).getUserId());
             }
             logError.setRequestUrl(WebUtil.getRequestUrl(request, serviceInfo.getPath()));

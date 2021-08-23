@@ -4,9 +4,7 @@ import cool.sodo.common.domain.OauthUser;
 
 public interface OauthUserService {
 
-    Integer countOauthUserById(String openId);
+    Integer countByOpenId(String openId);
 
-    Integer saveOauthUser(OauthUser oauthUser);
-
-    OauthUser getOauthUserIdentityByOpenId(String identity);
+    Integer insert(OauthUser oauthUser);
 }

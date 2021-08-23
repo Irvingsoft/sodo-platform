@@ -43,14 +43,14 @@ public class UserController {
     @ApiOperation(value = "获取当前用户基本信息", notes = "登录成功后获取用户基本信息")
     public Result getUserBase(@CurrentUser User user) {
 
-        return Result.success(userService.getUserBase(user.getUserId()));
+        return Result.success(userService.getBase(user.getUserId()));
     }
 
     @GetMapping(value = "info")
     @ApiOperation(value = "获取当前用户详情信息", notes = "无需参数，根据 Token 获取用户信息")
     public Result getUserGeneral(@CurrentUser User user) {
 
-        return Result.success(userService.getUserGeneral(user.getUserId()));
+        return Result.success(userService.getGeneral(user.getUserId()));
     }
 
     @PostMapping(value = "")
@@ -63,7 +63,7 @@ public class UserController {
             return Result.badRequest("客户端不允许注册！");
         }
         // 验证码校验
-        userService.insertUser(user, client);
+        userService.insert(user, client);
         return Result.success();
     }
 
@@ -71,7 +71,7 @@ public class UserController {
     @ApiOperation(value = "修改当前用户基本信息", notes = "修改昵称、头像、性别、学校")
     public Result updateUser(@RequestBody @Valid UserUpdateRequest userUpdateRequest, @CurrentUser User user) {
 
-        userService.updateUser(userUpdateRequest, user);
+        userService.update(userUpdateRequest, user);
         return Result.success();
     }
 

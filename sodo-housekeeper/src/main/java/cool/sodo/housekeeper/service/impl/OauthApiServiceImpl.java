@@ -230,10 +230,10 @@ public class OauthApiServiceImpl implements OauthApiService {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
         }
         if (!StringUtil.isEmpty(oauthApi.getCreateBy())) {
-            oauthApi.setCreator(userService.getUserBase(oauthApi.getCreateBy()));
+            oauthApi.setCreator(userService.getBase(oauthApi.getCreateBy()));
         }
         if (!StringUtil.isEmpty(oauthApi.getUpdateBy())) {
-            oauthApi.setUpdater(userService.getUserBase(oauthApi.getUpdateBy()));
+            oauthApi.setUpdater(userService.getBase(oauthApi.getUpdateBy()));
         }
         oauthApi.setClientIdList(clientApiService.listClientApiClientId(apiId));
         return oauthApi;

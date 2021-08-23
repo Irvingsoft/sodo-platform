@@ -8,19 +8,19 @@ import java.util.List;
 
 public interface UserService {
 
-    void insertUser(User user, String userId);
+    void insert(User user, String userId);
 
-    void deleteUser(String userId, String deleteBy);
+    void delete(String userId, String deleteBy);
 
-    void updateUser(User user);
+    void update(User user);
 
-    void updateUser(User user, String updateBy);
+    void update(User user, String updateBy);
 
     void grant(List<String> userIdList, List<String> roleIdList);
 
-    User getUser(String userId);
+    User get(String userId);
 
-    User getUserInfoDetail(String userId);
+    User getInfoDetail(String userId);
 
-    IPage<User> pageUserBaseDetail(UserDTO userDTO);
+    IPage<User> pageBaseDetail(UserDTO userDTO);
 }

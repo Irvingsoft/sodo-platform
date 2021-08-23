@@ -55,9 +55,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void insertUser(User user, String userId) {
+    public void insert(User user, String userId) {
 
-        commonUserService.checkUserUniqueness(user);
+        // TODO 基于 Redis 的分布式锁，锁身份验证关键字
         user.init(userId);
         passwordHelper.encryptPassword(user);
         if (userMapper.insert(user) <= 0) {
@@ -66,27 +66,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String userId, String deleteBy) {
+    public void delete(String userId, String deleteBy) {
 
-        User user = getUser(userId);
+        User user = get(userId);
         user.delete(deleteBy);
-        updateUser(user);
+        update(user);
         if (userMapper.deleteById(userId) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 User 记录失败！");
         }
     }
 
     @Override
-    public void updateUser(User user) {
+    public void update(User user) {
         if (userMapper.updateById(user) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "更新 User 记录失败！");
         }
     }
 
     @Override
-    public void updateUser(User user, String updateBy) {
+    public void update(User user, String updateBy) {
 
-        User userOld = getUser(user.getUserId());
+        User userOld = get(user.getUserId());
         userOld.update(user, updateBy);
         passwordHelper.encryptPassword(user);
         if (userMapper.updateById(user) <= 0) {
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(String userId) {
+    public User get(String userId) {
 
         User user = userMapper.selectById(userId);
         if (StringUtil.isEmpty(user)) {
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserInfoDetail(String userId) {
+    public User getInfoDetail(String userId) {
 
         LambdaQueryWrapper<User> userLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_INFO);
         userLambdaQueryWrapper.eq(User::getUserId, userId);
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public IPage<User> pageUserBaseDetail(UserDTO userDTO) {
+    public IPage<User> pageBaseDetail(UserDTO userDTO) {
 
         LambdaQueryWrapper<User> userLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_BASE);
         userLambdaQueryWrapper.eq(User::getClientId, userDTO.getClientId());
@@ -156,8 +156,6 @@ public class UserServiceImpl implements UserService {
 
         Page<User> userPage = userMapper.selectPage(new Page<>(userDTO.getPageNum(), userDTO.getPageSize()), userLambdaQueryWrapper);
         userPage.getRecords().forEach(user -> user.setRoleIdList(userToRoleService.listUserToRoleRoleId(user.getUserId())));
-        System.out.println(userPage.getRecords());
         return userPage;
     }
-
 }

@@ -95,8 +95,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public synchronized void insertUser(User user, OauthClient client) {
+    public synchronized void insert(User user, OauthClient client) {
 
+        // TODO 基于 Redis 的分布式锁，锁身份验证关键字
         decryptRsaPassword(user);
         passwordHelper.encryptPassword(user);
 
@@ -117,7 +118,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Async
-    public void insertUserMq(User user) {
+    public void insertFromMq(User user) {
 
         LambdaQueryWrapper<User> queryWrapper = generateSelectQueryWrapper(SELECT_BASE);
         queryWrapper.eq(User::getOpenId, user.getOpenId());
@@ -130,7 +131,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(UserUpdateRequest userUpdateRequest, User user) {
+    public void update(UserUpdateRequest userUpdateRequest, User user) {
 
         if (!StringUtil.isEmpty(userUpdateRequest.getNickname())) {
             user.setNickname(userUpdateRequest.getNickname());
@@ -186,7 +187,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserBase(String id) {
+    public User getBase(String id) {
 
         LambdaQueryWrapper<User> userLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_BASE);
         userLambdaQueryWrapper.eq(User::getUserId, id);
@@ -198,7 +199,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserGeneral(String id) {
+    public User getGeneral(String id) {
 
         LambdaQueryWrapper<User> userLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_GENERAL);
         userLambdaQueryWrapper.eq(User::getUserId, id);
@@ -233,7 +234,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User initUser(UserInsertRequest userInsertRequest, HttpServletRequest request) {
+    public User init(UserInsertRequest userInsertRequest, HttpServletRequest request) {
 
         String clientId = WebUtil.getHeader(request, Constants.CLIENT_ID);
         User user = userInsertRequest.toUser();

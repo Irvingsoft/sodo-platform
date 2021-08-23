@@ -21,21 +21,21 @@ public class UserController {
     @PostMapping(value = "")
     public Result insertUser(@RequestBody User user, @CurrentUser User currentUser) {
 
-        userService.insertUser(user, currentUser.getUserId());
+        userService.insert(user, currentUser.getUserId());
         return Result.success();
     }
 
     @DeleteMapping(value = "{userId}")
     public Result deleteUser(@RequestBody String userId, @CurrentUser User user) {
 
-        userService.deleteUser(userId, user.getUserId());
+        userService.delete(userId, user.getUserId());
         return Result.success();
     }
 
     @PatchMapping(value = "")
     public Result updateUser(@RequestBody User user, @CurrentUser User currentUser) {
 
-        userService.updateUser(user, currentUser.getUserId());
+        userService.update(user, currentUser.getUserId());
         return Result.success();
     }
 
@@ -48,11 +48,11 @@ public class UserController {
 
     @PostMapping(value = "page")
     public Result pageUserBaseDetail(@RequestBody @Valid UserDTO userDTO) {
-        return Result.success(userService.pageUserBaseDetail(userDTO));
+        return Result.success(userService.pageBaseDetail(userDTO));
     }
 
     @GetMapping(value = "{userId}")
     public Result getUserInfoDetail(@PathVariable String userId) {
-        return Result.success(userService.getUserInfoDetail(userId));
+        return Result.success(userService.getInfoDetail(userId));
     }
 }

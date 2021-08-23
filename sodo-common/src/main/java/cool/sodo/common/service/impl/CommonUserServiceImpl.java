@@ -50,7 +50,7 @@ public class CommonUserServiceImpl implements CommonUserService {
     }
 
     @Override
-    public User getUserBase(String userId) {
+    public User getBase(String userId) {
 
         LambdaQueryWrapper<User> userLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_BASE);
         userLambdaQueryWrapper.eq(User::getUserId, userId);
@@ -62,7 +62,7 @@ public class CommonUserServiceImpl implements CommonUserService {
     }
 
     @Override
-    public User getUserIdentityByIdentity(String identity) {
+    public User getIdentity(String identity) {
 
         LambdaQueryWrapper<User> userLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_IDENTITY);
         userLambdaQueryWrapper.eq(User::getUserId, identity)
@@ -78,16 +78,57 @@ public class CommonUserServiceImpl implements CommonUserService {
         if (user == null) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT, identity);
         }
+        return user;
+    }
+
+    @Override
+    public User getIdentityDetail(String identity) {
+
+        User user = getIdentity(identity);
         List<String> roleIdList = roleService.listRoleRoleId(user.getUserId());
         user.setCodeList(menuService.listMenuCode(roleIdList));
         return user;
     }
 
     @Override
-    public void checkUserUniqueness(User user) {
-
-
+    public void checkUsername(String username) {
+        if (countByIdentity(username) != 0) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, username + " 已被注册！");
+        }
     }
 
+    @Override
+    public void checkPhone(String phone) {
+        if (countByIdentity(phone) != 0) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, phone + " 已绑定其它账号！");
+        }
+    }
 
+    @Override
+    public void checkEmail(String email) {
+        if (countByIdentity(email) != 0) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, email + " 已绑定其它账号！");
+        }
+    }
+
+    /**
+     * 根据身份认证关键字统计用户数量
+     *
+     * @author TimeChaser
+     * @date 2021/8/23 22:13
+     */
+    private int countByIdentity(String identity) {
+
+        LambdaQueryWrapper<User> userLambdaQueryWrapper = Wrappers.lambdaQuery();
+        userLambdaQueryWrapper.eq(User::getUserId, identity)
+                .or()
+                .eq(User::getUsername, identity)
+                .or()
+                .eq(User::getOpenId, identity)
+                .or()
+                .eq(User::getPhone, identity)
+                .or()
+                .eq(User::getEmail, identity);
+        return commonUserMapper.selectCount(userLambdaQueryWrapper);
+    }
 }

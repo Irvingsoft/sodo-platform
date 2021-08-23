@@ -48,9 +48,9 @@ public class OauthApiLogPublisher {
                              Long time) {
 
         String token = WebUtil.getAccessToken(request);
-        if (!StringUtil.isEmpty(token) && accessTokenService.validateAccessToken(token)) {
-            logApi.setUserId(userService.getUserIdentityByIdentity(
-                    accessTokenService.getAccessTokenCache(token).getIdentity()
+        if (!StringUtil.isEmpty(token)) {
+            logApi.setUserId(userService.getIdentity(
+                    accessTokenService.getFromCache(token).getIdentity()
             ).getUserId());
         }
         logApi.setTime(StringUtil.isEmpty(time) ? null : Math.toIntExact(time));

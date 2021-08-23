@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.UserToRole;
 import cool.sodo.common.mapper.CommonUserToRoleMapper;
 import cool.sodo.common.service.CommonUserToRoleService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

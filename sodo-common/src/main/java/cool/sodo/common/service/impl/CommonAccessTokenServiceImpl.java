@@ -24,7 +24,6 @@ public class CommonAccessTokenServiceImpl implements CommonAccessTokenService {
     public static final String ERROR_DELETE = "AccessToken 删除失败！";
 
     public static final String INVALID_TOKEN = "请重新登录获取新的令牌！";
-    public static final String ERROR_TOKEN_CLIENT = "登录源与请求源不一致！";
 
     @Resource
     private CommonAccessTokenMapper commonAccessTokenMapper;
@@ -38,7 +37,7 @@ public class CommonAccessTokenServiceImpl implements CommonAccessTokenService {
      * @date 2021/6/1 11:58
      */
     @Override
-    public AccessToken getAccessTokenNullableByIdentity(String identity) {
+    public AccessToken getByIdentity(String identity) {
 
         LambdaQueryWrapper<AccessToken> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(AccessToken::getIdentity, identity);
@@ -53,7 +52,7 @@ public class CommonAccessTokenServiceImpl implements CommonAccessTokenService {
      * @date 2021/6/1 11:58
      */
     @Override
-    public AccessToken getAccessToken(String token) {
+    public AccessToken get(String token) {
 
         AccessToken accessToken = commonAccessTokenMapper.selectById(token);
         if (StringUtil.isEmpty(accessToken)) {
@@ -63,17 +62,19 @@ public class CommonAccessTokenServiceImpl implements CommonAccessTokenService {
     }
 
     @Override
-    public AccessToken getAccessTokenCache(String token) {
+    public AccessToken getFromCache(String token) {
 
         AccessToken accessToken = null;
         if (redisCacheHelper.hasKey(Constants.ACCESS_TOKEN_CACHE_PREFIX + token)) {
             accessToken = (AccessToken) redisCacheHelper.get(Constants.ACCESS_TOKEN_CACHE_PREFIX + token);
         } else {
-            accessToken = getAccessToken(token);
+            accessToken = get(token);
             if (accessToken.getExpireAt().getTime() >= System.currentTimeMillis()) {
                 redisCacheHelper.set(Constants.ACCESS_TOKEN_CACHE_PREFIX + accessToken.getToken(),
                         accessToken,
                         TimeUnit.MILLISECONDS.toSeconds(accessToken.getExpireAt().getTime() - System.currentTimeMillis()));
+            } else {
+                throw new SoDoException(ResultEnum.INVALID_TOKEN, "令牌已过期，请重新登录获取新令牌！");
             }
         }
         return accessToken;
@@ -81,7 +82,7 @@ public class CommonAccessTokenServiceImpl implements CommonAccessTokenService {
 
     @Override
     @CacheEvict(cacheNames = Constants.ACCESS_TOKEN_CACHE_NAME, key = "#root.args[0].token")
-    public void updateAccessToken(AccessToken accessToken) {
+    public void update(AccessToken accessToken) {
 
         if (commonAccessTokenMapper.updateById(accessToken) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE);
@@ -90,7 +91,7 @@ public class CommonAccessTokenServiceImpl implements CommonAccessTokenService {
 
     @Override
     @CacheEvict(cacheNames = Constants.ACCESS_TOKEN_CACHE_NAME, key = "#root.args[0]")
-    public void removeAccessTokenByToken(String token) {
+    public void delete(String token) {
 
         if (commonAccessTokenMapper.deleteById(token) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_DELETE);
@@ -98,26 +99,10 @@ public class CommonAccessTokenServiceImpl implements CommonAccessTokenService {
     }
 
     @Override
-    public void insertAccessToken(AccessToken accessToken) {
+    public void insert(AccessToken accessToken) {
 
         if (commonAccessTokenMapper.insert(accessToken) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_INSERT);
         }
-    }
-
-    @Override
-    public void checkAccessToken(AccessToken accessToken, String clientId) {
-
-        if (StringUtil.isEmpty(accessToken) || accessToken.getExpireAt().getTime() < System.currentTimeMillis()) {
-            throw new SoDoException(ResultEnum.INVALID_TOKEN, INVALID_TOKEN);
-        }
-        if (!accessToken.getClientId().equals(clientId)) {
-            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_TOKEN_CLIENT);
-        }
-    }
-
-    @Override
-    public boolean validateAccessToken(String token) {
-        return redisCacheHelper.hasKey(Constants.ACCESS_TOKEN_CACHE_PREFIX + token);
     }
 }

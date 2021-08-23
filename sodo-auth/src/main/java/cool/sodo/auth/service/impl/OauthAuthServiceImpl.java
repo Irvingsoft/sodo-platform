@@ -152,7 +152,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
             throw new SoDoException(ResultEnum.INVALID_CAPTCHA, ERROR_CAPTCHA, authenticateRequest);
         }
 
-        User user = userService.getUserIdentityByIdentity(authenticateRequest.getUsername());
+        User user = userService.getIdentity(authenticateRequest.getUsername());
         if (!user.getClientId().equals(clientId)) {
             throw new SoDoException(ResultEnum.INVALID_CLIENT, ERROR_USER_CLIENT, user);
         }
@@ -200,10 +200,10 @@ public class OauthAuthServiceImpl implements OauthAuthService {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_OAUTH_USER);
         }
 
-        if (oauthUserService.countOauthUserById(oauthUser.getOpenId()).equals(0)) {
+        if (oauthUserService.countByOpenId(oauthUser.getOpenId()).equals(0)) {
             // 微信小程序用户第一次登录
             oauthUser.setClientId(clientId);
-            if (oauthUserService.saveOauthUser(oauthUser) <= 0) {
+            if (oauthUserService.insert(oauthUser) <= 0) {
                 throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_INSERT_USER, oauthUser);
             }
 
@@ -246,17 +246,17 @@ public class OauthAuthServiceImpl implements OauthAuthService {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_AUTH_CLIENT);
         }
 
-        AccessToken accessToken = accessTokenService.getAccessTokenNullableByIdentity(authenticationIdentity.getIdentity());
+        AccessToken accessToken = accessTokenService.getByIdentity(authenticationIdentity.getIdentity());
         OauthClient oauthClient = oauthClientService.getOauthClientIdentity(clientId);
         if (accessToken != null) {
             // Token 存在，验证 Token
             if (accessToken.getExpireAt().getTime() >= System.currentTimeMillis()) {
                 // 未过期，刷新 Token
                 accessToken.setExpireAt(getExpireAt(oauthClient));
-                accessTokenService.updateAccessToken(accessToken);
+                accessTokenService.update(accessToken);
             } else {
                 // 已过期，重新生成 Token
-                accessTokenService.removeAccessTokenByToken(accessToken.getToken());
+                accessTokenService.delete(accessToken.getToken());
                 accessToken = generatorAccessToken(authenticationIdentity.getIdentity(),
                         authenticationIdentity.getClientId(),
                         getExpireAt(oauthClient));
@@ -299,7 +299,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
         accessToken.setIdentity(identity);
         accessToken.setClientId(clientId);
         accessToken.setExpireAt(expireAt);
-        accessTokenService.insertAccessToken(accessToken);
+        accessTokenService.insert(accessToken);
         return accessToken;
     }
 

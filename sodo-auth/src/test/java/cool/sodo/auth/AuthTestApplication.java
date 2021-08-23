@@ -22,7 +22,7 @@ public class AuthTestApplication {
 
     @Test
     public void test() {
-        AccessToken accessToken = accessTokenService.getAccessTokenNullableByIdentity("1");
+        AccessToken accessToken = accessTokenService.getByIdentity("1");
 
         redisCacheHelper.set("ACCESS_TOKEN::1", accessToken, 60L);
         System.out.println(redisCacheHelper.get("ACCESS_TOKEN::1"));

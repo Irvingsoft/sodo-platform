@@ -6,12 +6,12 @@
 <img alt="原仓库概况图" src="https://images.gitee.com/uploads/images/2021/0813/163259_993d88d7_7701512.png">
 
 ## 平台架构
+
 <img alt="平台架构图" src="./doc/平台架构.png">
 
+## 基于接口的权限控制（IBAC）
 
-## 编码思想
-
-1. 永远不相信来自客户端的任何输入
+12
 
 ## 接口编写规范
 

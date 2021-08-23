@@ -4,19 +4,15 @@ import cool.sodo.common.domain.AccessToken;
 
 public interface CommonAccessTokenService {
 
-    AccessToken getAccessTokenNullableByIdentity(String identity);
+    AccessToken getByIdentity(String identity);
 
-    AccessToken getAccessToken(String token);
+    AccessToken get(String token);
 
-    AccessToken getAccessTokenCache(String token);
+    AccessToken getFromCache(String token);
 
-    void updateAccessToken(AccessToken accessToken);
+    void update(AccessToken accessToken);
 
-    void removeAccessTokenByToken(String token);
+    void delete(String token);
 
-    void insertAccessToken(AccessToken accessToken);
-
-    void checkAccessToken(AccessToken accessToken, String clientId);
-
-    boolean validateAccessToken(String token);
+    void insert(AccessToken accessToken);
 }

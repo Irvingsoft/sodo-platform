@@ -49,7 +49,7 @@ public class UserMqListener {
             // 有新增用户时
             if (notification.getEventType().equalsIgnoreCase(userMqProperty.getCreateType())) {
                 User user = mapper.readValue(dataString, User.class);
-                userService.insertUserMq(user);
+                userService.insertFromMq(user);
             } else if (notification.getEventType().equalsIgnoreCase(userMqProperty.getLoginType())) {
                 HashMap<String, String> messageMap = mapper.readValue(dataString, HashMap.class);
                 userService.updateUserLogin(

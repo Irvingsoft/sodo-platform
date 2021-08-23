@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface UserService {
 
-    void insertUser(User user, OauthClient client);
+    void insert(User user, OauthClient client);
 
-    void insertUserMq(User user);
+    void insertFromMq(User user);
 
-    void updateUser(UserUpdateRequest userUpdateRequest, User user);
+    void update(UserUpdateRequest userUpdateRequest, User user);
 
     void updatePassword(PasswordDTO passwordDTO, User user);
 
     void updateUserLogin(String identity, String loginIp);
 
-    User getUserBase(String id);
+    User getBase(String id);
 
-    User getUserGeneral(String id);
+    User getGeneral(String id);
 
     boolean validateUsername(String username);
 
@@ -30,7 +30,7 @@ public interface UserService {
 
     boolean validatePassword(String password);
 
-    User initUser(UserInsertRequest userInsertRequest, HttpServletRequest request);
+    User init(UserInsertRequest userInsertRequest, HttpServletRequest request);
 
     void decryptRsaPassword(User user);
 }

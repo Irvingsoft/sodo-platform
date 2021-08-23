@@ -20,38 +20,15 @@ public class OauthUserServiceImpl implements OauthUserService {
     @Resource
     private OauthUserMapper oauthUserMapper;
 
-    private LambdaQueryWrapper<OauthUser> generateSelectQueryWrapper(int type) {
-
-        LambdaQueryWrapper<OauthUser> oauthUserLambdaQueryWrapper = Wrappers.lambdaQuery();
-
-        switch (type) {
-            case SELECT_IDENTITY:
-                oauthUserLambdaQueryWrapper.select(OauthUser::getOpenId, OauthUser::getUnionId, OauthUser::getClientId);
-                break;
-            case SELECT_INFO:
-            default:
-                break;
-        }
-        return oauthUserLambdaQueryWrapper;
-    }
-
     @Override
-    public Integer countOauthUserById(String openId) {
+    public Integer countByOpenId(String openId) {
         LambdaQueryWrapper<OauthUser> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(OauthUser::getOpenId, openId);
         return oauthUserMapper.selectCount(queryWrapper);
     }
 
     @Override
-    public Integer saveOauthUser(OauthUser oauthUser) {
+    public Integer insert(OauthUser oauthUser) {
         return oauthUserMapper.insert(oauthUser);
-    }
-
-    @Override
-    public OauthUser getOauthUserIdentityByOpenId(String identity) {
-
-        LambdaQueryWrapper<OauthUser> oauthUserLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_IDENTITY);
-        oauthUserLambdaQueryWrapper.eq(OauthUser::getOpenId, identity);
-        return oauthUserMapper.selectOne(oauthUserLambdaQueryWrapper);
     }
 }
