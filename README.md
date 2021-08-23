@@ -3,10 +3,10 @@
 **IBAC（Interface-Based Access Control，基于接口的权限控制）微服务快速开发平台。**
 
 由于原仓库错误的合并操作，故清空后重新提交了代码。
-<img width="500" alt="原仓库概况图" src="https://images.gitee.com/uploads/images/2021/0813/163259_993d88d7_7701512.png">
+<img alt="原仓库概况图" src="https://images.gitee.com/uploads/images/2021/0813/163259_993d88d7_7701512.png">
 
 ## 平台架构
-<img width="500" alt="平台架构图" src="./doc/平台架构.png">
+<img alt="平台架构图" src="./doc/平台架构.png">
 
 
 ## 编码思想
