@@ -1,6 +1,7 @@
 package cool.sodo.user;
 
 import cool.sodo.common.component.PasswordHelper;
+import cool.sodo.common.component.RedisCacheHelper;
 import cool.sodo.common.domain.Role;
 import cool.sodo.common.domain.User;
 import cool.sodo.common.service.CommonUserService;
@@ -18,6 +19,8 @@ public class UserTestApplication {
     private PasswordHelper passwordHelper;
     @Resource
     private CommonUserService commonUserService;
+    @Resource
+    private RedisCacheHelper redisCacheHelper;
 
     @Test
     public void generateAdmin() {
@@ -63,5 +66,12 @@ public class UserTestApplication {
         System.out.println(commonUserService.getIdentityDetail("1"));
         System.out.println(commonUserService.getIdentityDetail("1"));
         System.out.println(commonUserService.getIdentityDetail("1"));
+    }
+
+    @Test
+    public void testIfAbsent() {
+
+        System.out.println(redisCacheHelper.setIfAbsent("aaa", "aa"));
+        System.out.println(redisCacheHelper.setIfAbsent("aaa", "aa"));
     }
 }

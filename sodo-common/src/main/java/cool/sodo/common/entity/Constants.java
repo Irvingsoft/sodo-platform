@@ -22,6 +22,7 @@ public class Constants {
     public static final String PASSWORD_KEY_CACHE_PREFIX = "PASSWORD_KEY::";
     public static final String CAPTCHA_KEY_CACHE_PREFIX = "CAPTCHA::";
     public static final String REQUEST_CACHE_PREFIX = "REQUEST::";
+    public static final String USER_CHECK_LOCK_PREFIX = "USER_CHECK_LOCK::";
 
     /**
      * Redis key Name
@@ -37,16 +38,18 @@ public class Constants {
      * @author TimeChaser
      * @date 2021/7/17 15:14
      */
-    public static final long AUTH_CODE_CACHE_EXPIRE = 2 * 60L; // 2 minutes
-    public static final long ACCESS_TOKEN_CACHE_EXPIRE = 7 * 24 * 60 * 60L; // 1 week
-    public static final long ACCESS_TOKEN_CACHE_MILLISECOND_EXPIRE = 7 * 24 * 60 * 60 * 1000L; // 1 week
-    public static final long NONCE_CACHE_EXPIRE = 60L;
-    public static final long TIMESTAMP_EXPIRE = 5 * 1000L;
-    public static final long SIGNATURE_KEY_CACHE_EXPIRE = 12 * 60 * 60L;
-    public static final long PASSWORD_KEY_CACHE_EXPIRE = 30 * 60L;
-    public static final long RSA_PRIVATE_KEY_CACHE_EXPIRE = 30 * 60L;
-    public static final long CAPTCHA_CACHE_EXPIRE = 30 * 60L;
-    public static final long REQUEST_CACHE_EXPIRE = 60L;
+    public static final long AUTH_CODE_CACHE_EXPIRE_SECONDS = 2 * 60L; // 2 minutes
+    public static final long ACCESS_TOKEN_CACHE_EXPIRE_SECONDS = 7 * 24 * 60 * 60L; // 1 week
+    public static final long ACCESS_TOKEN_CACHE_EXPIRE_MILLISECONDS = 7 * 24 * 60 * 60 * 1000L; // 1 week
+    public static final long NONCE_CACHE_EXPIRE_SECONDS = 60L;
+    public static final long TIMESTAMP_EXPIRE_MILLISECONDS = 5 * 1000L;
+    public static final long SIGNATURE_KEY_CACHE_EXPIRE_SECONDS = 12 * 60 * 60L;
+    public static final long PASSWORD_KEY_CACHE_EXPIRE_SECONDS = 30 * 60L;
+    public static final long RSA_PRIVATE_KEY_CACHE_EXPIRE_SECONDS = 30 * 60L;
+    public static final long CAPTCHA_CACHE_EXPIRE_SECONDS = 30 * 60L;
+    public static final long REQUEST_CACHE_EXPIRE_SECONDS = 60L;
+
+    public static final long USER_CHECK_LOCK_TIME_OUT_MILLISECONDS = 500L;
 
     /**
      * Other Prefix
@@ -133,18 +136,4 @@ public class Constants {
     public static final String IDCARD_REGEX = "/^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$/";
 
     public static final String GATEWAY_PATH = "/zuul";
-
-    public static final String[] UNCOVER_CLIENT =
-            new String[]{
-                    "/**/v2/api-docs"
-            };
-
-    // 不需要授权访问的地址
-    // 通过数据库实现
-
-    public static final String[] UNCOVER_AUTH =
-            new String[]{
-                    "/test",
-                    "/goods/customer/shop/base/*"
-            };
 }

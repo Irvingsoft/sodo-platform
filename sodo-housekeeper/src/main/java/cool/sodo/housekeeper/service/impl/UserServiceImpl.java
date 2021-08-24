@@ -57,7 +57,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void insert(User user, String userId) {
 
-        // TODO 基于 Redis 的分布式锁，锁身份验证关键字
         user.init(userId);
         passwordHelper.encryptPassword(user);
         if (userMapper.insert(user) <= 0) {

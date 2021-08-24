@@ -17,7 +17,7 @@ import cool.sodo.common.util.RsaUtil;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.WebUtil;
 import cool.sodo.user.entity.PasswordDTO;
-import cool.sodo.user.entity.UserInsertRequest;
+import cool.sodo.user.entity.UserRegister;
 import cool.sodo.user.entity.UserUpdateRequest;
 import cool.sodo.user.service.UserService;
 import org.springframework.scheduling.annotation.Async;
@@ -97,7 +97,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public synchronized void insert(User user, OauthClient client) {
 
-        // TODO 基于 Redis 的分布式锁，锁身份验证关键字
         decryptRsaPassword(user);
         passwordHelper.encryptPassword(user);
 
@@ -234,10 +233,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User init(UserInsertRequest userInsertRequest, HttpServletRequest request) {
+    public User init(UserRegister userRegister, HttpServletRequest request) {
 
         String clientId = WebUtil.getHeader(request, Constants.CLIENT_ID);
-        User user = userInsertRequest.toUser();
+        User user = userRegister.toUser();
         user.init(oauthClientService.getOauthClientIdentity(clientId));
         return user;
     }

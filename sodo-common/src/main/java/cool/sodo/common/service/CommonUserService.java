@@ -44,9 +44,9 @@ public interface CommonUserService {
     void checkUsername(String username);
 
     /**
-     * 检查电话号码是否是合法的身份认证关键字
+     * 检查手机号是否是合法的身份认证关键字
      *
-     * @param phone 电话号码
+     * @param phone 手机号
      */
     void checkPhone(String phone);
 

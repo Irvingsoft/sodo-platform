@@ -96,7 +96,7 @@ public class ApiSignatureFilter extends ZuulFilter {
             currentContext.setResponseStatusCode(ResultEnum.INVALID_SIGNATURE.getCode());
             throw new SoDoException(ResultEnum.INVALID_SIGNATURE, ERROR_SIGNATURE);
         }
-        if (System.currentTimeMillis() - timestamp > Constants.TIMESTAMP_EXPIRE) {
+        if (System.currentTimeMillis() - timestamp > Constants.TIMESTAMP_EXPIRE_MILLISECONDS) {
             currentContext.setResponseStatusCode(ResultEnum.BAD_REQUEST.getCode());
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_TIMESTAMP);
         }
@@ -110,7 +110,7 @@ public class ApiSignatureFilter extends ZuulFilter {
             throw new SoDoException(ResultEnum.INVALID_SIGNATURE, ERROR_SIGNATURE);
         }
 
-        redisCacheHelper.set(Constants.NONCE_CACHE_PREFIX + nonce, signature, Constants.NONCE_CACHE_EXPIRE);
+        redisCacheHelper.set(Constants.NONCE_CACHE_PREFIX + nonce, signature, Constants.NONCE_CACHE_EXPIRE_SECONDS);
         return null;
     }
 

@@ -36,7 +36,7 @@ public class SignatureKeyController {
         String privateKey = rsaKeyMap.get(RsaUtil.PRIVATE_KEY);
         redisCacheHelper.set(Constants.RSA_PRIVATE_KEY_CACHE_PREFIX + idContent.getId(),
                 privateKey,
-                Constants.RSA_PRIVATE_KEY_CACHE_EXPIRE);
+                Constants.RSA_PRIVATE_KEY_CACHE_EXPIRE_SECONDS);
 
         return Result.success(idContent);
     }
@@ -53,7 +53,7 @@ public class SignatureKeyController {
         String signatureKey = RsaUtil.decryptByPrivateKey(idContent.getContent(), privateKey);
         redisCacheHelper.set(Constants.SIGNATURE_KEY_CACHE_PREFIX + rsaKey,
                 signatureKey,
-                Constants.SIGNATURE_KEY_CACHE_EXPIRE);
+                Constants.SIGNATURE_KEY_CACHE_EXPIRE_SECONDS);
 
         return Result.success();
     }

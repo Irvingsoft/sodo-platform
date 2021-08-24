@@ -104,7 +104,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
 
     @Override
     public void saveAuthCode(String authCode, AuthenticationIdentity authenticationIdentity) {
-        redisCacheHelper.set(Constants.AUTH_CODE_CACHE_PREFIX + authCode, authenticationIdentity, Constants.AUTH_CODE_CACHE_EXPIRE);
+        redisCacheHelper.set(Constants.AUTH_CODE_CACHE_PREFIX + authCode, authenticationIdentity, Constants.AUTH_CODE_CACHE_EXPIRE_SECONDS);
     }
 
     @Override
@@ -305,13 +305,13 @@ public class OauthAuthServiceImpl implements OauthAuthService {
 
     private Date getExpireAt(OauthClient oauthClient) {
         return StringUtil.isEmpty(oauthClient.getTokenExpire()) ?
-                new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_CACHE_MILLISECOND_EXPIRE) :
+                new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_CACHE_EXPIRE_MILLISECONDS) :
                 new Date(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(oauthClient.getTokenExpire()));
     }
 
     private Long getExpire(OauthClient oauthClient) {
         return StringUtil.isEmpty(oauthClient.getTokenExpire()) ?
-                Constants.ACCESS_TOKEN_CACHE_EXPIRE : oauthClient.getTokenExpire();
+                Constants.ACCESS_TOKEN_CACHE_EXPIRE_SECONDS : oauthClient.getTokenExpire();
     }
 
     private String getRedirectUri(OauthClient oauthClient, AuthenticationIdentity authenticationIdentity) {

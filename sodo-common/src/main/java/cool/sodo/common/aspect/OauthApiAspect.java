@@ -176,7 +176,7 @@ public class OauthApiAspect {
 
     @Async
     void saveLogApi(String requestId, LogApi logApi) {
-        redisCacheHelper.set(Constants.REQUEST_CACHE_PREFIX + requestId, logApi, Constants.REQUEST_CACHE_EXPIRE);
+        redisCacheHelper.set(Constants.REQUEST_CACHE_PREFIX + requestId, logApi, Constants.REQUEST_CACHE_EXPIRE_SECONDS);
     }
 
     private void processRequestLimit(HttpServletRequest request, OauthApi oauthApi) {

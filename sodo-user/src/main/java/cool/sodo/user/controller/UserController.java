@@ -7,9 +7,12 @@ import cool.sodo.common.domain.OauthClient;
 import cool.sodo.common.domain.User;
 import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.Result;
+import cool.sodo.common.entity.ResultEnum;
+import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.service.CommonOauthClientService;
 import cool.sodo.common.util.WebUtil;
 import cool.sodo.user.entity.PasswordDTO;
+import cool.sodo.user.entity.UserRegister;
 import cool.sodo.user.entity.UserUpdateRequest;
 import cool.sodo.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -55,16 +58,49 @@ public class UserController {
 
     @PostMapping(value = "")
     @ApiOperation(value = "用户注册", notes = "用户注册接口")
-    public Result insertUser(@RequestBody @Valid User user, HttpServletRequest request) {
+    public Result insertUser(@RequestBody @Valid UserRegister userRegister, HttpServletRequest request) {
 
         // 客户端是否允许注册
         OauthClient client = oauthClientService.getOauthClientIdentity(WebUtil.getHeader(request, Constants.CLIENT_ID));
         if (!client.getRegister()) {
             return Result.badRequest("客户端不允许注册！");
         }
-        // 验证码校验
-        userService.insert(user, client);
+        // 用户字段校验
+        // 手机验证码校验
+
+        getLock(userRegister);
+        userService.insert(userRegister.toUser(), client);
+        deleteLock(userRegister);
         return Result.success();
+    }
+
+    private void getLock(UserRegister userRegister) {
+
+        long beginAt = System.currentTimeMillis();
+        boolean usernameLock = false;
+        boolean phoneLock = false;
+        while (true) {
+            usernameLock = redisCacheHelper.setIfAbsent(
+                    Constants.USER_CHECK_LOCK_PREFIX + userRegister.getUsername(),
+                    userRegister.getUsername()) || usernameLock;
+            phoneLock = redisCacheHelper.setIfAbsent(
+                    Constants.USER_CHECK_LOCK_PREFIX + userRegister.getPhone(),
+                    userRegister.getPhone()) || phoneLock;
+            if (usernameLock && phoneLock) {
+                return;
+            }
+            if (System.currentTimeMillis() - beginAt >= Constants.USER_CHECK_LOCK_TIME_OUT_MILLISECONDS) {
+                if (!usernameLock) {
+                    throw new SoDoException(ResultEnum.SERVER_ERROR, "用户名校验失败！");
+                }
+                throw new SoDoException(ResultEnum.SERVER_ERROR, "手机号校验失败！");
+            }
+        }
+    }
+
+    private void deleteLock(UserRegister userRegister) {
+        redisCacheHelper.delete(Constants.USER_CHECK_LOCK_PREFIX + userRegister.getUsername());
+        redisCacheHelper.delete(Constants.USER_CHECK_LOCK_PREFIX + userRegister.getPhone());
     }
 
     @PatchMapping(value = "")

@@ -52,7 +52,7 @@ public class AuthenticationController {
         IDContent idContent = new IDContent(UUIDUtil.generate(), rsaKeyMap.get(RsaUtil.PUBLIC_KEY));
         redisCacheHelper.set(Constants.RSA_PRIVATE_KEY_CACHE_PREFIX + idContent.getId(),
                 privateKey,
-                Constants.RSA_PRIVATE_KEY_CACHE_EXPIRE);
+                Constants.RSA_PRIVATE_KEY_CACHE_EXPIRE_SECONDS);
 
         return Result.success(idContent);
     }
@@ -66,7 +66,7 @@ public class AuthenticationController {
         String captchaCode = captcha.text().toUpperCase(Locale.ROOT);
         redisCacheHelper.set(Constants.CAPTCHA_KEY_CACHE_PREFIX + idContent.getId(),
                 captchaCode,
-                Constants.CAPTCHA_CACHE_EXPIRE);
+                Constants.CAPTCHA_CACHE_EXPIRE_SECONDS);
 
         return Result.success(idContent);
     }

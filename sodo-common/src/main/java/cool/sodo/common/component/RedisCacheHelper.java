@@ -144,6 +144,10 @@ public class RedisCacheHelper {
         }
     }
 
+    public Boolean setIfAbsent(String key, Object value) {
+        return redisTemplate.opsForValue().setIfAbsent(key, value);
+    }
+
     /**
      * 递增
      *
