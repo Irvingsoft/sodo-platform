@@ -36,6 +36,10 @@ public class OauthClient implements Serializable {
 
     private Boolean signature;
 
+    private Boolean concurrentLogin;
+
+    private Boolean shareToken;
+
     private Integer userStatus;
 
     private Integer tokenExpire;
@@ -93,6 +97,12 @@ public class OauthClient implements Serializable {
         }
         if (!StringUtil.isEmpty(oauthClient.getSignature())) {
             this.signature = oauthClient.getSignature();
+        }
+        if (!StringUtil.isEmpty(oauthClient.getConcurrentLogin())) {
+            this.concurrentLogin = oauthClient.getConcurrentLogin();
+        }
+        if (!StringUtil.isEmpty(oauthClient.getShareToken())) {
+            this.shareToken = oauthClient.getShareToken();
         }
         if (!StringUtil.isEmpty(oauthClient.getUserStatus())) {
             this.userStatus = oauthClient.getUserStatus();

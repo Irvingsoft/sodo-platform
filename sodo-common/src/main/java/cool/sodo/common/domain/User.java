@@ -83,7 +83,8 @@ public class User implements Serializable {
         this.city = null;
         this.province = null;
         this.clientId = oauthClient.getClientId();
-        this.status = oauthClient.getUserStatus();
+        this.status = StringUtil.isEmpty(oauthClient.getUserStatus()) ?
+                Constants.USER_STATUS_FREEZE : oauthClient.getUserStatus();
     }
 
     public void init(String userId) {

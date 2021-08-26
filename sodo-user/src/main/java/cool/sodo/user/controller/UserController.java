@@ -112,15 +112,17 @@ public class UserController {
     }
 
     @GetMapping(value = "username/{username}")
-    public Result checkUserName(@PathVariable String username) {
+    public Result checkUserName(@PathVariable String username, HttpServletRequest request) {
 
-        return Result.success(userService.validateUsername(username));
+        return Result.success(userService.validateUsername(username,
+                WebUtil.getHeader(request, Constants.CLIENT_ID)));
     }
 
     @GetMapping(value = "phone/{phone}")
-    public Result checkPhone(@PathVariable String phone) {
+    public Result checkPhone(@PathVariable String phone, HttpServletRequest request) {
 
-        return Result.success(userService.validatePhone(phone));
+        return Result.success(userService.validatePhone(phone,
+                WebUtil.getHeader(request, Constants.CLIENT_ID)));
     }
 
     @PostMapping(value = "password")

@@ -91,22 +91,22 @@ public class CommonUserServiceImpl implements CommonUserService {
     }
 
     @Override
-    public void checkUsername(String username) {
-        if (countByIdentity(username) != 0) {
+    public void checkUsername(String username, String clientId) {
+        if (countByIdentityAndClient(username, clientId) != 0) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, username + " 已被注册！");
         }
     }
 
     @Override
-    public void checkPhone(String phone) {
-        if (countByIdentity(phone) != 0) {
+    public void checkPhone(String phone, String clientId) {
+        if (countByIdentityAndClient(phone, clientId) != 0) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, phone + " 已绑定其它账号！");
         }
     }
 
     @Override
-    public void checkEmail(String email) {
-        if (countByIdentity(email) != 0) {
+    public void checkEmail(String email, String clientId) {
+        if (countByIdentityAndClient(email, clientId) != 0) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, email + " 已绑定其它账号！");
         }
     }
@@ -117,18 +117,19 @@ public class CommonUserServiceImpl implements CommonUserService {
      * @author TimeChaser
      * @date 2021/8/23 22:13
      */
-    private int countByIdentity(String identity) {
+    private int countByIdentityAndClient(String identity, String clientId) {
 
         LambdaQueryWrapper<User> userLambdaQueryWrapper = Wrappers.lambdaQuery();
-        userLambdaQueryWrapper.eq(User::getUserId, identity)
-                .or()
-                .eq(User::getUsername, identity)
-                .or()
-                .eq(User::getOpenId, identity)
-                .or()
-                .eq(User::getPhone, identity)
-                .or()
-                .eq(User::getEmail, identity);
+        userLambdaQueryWrapper.eq(User::getClientId, clientId)
+                .and(wrapper -> wrapper.eq(User::getUserId, identity)
+                        .or()
+                        .eq(User::getUsername, identity)
+                        .or()
+                        .eq(User::getOpenId, identity)
+                        .or()
+                        .eq(User::getPhone, identity)
+                        .or()
+                        .eq(User::getEmail, identity));
         return commonUserMapper.selectCount(userLambdaQueryWrapper);
     }
 }

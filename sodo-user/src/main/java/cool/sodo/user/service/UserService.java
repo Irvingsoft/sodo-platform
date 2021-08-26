@@ -3,10 +3,7 @@ package cool.sodo.user.service;
 import cool.sodo.common.domain.OauthClient;
 import cool.sodo.common.domain.User;
 import cool.sodo.user.entity.PasswordDTO;
-import cool.sodo.user.entity.UserRegister;
 import cool.sodo.user.entity.UserUpdateRequest;
-
-import javax.servlet.http.HttpServletRequest;
 
 public interface UserService {
 
@@ -24,13 +21,7 @@ public interface UserService {
 
     User getGeneral(String id);
 
-    boolean validateUsername(String username);
-
-    boolean validatePhone(String phone);
-
     boolean validatePassword(String password);
-
-    User init(UserRegister userRegister, HttpServletRequest request);
 
     void decryptRsaPassword(User user);
 }

@@ -40,20 +40,23 @@ public interface CommonUserService {
      * 检查用户名是否是合法的身份认证关键字
      *
      * @param username 用户名
+     * @param clientId
      */
-    void checkUsername(String username);
+    void checkUsername(String username, String clientId);
 
     /**
      * 检查手机号是否是合法的身份认证关键字
      *
      * @param phone 手机号
+     * @param clientId
      */
-    void checkPhone(String phone);
+    void checkPhone(String phone, String clientId);
 
     /**
      * 检查邮箱是否是合法的身份认证关键字
      *
      * @param email 邮箱
+     * @param clientId
      */
-    void checkEmail(String email);
+    void checkEmail(String email, String clientId);
 }

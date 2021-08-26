@@ -206,7 +206,6 @@ public class OauthAuthServiceImpl implements OauthAuthService {
             if (oauthUserService.insert(oauthUser) <= 0) {
                 throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_INSERT_USER, oauthUser);
             }
-
             User user = new User();
             BeanUtils.copyProperties(oauthUser, user);
             user.setStatus(oauthClient.getUserStatus());
@@ -248,6 +247,8 @@ public class OauthAuthServiceImpl implements OauthAuthService {
 
         AccessToken accessToken = accessTokenService.getByIdentity(authenticationIdentity.getIdentity());
         OauthClient oauthClient = oauthClientService.getOauthClientIdentity(clientId);
+
+        // TODO 处理并发登录和共享 Token
         if (accessToken != null) {
             // Token 存在，验证 Token
             if (accessToken.getExpireAt().getTime() >= System.currentTimeMillis()) {

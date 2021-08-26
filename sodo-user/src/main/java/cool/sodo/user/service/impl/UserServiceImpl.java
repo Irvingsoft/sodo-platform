@@ -13,11 +13,12 @@ import cool.sodo.common.exception.AsyncException;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.mapper.CommonUserMapper;
 import cool.sodo.common.service.CommonOauthClientService;
+import cool.sodo.common.service.CommonUserService;
+import cool.sodo.common.service.impl.CommonUserServiceImpl;
 import cool.sodo.common.util.RsaUtil;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.WebUtil;
 import cool.sodo.user.entity.PasswordDTO;
-import cool.sodo.user.entity.UserRegister;
 import cool.sodo.user.entity.UserUpdateRequest;
 import cool.sodo.user.service.UserService;
 import org.springframework.scheduling.annotation.Async;
@@ -27,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.regex.Pattern;
 
 /**
  * User 接口实现
@@ -37,17 +37,13 @@ import java.util.regex.Pattern;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends CommonUserServiceImpl implements UserService {
 
     public static final String ERROR_UPDATE = "用户信息更新失败！ UserId：";
     public static final String ERROR_SELECT = "用户不存在！";
     public static final String ERROR_COUNT = "用户已存在！";
     public static final String ERROR_INSERT = "新增用户失败！";
     public static final String ERROR_INSERT_MQ = "异步消息队列新增用户失败！";
-
-    public static final String ERROR_USERNAME = "用户名无效！";
-    public static final String ERROR_PHONE = "手机号无效！";
-    public static final String ERROR_PASSWORD = "密码无效！";
 
     public static final String ERROR_OLD_PASSWORD = "原密码有误！";
     public static final String ERROR_NEW_PASSWORD = "原密码有误！";
@@ -66,6 +62,8 @@ public class UserServiceImpl implements UserService {
     private PasswordHelper passwordHelper;
     @Resource
     private CommonOauthClientService oauthClientService;
+    @Resource
+    private CommonUserService userService;
 
     private LambdaQueryWrapper<User> generateSelectQueryWrapper(int type) {
 
@@ -99,17 +97,10 @@ public class UserServiceImpl implements UserService {
 
         decryptRsaPassword(user);
         passwordHelper.encryptPassword(user);
-
+        user.init(client);
         user.setNickname(Constants.NICKNAME_PREFIX + userMapper.selectCount(null));
-        if (StringUtil.isEmpty(user.getUsername()) || !validateUsername(user.getUsername())) {
-            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_USERNAME, user.getClientId());
-        }
-        if (StringUtil.isEmpty(user.getPhone()) || !validatePhone(user.getPhone())) {
-            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_PHONE, user.getClientId());
-        }
-        if (StringUtil.isEmpty(user.getPassword()) || !validatePassword(user.getPassword())) {
-            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_PASSWORD, user.getClientId());
-        }
+        checkUsername(user.getUsername(), user.getClientId());
+        checkPhone(user.getPhone(), user.getClientId());
         if (userMapper.insert(user) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_INSERT, user);
         }
@@ -210,35 +201,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean validateUsername(String username) {
-
-        LambdaQueryWrapper<User> userLambdaQueryWrapper = Wrappers.lambdaQuery();
-        userLambdaQueryWrapper.eq(User::getUsername, username);
-        return userMapper.selectCount(userLambdaQueryWrapper) == 0 && Pattern.matches(Constants.USERNAME_REGEX, username);
-    }
-
-    @Override
-    public boolean validatePhone(String phone) {
-
-        LambdaQueryWrapper<User> userLambdaQueryWrapper = Wrappers.lambdaQuery();
-        userLambdaQueryWrapper.eq(User::getPhone, phone);
-        return userMapper.selectCount(userLambdaQueryWrapper) == 0 && Pattern.matches(Constants.PHONE_REGEX, phone);
-    }
-
-    @Override
     public boolean validatePassword(String password) {
 
 //        return Pattern.matches(Constants.PASSWORD_REGEX, password);
         return password.length() >= 6 && password.length() <= 20;
-    }
-
-    @Override
-    public User init(UserRegister userRegister, HttpServletRequest request) {
-
-        String clientId = WebUtil.getHeader(request, Constants.CLIENT_ID);
-        User user = userRegister.toUser();
-        user.init(oauthClientService.getOauthClientIdentity(clientId));
-        return user;
     }
 
     @Override
@@ -251,5 +217,15 @@ public class UserServiceImpl implements UserService {
         }
         String privateKey = (String) redisCacheHelper.get(privateKeyCacheKey);
         user.setPassword(RsaUtil.decryptByPrivateKey(user.getPassword(), privateKey));
+    }
+
+    @Override
+    public void checkUsername(String username, String clientId) {
+        super.checkUsername(username, clientId);
+    }
+
+    @Override
+    public void checkPhone(String phone, String clientId) {
+        super.checkPhone(phone, clientId);
     }
 }

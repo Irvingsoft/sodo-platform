@@ -34,6 +34,9 @@ public class UserController {
 
     private void getLock(User user) {
 
+        long beginAt = System.currentTimeMillis();
+        boolean usernameLock = false;
+        boolean phoneLock = false;
     }
 
     private void deleteLock(User user) {
