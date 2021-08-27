@@ -19,8 +19,9 @@ import cool.sodo.common.util.RsaUtil;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.WebUtil;
 import cool.sodo.user.entity.PasswordDTO;
-import cool.sodo.user.entity.UserUpdateRequest;
+import cool.sodo.user.entity.UserUpdateDTO;
 import cool.sodo.user.service.UserService;
+import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,7 @@ import java.util.Date;
  * @date 2021/7/3 15:13
  */
 @Service
+@Primary
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl extends CommonUserServiceImpl implements UserService {
 
@@ -71,17 +73,17 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
 
         switch (type) {
             case SELECT_BASE:
-                userLambdaQueryWrapper.select(User::getUserId, User::getNickname, User::getAvatarUrl,
+                userLambdaQueryWrapper.select(User::getUserId, User::getName, User::getNickname, User::getAvatarUrl,
                         User::getDescription, User::getUsername, User::getGender, User::getStatus, User::getLoginAt);
                 break;
             case SELECT_GENERAL:
-                userLambdaQueryWrapper.select(User::getUserId, User::getNickname, User::getAvatarUrl,
+                userLambdaQueryWrapper.select(User::getUserId, User::getName, User::getNickname, User::getAvatarUrl,
                         User::getDescription, User::getUsername, User::getClientId, User::getSchoolId,
                         User::getPhone, User::getGender, User::getCountry, User::getProvince, User::getCity,
                         User::getStatus, User::getLoginAt);
                 break;
             case SELECT_INFO:
-                userLambdaQueryWrapper.select(User::getUserId, User::getNickname, User::getDescription, User::getAvatarUrl,
+                userLambdaQueryWrapper.select(User::getUserId, User::getName, User::getNickname, User::getDescription, User::getAvatarUrl,
                         User::getUsername, User::getOpenId, User::getUnionId, User::getClientId, User::getSchoolId,
                         User::getPhone, User::getGender, User::getCountry, User::getProvince, User::getCity, User::getStatus,
                         User::getCreateAt, User::getUpdateAt, User::getLoginAt);
@@ -121,19 +123,22 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
     }
 
     @Override
-    public void update(UserUpdateRequest userUpdateRequest, User user) {
+    public void update(UserUpdateDTO userUpdateDTO, User user) {
 
-        if (!StringUtil.isEmpty(userUpdateRequest.getNickname())) {
-            user.setNickname(userUpdateRequest.getNickname());
+        if (!StringUtil.isEmpty(userUpdateDTO.getName())) {
+            user.setName(userUpdateDTO.getName());
         }
-        if (!StringUtil.isEmpty(userUpdateRequest.getAvatarUrl())) {
-            user.setAvatarUrl(userUpdateRequest.getAvatarUrl());
+        if (!StringUtil.isEmpty(userUpdateDTO.getNickname())) {
+            user.setNickname(userUpdateDTO.getNickname());
         }
-        if (!StringUtil.isEmpty(userUpdateRequest.getGender())) {
-            user.setGender(userUpdateRequest.getGender());
+        if (!StringUtil.isEmpty(userUpdateDTO.getAvatarUrl())) {
+            user.setAvatarUrl(userUpdateDTO.getAvatarUrl());
         }
-        if (!StringUtil.isEmpty(userUpdateRequest.getSchoolId())) {
-            user.setSchoolId(userUpdateRequest.getSchoolId());
+        if (!StringUtil.isEmpty(userUpdateDTO.getGender())) {
+            user.setGender(userUpdateDTO.getGender());
+        }
+        if (!StringUtil.isEmpty(userUpdateDTO.getSchoolId())) {
+            user.setSchoolId(userUpdateDTO.getSchoolId());
         }
         if (userMapper.updateById(user) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE, user);

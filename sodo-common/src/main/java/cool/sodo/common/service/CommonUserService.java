@@ -37,6 +37,13 @@ public interface CommonUserService {
     User getIdentityDetail(String identity);
 
     /**
+     * 检查用户状态（status）
+     *
+     * @param user getIdentity() 返回的实体
+     */
+    void checkUserStatus(User user);
+
+    /**
      * 检查用户名是否是合法的身份认证关键字
      *
      * @param username 用户名
@@ -47,7 +54,7 @@ public interface CommonUserService {
     /**
      * 检查手机号是否是合法的身份认证关键字
      *
-     * @param phone 手机号
+     * @param phone    手机号
      * @param clientId
      */
     void checkPhone(String phone, String clientId);
@@ -55,7 +62,7 @@ public interface CommonUserService {
     /**
      * 检查邮箱是否是合法的身份认证关键字
      *
-     * @param email 邮箱
+     * @param email    邮箱
      * @param clientId
      */
     void checkEmail(String email, String clientId);

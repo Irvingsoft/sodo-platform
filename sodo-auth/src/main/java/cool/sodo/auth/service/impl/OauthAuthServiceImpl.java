@@ -153,6 +153,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
         }
 
         User user = userService.getIdentity(authenticateRequest.getUsername());
+        userService.checkUserStatus(user);
         if (!user.getClientId().equals(clientId)) {
             throw new SoDoException(ResultEnum.INVALID_CLIENT, ERROR_USER_CLIENT, user);
         }
@@ -200,13 +201,13 @@ public class OauthAuthServiceImpl implements OauthAuthService {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_OAUTH_USER);
         }
 
-        if (oauthUserService.countByOpenId(oauthUser.getOpenId()).equals(0)) {
+        User user = userService.getIdentity(oauthUser.getOpenId());
+        if (StringUtil.isEmpty(user)) {
             // 微信小程序用户第一次登录
             oauthUser.setClientId(clientId);
             if (oauthUserService.insert(oauthUser) <= 0) {
                 throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_INSERT_USER, oauthUser);
             }
-            User user = new User();
             BeanUtils.copyProperties(oauthUser, user);
             user.setStatus(oauthClient.getUserStatus());
 
@@ -214,6 +215,8 @@ public class OauthAuthServiceImpl implements OauthAuthService {
                     userMqProperty.getCreateType(),
                     cool.sodo.auth.common.Constants.SERVICE_ID,
                     user));
+        } else {
+            userService.checkUserStatus(user);
         }
 
         String authCode = generateCode();

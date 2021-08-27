@@ -108,7 +108,7 @@ public class OauthApiAspect {
             accessToken = accessTokenService.getFromCache(token);
             checkAccessToken(accessToken, clientId);
             User user = userService.getIdentityDetail(accessToken.getIdentity());
-            checkUserStatus(user);
+            userService.checkUserStatus(user);
             if (!StringUtil.isEmpty(oauthApi.getCode())) {
                 checkUserAccess(user, oauthApi.getCode());
             }
@@ -195,19 +195,6 @@ public class OauthApiAspect {
             }
         } else {
             redisCacheHelper.set(requestCacheId, 1, Long.valueOf(oauthApi.getLimitPeriod()));
-        }
-    }
-
-    private void checkUserStatus(User user) {
-        switch (user.getStatus()) {
-            case Constants.USER_STATUS_LOGOUT:
-                throw new SoDoException(ResultEnum.BAD_REQUEST, "用户已注销！");
-            case Constants.USER_STATUS_REVIEW:
-                throw new SoDoException(ResultEnum.BAD_REQUEST, "用户审核中！");
-            case Constants.USER_STATUS_FREEZE:
-                throw new SoDoException(ResultEnum.BAD_REQUEST, "用户已被冻结！");
-            default:
-                break;
         }
     }
 

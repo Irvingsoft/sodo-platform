@@ -3,17 +3,14 @@ package cool.sodo.common.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.OauthClient;
-import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.mapper.CommonOauthClientMapper;
 import cool.sodo.common.service.CommonOauthClientService;
 import cool.sodo.common.util.StringUtil;
-import cool.sodo.common.util.WebUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 通用 OauthClient Service 层

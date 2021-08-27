@@ -5,6 +5,7 @@ import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.util.StringUtil;
+import cool.sodo.common.util.UUIDUtil;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,6 +18,8 @@ public class User implements Serializable {
 
     @TableId(type = IdType.ASSIGN_UUID)
     private String userId;
+
+    private String name;
 
     private String nickname;
 
@@ -101,7 +104,7 @@ public class User implements Serializable {
         if (StringUtil.isEmpty(this.status)) {
             this.status = Constants.USER_STATUS_FREEZE;
         }
-        this.userId = null;
+        this.userId = UUIDUtil.generate();
         this.openId = null;
         this.unionId = null;
         this.createBy = userId;

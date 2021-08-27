@@ -12,8 +12,8 @@ import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.service.CommonOauthClientService;
 import cool.sodo.common.util.WebUtil;
 import cool.sodo.user.entity.PasswordDTO;
-import cool.sodo.user.entity.UserRegister;
-import cool.sodo.user.entity.UserUpdateRequest;
+import cool.sodo.user.entity.UserRegisterDTO;
+import cool.sodo.user.entity.UserUpdateDTO;
 import cool.sodo.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -58,7 +58,7 @@ public class UserController {
 
     @PostMapping(value = "")
     @ApiOperation(value = "用户注册", notes = "用户注册接口")
-    public Result insertUser(@RequestBody @Valid UserRegister userRegister, HttpServletRequest request) {
+    public Result insertUser(@RequestBody @Valid UserRegisterDTO userRegisterDTO, HttpServletRequest request) {
 
         // 客户端是否允许注册
         OauthClient client = oauthClientService.getOauthClientIdentity(WebUtil.getHeader(request, Constants.CLIENT_ID));
@@ -68,24 +68,24 @@ public class UserController {
         // 用户字段校验
         // 手机验证码校验
 
-        getLock(userRegister);
-        userService.insert(userRegister.toUser(), client);
-        deleteLock(userRegister);
+        getLock(userRegisterDTO);
+        userService.insert(userRegisterDTO.toUser(), client);
+        deleteLock(userRegisterDTO);
         return Result.success();
     }
 
-    private void getLock(UserRegister userRegister) {
+    private void getLock(UserRegisterDTO userRegisterDTO) {
 
         long beginAt = System.currentTimeMillis();
         boolean usernameLock = false;
         boolean phoneLock = false;
         while (true) {
             usernameLock = redisCacheHelper.setIfAbsent(
-                    Constants.USER_CHECK_LOCK_PREFIX + userRegister.getUsername(),
-                    userRegister.getUsername()) || usernameLock;
+                    Constants.USER_CHECK_LOCK_PREFIX + userRegisterDTO.getUsername(),
+                    userRegisterDTO.getUsername()) || usernameLock;
             phoneLock = redisCacheHelper.setIfAbsent(
-                    Constants.USER_CHECK_LOCK_PREFIX + userRegister.getPhone(),
-                    userRegister.getPhone()) || phoneLock;
+                    Constants.USER_CHECK_LOCK_PREFIX + userRegisterDTO.getPhone(),
+                    userRegisterDTO.getPhone()) || phoneLock;
             if (usernameLock && phoneLock) {
                 return;
             }
@@ -98,31 +98,33 @@ public class UserController {
         }
     }
 
-    private void deleteLock(UserRegister userRegister) {
-        redisCacheHelper.delete(Constants.USER_CHECK_LOCK_PREFIX + userRegister.getUsername());
-        redisCacheHelper.delete(Constants.USER_CHECK_LOCK_PREFIX + userRegister.getPhone());
+    private void deleteLock(UserRegisterDTO userRegisterDTO) {
+        redisCacheHelper.delete(Constants.USER_CHECK_LOCK_PREFIX + userRegisterDTO.getUsername());
+        redisCacheHelper.delete(Constants.USER_CHECK_LOCK_PREFIX + userRegisterDTO.getPhone());
     }
 
     @PatchMapping(value = "")
     @ApiOperation(value = "修改当前用户基本信息", notes = "修改昵称、头像、性别、学校")
-    public Result updateUser(@RequestBody @Valid UserUpdateRequest userUpdateRequest, @CurrentUser User user) {
+    public Result updateUser(@RequestBody @Valid UserUpdateDTO userUpdateDTO, @CurrentUser User user) {
 
-        userService.update(userUpdateRequest, user);
+        userService.update(userUpdateDTO, user);
         return Result.success();
     }
 
     @GetMapping(value = "username/{username}")
     public Result checkUserName(@PathVariable String username, HttpServletRequest request) {
 
-        return Result.success(userService.validateUsername(username,
-                WebUtil.getHeader(request, Constants.CLIENT_ID)));
+        userService.checkUsername(username,
+                WebUtil.getHeader(request, Constants.CLIENT_ID));
+        return Result.success();
     }
 
     @GetMapping(value = "phone/{phone}")
     public Result checkPhone(@PathVariable String phone, HttpServletRequest request) {
 
-        return Result.success(userService.validatePhone(phone,
-                WebUtil.getHeader(request, Constants.CLIENT_ID)));
+        userService.checkPhone(phone,
+                WebUtil.getHeader(request, Constants.CLIENT_ID));
+        return Result.success();
     }
 
     @PostMapping(value = "password")

@@ -6,21 +6,24 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cool.sodo.common.component.PasswordHelper;
 import cool.sodo.common.domain.User;
+import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.mapper.CommonUserMapper;
-import cool.sodo.common.service.CommonUserService;
+import cool.sodo.common.service.impl.CommonUserServiceImpl;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.housekeeper.entity.UserDTO;
 import cool.sodo.housekeeper.service.UserService;
 import cool.sodo.housekeeper.service.UserToRoleService;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+@Primary
+public class UserServiceImpl extends CommonUserServiceImpl implements UserService {
 
     public static final int SELECT_BASE = 0;
     public static final int SELECT_INFO = 1;
@@ -31,8 +34,6 @@ public class UserServiceImpl implements UserService {
     private PasswordHelper passwordHelper;
     @Resource
     private UserToRoleService userToRoleService;
-    @Resource
-    private CommonUserService commonUserService;
 
     private LambdaQueryWrapper<User> generateSelectQueryWrapper(int type) {
 
@@ -40,12 +41,14 @@ public class UserServiceImpl implements UserService {
 
         switch (type) {
             case SELECT_BASE:
-                userLambdaQueryWrapper.select(User::getUserId, User::getNickname, User::getDescription, User::getUsername, User::getOpenId,
-                        User::getPhone, User::getGender, User::getStatus, User::getCreateAt, User::getUpdateAt);
+                userLambdaQueryWrapper.select(User::getUserId, User::getName, User::getNickname, User::getDescription,
+                        User::getUsername, User::getOpenId, User::getPhone, User::getEmail, User::getGender,
+                        User::getStatus, User::getCreateAt, User::getUpdateAt);
                 break;
             case SELECT_INFO:
-                userLambdaQueryWrapper.select(User::getUserId, User::getNickname, User::getDescription, User::getUsername, User::getOpenId,
-                        User::getPhone, User::getGender, User::getCountry, User::getProvince, User::getCity, User::getStatus,
+                userLambdaQueryWrapper.select(User::getUserId, User::getName, User::getNickname, User::getDescription,
+                        User::getUsername, User::getOpenId, User::getPhone, User::getEmail, User::getGender,
+                        User::getCountry, User::getProvince, User::getCity, User::getStatus,
                         User::getLoginAt, User::getLoginIp, User::getCreateAt, User::getUpdateAt);
                 break;
             default:
@@ -55,12 +58,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void insert(User user, String userId) {
+    public synchronized void insert(User user, String userId) {
 
-        user.init(userId);
         passwordHelper.encryptPassword(user);
+        user.init(userId);
+        user.setNickname(Constants.NICKNAME_PREFIX + userMapper.selectCount(null));
+        checkUsername(user.getUsername(), user.getClientId());
+        checkPhone(user.getPhone(), user.getClientId());
+        checkEmail(user.getEmail(), user.getClientId());
         if (userMapper.insert(user) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "新增 User 记录失败！");
+        }
+        if (!StringUtil.isEmpty(user.getRoleIdList())) {
+            grant(user.getUserId(), user.getRoleIdList());
         }
     }
 
@@ -71,6 +81,19 @@ public class UserServiceImpl implements UserService {
         user.delete(deleteBy);
         update(user);
         if (userMapper.deleteById(userId) <= 0) {
+            throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 User 记录失败！");
+        }
+    }
+
+    @Override
+    public void delete(List<String> userIdList, String deleteBy) {
+
+        for (String userId : userIdList) {
+            User user = get(userId);
+            user.delete(deleteBy);
+            update(user);
+        }
+        if (userMapper.deleteBatchIds(userIdList) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 User 记录失败！");
         }
     }
@@ -95,6 +118,11 @@ public class UserServiceImpl implements UserService {
             userToRoleService.deleteByUser(user.getUserId());
             userToRoleService.insertByUser(user.getUserId(), user.getRoleIdList());
         }
+    }
+
+    @Override
+    public void grant(String userId, List<String> roleIdList) {
+        userToRoleService.insertByUser(userId, roleIdList);
     }
 
     @Override
@@ -152,7 +180,8 @@ public class UserServiceImpl implements UserService {
             userLambdaQueryWrapper.and(wrapper -> wrapper.eq(User::getNickname, userDTO.getContent())
                     .eq(User::getDescription, userDTO.getContent()));
         }
-
+        userLambdaQueryWrapper.orderByDesc(User::getCreateAt)
+                .orderByDesc(User::getUpdateAt);
         Page<User> userPage = userMapper.selectPage(new Page<>(userDTO.getPageNum(), userDTO.getPageSize()), userLambdaQueryWrapper);
         userPage.getRecords().forEach(user -> user.setRoleIdList(userToRoleService.listUserToRoleRoleId(user.getUserId())));
         return userPage;

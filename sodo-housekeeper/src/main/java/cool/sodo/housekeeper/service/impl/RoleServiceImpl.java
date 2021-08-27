@@ -82,8 +82,6 @@ public class RoleServiceImpl implements RoleService {
         if (roleMapper.deleteById(roleId) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 Role 记录失败！");
         }
-        userToRoleService.deleteByRole(roleId);
-        roleToMenuService.deleteByRole(roleId);
     }
 
     @Override
@@ -100,8 +98,6 @@ public class RoleServiceImpl implements RoleService {
         if (roleMapper.deleteBatchIds(roleIdList) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 Role 记录失败！");
         }
-        userToRoleService.deleteByRole(roleIdList);
-        roleToMenuService.deleteByRole(roleIdList);
     }
 
     @Override

@@ -86,7 +86,6 @@ public class MenuServiceImpl implements MenuService {
         if (menuMapper.deleteById(menuId) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 Menu 记录失败！");
         }
-        roleToMenuService.deleteByMenu(menuId);
     }
 
     @Override
@@ -103,7 +102,6 @@ public class MenuServiceImpl implements MenuService {
         if (menuMapper.deleteBatchIds(menuIdList) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "删除 Menu 记录失败！");
         }
-        roleToMenuService.deleteByMenu(menuIdList);
     }
 
     @Override

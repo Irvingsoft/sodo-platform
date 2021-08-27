@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-public class UserRegister implements Serializable {
+public class UserRegisterDTO implements Serializable {
 
     @NotNull(message = "用户名不能为空")
     private String username;

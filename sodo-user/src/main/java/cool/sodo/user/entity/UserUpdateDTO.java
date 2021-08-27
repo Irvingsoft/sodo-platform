@@ -7,10 +7,10 @@ import javax.validation.constraints.Min;
 import java.io.Serializable;
 
 @Data
-public class UserUpdateRequest implements Serializable {
+public class UserUpdateDTO implements Serializable {
 
+    private String name;
     private String nickname;
-
     private String avatarUrl;
 
     private String schoolId;

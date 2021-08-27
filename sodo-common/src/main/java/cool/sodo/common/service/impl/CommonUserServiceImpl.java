@@ -3,6 +3,7 @@ package cool.sodo.common.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.User;
+import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.mapper.CommonUserMapper;
@@ -88,6 +89,21 @@ public class CommonUserServiceImpl implements CommonUserService {
         List<String> roleIdList = roleService.listRoleRoleId(user.getUserId());
         user.setCodeList(menuService.listMenuCode(roleIdList));
         return user;
+    }
+
+    @Override
+    public void checkUserStatus(User user) {
+
+        switch (user.getStatus()) {
+            case Constants.USER_STATUS_LOGOUT:
+                throw new SoDoException(ResultEnum.BAD_REQUEST, "用户已注销！");
+            case Constants.USER_STATUS_REVIEW:
+                throw new SoDoException(ResultEnum.BAD_REQUEST, "用户审核中！");
+            case Constants.USER_STATUS_FREEZE:
+                throw new SoDoException(ResultEnum.BAD_REQUEST, "用户已被冻结！");
+            default:
+                break;
+        }
     }
 
     @Override
