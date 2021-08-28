@@ -124,35 +124,22 @@ public class User implements Serializable {
 
     public void update(User user, String updateBy) {
 
+        if (!StringUtil.isEmpty(user.getName())) {
+            this.name = user.getName();
+        }
         if (!StringUtil.isEmpty(user.getNickname())) {
             this.nickname = user.getNickname();
         }
-        if (!StringUtil.isEmpty(user.getAvatarUrl())) {
-            this.avatarUrl = user.getAvatarUrl();
+        if (!StringUtil.isEmpty(user.getPhone())) {
+            this.phone = user.getPhone();
         }
-        this.description = user.getDescription();
-
-        if (!StringUtil.isEmpty(user.getPassword())) {
-            this.password = user.getPassword();
-        }
-        if (!StringUtil.isEmpty(user.getSchoolId())) {
-            this.schoolId = user.getSchoolId();
+        if (!StringUtil.isEmpty(user.getEmail())) {
+            this.email = user.getEmail();
         }
         if (!StringUtil.isEmpty(user.getGender())) {
             this.gender = user.getGender();
         }
-        if (!StringUtil.isEmpty(user.getCountry())) {
-            this.country = user.getCountry();
-        }
-        if (!StringUtil.isEmpty(user.getProvince())) {
-            this.province = user.getProvince();
-        }
-        if (!StringUtil.isEmpty(user.getCity())) {
-            this.city = user.getCity();
-        }
-        if (!StringUtil.isEmpty(user.getStatus())) {
-            this.status = user.getStatus();
-        }
+        this.description = user.getDescription();
         this.updateBy = updateBy;
         this.updateAt = new Date();
     }

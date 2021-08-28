@@ -110,7 +110,8 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
 
         User userOld = get(user.getUserId());
         userOld.update(user, updateBy);
-        passwordHelper.encryptPassword(user);
+        checkPhone(user.getPhone(), userOld.getClientId());
+        checkEmail(user.getEmail(), userOld.getClientId());
         if (userMapper.updateById(user) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "更新 User 记录失败！");
         }

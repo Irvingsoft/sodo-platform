@@ -10,6 +10,7 @@ import cool.sodo.common.exception.SoDoException;
 import cool.sodo.housekeeper.entity.GrantDTO;
 import cool.sodo.housekeeper.entity.UserDTO;
 import cool.sodo.housekeeper.entity.UserInsertDTO;
+import cool.sodo.housekeeper.entity.UserUpdateDTO;
 import cool.sodo.housekeeper.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +58,7 @@ public class UserController {
                 return;
             }
             if (System.currentTimeMillis() - beginAt >= Constants.USER_CHECK_LOCK_TIME_OUT_MILLISECONDS) {
+                deleteLock(userInsertDTO);
                 if (!usernameLock) {
                     throw new SoDoException(ResultEnum.SERVER_ERROR, "用户名校验失败！");
                 }
@@ -89,10 +91,42 @@ public class UserController {
     }
 
     @PatchMapping(value = "")
-    public Result updateUser(@RequestBody User user, @CurrentUser User currentUser) {
+    public Result updateUser(@RequestBody UserUpdateDTO userUpdateDTO, @CurrentUser User currentUser) {
 
-        userService.update(user, currentUser.getUserId());
+        getLock(userUpdateDTO);
+        userService.update(userUpdateDTO.toUser(), currentUser.getUserId());
+        deleteLock(userUpdateDTO);
         return Result.success();
+    }
+
+    private void getLock(UserUpdateDTO userUpdateDTO) {
+
+        long beginAt = System.currentTimeMillis();
+        boolean phoneLock = false;
+        boolean emailLock = false;
+        while (true) {
+            phoneLock = redisCacheHelper.setIfAbsent(
+                    Constants.USER_CHECK_LOCK_PREFIX + userUpdateDTO.getPhone(),
+                    userUpdateDTO.getPhone()) || phoneLock;
+            emailLock = redisCacheHelper.setIfAbsent(
+                    Constants.USER_CHECK_LOCK_PREFIX + userUpdateDTO.getEmail(),
+                    userUpdateDTO.getEmail()) || emailLock;
+            if (phoneLock && emailLock) {
+                return;
+            }
+            if (System.currentTimeMillis() - beginAt >= Constants.USER_CHECK_LOCK_TIME_OUT_MILLISECONDS) {
+                deleteLock(userUpdateDTO);
+                if (!phoneLock) {
+                    throw new SoDoException(ResultEnum.SERVER_ERROR, "手机号校验失败！");
+                }
+                throw new SoDoException(ResultEnum.SERVER_ERROR, "邮箱校验失败！");
+            }
+        }
+    }
+
+    private void deleteLock(UserUpdateDTO userUpdateDTO) {
+        redisCacheHelper.delete(Constants.USER_CHECK_LOCK_PREFIX + userUpdateDTO.getPhone());
+        redisCacheHelper.delete(Constants.USER_CHECK_LOCK_PREFIX + userUpdateDTO.getEmail());
     }
 
     @PostMapping(value = "grant")

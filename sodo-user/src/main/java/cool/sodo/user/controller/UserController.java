@@ -90,6 +90,7 @@ public class UserController {
                 return;
             }
             if (System.currentTimeMillis() - beginAt >= Constants.USER_CHECK_LOCK_TIME_OUT_MILLISECONDS) {
+                deleteLock(userRegisterDTO);
                 if (!usernameLock) {
                     throw new SoDoException(ResultEnum.SERVER_ERROR, "用户名校验失败！");
                 }
