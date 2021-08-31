@@ -14,5 +14,7 @@ public interface CommonAccessTokenService {
 
     void delete(String token);
 
+    void deleteByIdentity(String identity);
+
     void insert(AccessToken accessToken);
 }

@@ -58,7 +58,7 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
     }
 
     @Override
-    public synchronized void insert(User user, String userId) {
+    public void insert(User user, String userId) {
 
         passwordHelper.encryptPassword(user);
         user.init(userId);

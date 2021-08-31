@@ -111,7 +111,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
     public boolean validateCaptcha(String captcha, HttpServletRequest request) {
         String captchaCache = (String) redisCacheHelper.get(Constants.CAPTCHA_KEY_CACHE_PREFIX + WebUtil.getHeader(request, Constants.CAPTCHA_KEY));
         return !StringUtil.isEmpty(captcha) &&
-                captcha.toUpperCase(Locale.ROOT).equals(captchaCache.toUpperCase(Locale.ROOT));
+                       captcha.toUpperCase(Locale.ROOT).equals(captchaCache.toUpperCase(Locale.ROOT));
     }
 
     @Override
@@ -191,9 +191,9 @@ public class OauthAuthServiceImpl implements OauthAuthService {
         }
 
         OauthUser oauthUser = JSON.toJavaObject(AesCbcUtil.decrypt(
-                        authenticateRequest.getEncryptedData().replace(CharPool.SPACE, CharPool.PLUS)
-                        , wechatToken.getSessionKey()
-                        , authenticateRequest.getIv().replace(CharPool.SPACE, CharPool.PLUS)
+                authenticateRequest.getEncryptedData().replace(CharPool.SPACE, CharPool.PLUS)
+                , wechatToken.getSessionKey()
+                , authenticateRequest.getIv().replace(CharPool.SPACE, CharPool.PLUS)
                 )
                 , OauthUser.class);
 
@@ -248,29 +248,9 @@ public class OauthAuthServiceImpl implements OauthAuthService {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_AUTH_CLIENT);
         }
 
-        AccessToken accessToken = accessTokenService.getByIdentity(authenticationIdentity.getIdentity());
         OauthClient oauthClient = oauthClientService.getOauthClientIdentity(clientId);
+        AccessToken accessToken = getAccessToken(authenticationIdentity.getIdentity(), oauthClient);
 
-        // TODO 处理并发登录和共享 Token
-        if (accessToken != null) {
-            // Token 存在，验证 Token
-            if (accessToken.getExpireAt().getTime() >= System.currentTimeMillis()) {
-                // 未过期，刷新 Token
-                accessToken.setExpireAt(getExpireAt(oauthClient));
-                accessTokenService.update(accessToken);
-            } else {
-                // 已过期，重新生成 Token
-                accessTokenService.delete(accessToken.getToken());
-                accessToken = generatorAccessToken(authenticationIdentity.getIdentity(),
-                        authenticationIdentity.getClientId(),
-                        getExpireAt(oauthClient));
-            }
-        } else {
-            // Token 不存在，生成 Token
-            accessToken = generatorAccessToken(authenticationIdentity.getIdentity(),
-                    authenticationIdentity.getClientId(),
-                    getExpireAt(oauthClient));
-        }
         // Token 放入缓存
         redisCacheHelper.set(Constants.ACCESS_TOKEN_CACHE_PREFIX + accessToken.getToken(),
                 accessToken,
@@ -288,6 +268,51 @@ public class OauthAuthServiceImpl implements OauthAuthService {
         return new AuthorizationIdentity(accessToken.getToken(),
                 getRedirectUri(oauthClient, authenticationIdentity),
                 accessToken.getExpireAt());
+    }
+
+    /**
+     * 处理并发登录和共享 Token
+     *
+     * @param identity    身份标识
+     * @param oauthClient 客户端
+     * @return cool.sodo.common.domain.AccessToken
+     */
+    private AccessToken getAccessToken(String identity, OauthClient oauthClient) {
+        
+        AccessToken accessToken = null;
+
+        if (oauthClient.getConcurrentLogin()) {
+            if (oauthClient.getShareToken()) {
+                accessToken = accessTokenService.getByIdentity(identity);
+                if (accessToken != null) {
+                    // Token 存在，验证 Token
+                    if (accessToken.getExpireAt().getTime() >= System.currentTimeMillis()) {
+                        // 未过期，刷新 Token
+                        accessToken.setExpireAt(getExpireAt(oauthClient));
+                        accessTokenService.update(accessToken);
+                    } else {
+                        // 已过期，重新生成 Token
+                        accessTokenService.delete(accessToken.getToken());
+                        accessToken = generatorAccessToken(identity,
+                                oauthClient.getClientId(),
+                                getExpireAt(oauthClient));
+                    }
+                } else {
+                    // Token 不存在，生成 Token
+                    accessToken = generatorAccessToken(identity,
+                            oauthClient.getClientId(),
+                            getExpireAt(oauthClient));
+                }
+            } else {
+
+                accessToken = generatorAccessToken(identity, oauthClient.getClientId(), getExpireAt(oauthClient));
+            }
+        } else {
+            accessTokenService.deleteByIdentity(identity);
+            accessToken = generatorAccessToken(identity, oauthClient.getClientId(), getExpireAt(oauthClient));
+        }
+
+        return accessToken;
     }
 
     /**
@@ -309,17 +334,17 @@ public class OauthAuthServiceImpl implements OauthAuthService {
 
     private Date getExpireAt(OauthClient oauthClient) {
         return StringUtil.isEmpty(oauthClient.getTokenExpire()) ?
-                new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_CACHE_EXPIRE_MILLISECONDS) :
-                new Date(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(oauthClient.getTokenExpire()));
+                       new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_CACHE_EXPIRE_MILLISECONDS) :
+                       new Date(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(oauthClient.getTokenExpire()));
     }
 
     private Long getExpire(OauthClient oauthClient) {
         return StringUtil.isEmpty(oauthClient.getTokenExpire()) ?
-                Constants.ACCESS_TOKEN_CACHE_EXPIRE_SECONDS : oauthClient.getTokenExpire();
+                       Constants.ACCESS_TOKEN_CACHE_EXPIRE_SECONDS : oauthClient.getTokenExpire();
     }
 
     private String getRedirectUri(OauthClient oauthClient, AuthenticationIdentity authenticationIdentity) {
         return StringUtil.isEmpty(authenticationIdentity.getRedirectUri()) ?
-                oauthClient.getRedirectUri() : authenticationIdentity.getRedirectUri();
+                       oauthClient.getRedirectUri() : authenticationIdentity.getRedirectUri();
     }
 }

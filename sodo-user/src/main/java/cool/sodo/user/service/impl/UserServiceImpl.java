@@ -12,8 +12,6 @@ import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.AsyncException;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.mapper.CommonUserMapper;
-import cool.sodo.common.service.CommonOauthClientService;
-import cool.sodo.common.service.CommonUserService;
 import cool.sodo.common.service.impl.CommonUserServiceImpl;
 import cool.sodo.common.util.RsaUtil;
 import cool.sodo.common.util.StringUtil;
@@ -62,10 +60,6 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
     private RedisCacheHelper redisCacheHelper;
     @Resource
     private PasswordHelper passwordHelper;
-    @Resource
-    private CommonOauthClientService oauthClientService;
-    @Resource
-    private CommonUserService userService;
 
     private LambdaQueryWrapper<User> generateSelectQueryWrapper(int type) {
 
@@ -95,7 +89,7 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
     }
 
     @Override
-    public synchronized void insert(User user, OauthClient client) {
+    public void insert(User user, OauthClient client) {
 
         decryptRsaPassword(user);
         passwordHelper.encryptPassword(user);

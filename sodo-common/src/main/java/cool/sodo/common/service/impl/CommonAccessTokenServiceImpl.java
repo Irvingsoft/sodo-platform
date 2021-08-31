@@ -99,6 +99,17 @@ public class CommonAccessTokenServiceImpl implements CommonAccessTokenService {
     }
 
     @Override
+    public void deleteByIdentity(String identity) {
+
+        // TODO CACHE DELETE
+        LambdaQueryWrapper<AccessToken> accessTokenLambdaQueryWrapper = Wrappers.lambdaQuery();
+        accessTokenLambdaQueryWrapper.eq(AccessToken::getIdentity, identity);
+        if (commonAccessTokenMapper.delete(accessTokenLambdaQueryWrapper) < 0) {
+            throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_DELETE);
+        }
+    }
+
+    @Override
     public void insert(AccessToken accessToken) {
 
         if (commonAccessTokenMapper.insert(accessToken) <= 0) {
