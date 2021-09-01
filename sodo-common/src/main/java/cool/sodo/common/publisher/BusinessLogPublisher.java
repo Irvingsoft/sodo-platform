@@ -44,7 +44,8 @@ public class BusinessLogPublisher {
 
         LogBusiness logBusiness = new LogBusiness();
         String token = WebUtil.getHeaderNullable(request, Constants.AUTHORIZATION);
-        if (!StringUtil.isEmpty(token)) {
+        if (!StringUtil.isEmpty(token)
+                && !StringUtil.isEmpty(accessTokenService.getFromCache(token))) {
             logBusiness.setUserId(userService.getIdentity(
                     accessTokenService.getFromCache(token).getIdentity()
             ).getUserId());

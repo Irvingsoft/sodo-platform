@@ -5,19 +5,26 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import cool.sodo.common.domain.OauthClient;
+import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.mapper.CommonOauthClientMapper;
 import cool.sodo.common.service.CommonUserService;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.housekeeper.entity.OauthClientDTO;
+import cool.sodo.housekeeper.service.AccessTokenService;
 import cool.sodo.housekeeper.service.ClientApiService;
 import cool.sodo.housekeeper.service.OauthClientService;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/1 23:53
+ */
 @Service
 public class OauthClientServiceImpl implements OauthClientService {
 
@@ -36,6 +43,8 @@ public class OauthClientServiceImpl implements OauthClientService {
     private ClientApiService clientApiService;
     @Resource
     private CommonUserService userService;
+    @Resource
+    private AccessTokenService accessTokenService;
 
     private LambdaQueryWrapper<OauthClient> generateSelectQueryWrapper(int type) {
 
@@ -80,6 +89,7 @@ public class OauthClientServiceImpl implements OauthClientService {
     }
 
     @Override
+    @CacheEvict(cacheNames = Constants.OAUTH_CLIENT_CACHE_NAME, key = "#oauthClient.clientId")
     public void updateOauthClient(OauthClient oauthClient, String userId) {
 
         if (StringUtil.isEmpty(oauthClient.getClientId())) {
@@ -87,6 +97,19 @@ public class OauthClientServiceImpl implements OauthClientService {
         }
 
         OauthClient oauthClientOld = getOauthClient(oauthClient.getClientId());
+        /*
+          1. 并发登录下，开启共享 Token
+          2. 关闭并发登录
+         */
+        if (!oauthClientOld.getShareToken().equals(oauthClient.getShareToken())
+                && oauthClient.getConcurrentLogin()
+                && oauthClient.getShareToken()) {
+            accessTokenService.deleteCacheByClient(oauthClient.getClientId());
+        }
+        if (!oauthClientOld.getConcurrentLogin().equals(oauthClient.getConcurrentLogin())
+                && !oauthClient.getConcurrentLogin()) {
+            accessTokenService.deleteCacheByClient(oauthClient.getClientId());
+        }
         oauthClientOld.update(oauthClient, userId);
         if (oauthClientMapper.updateById(oauthClientOld) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE);
@@ -95,6 +118,7 @@ public class OauthClientServiceImpl implements OauthClientService {
     }
 
     @Override
+    @CacheEvict(cacheNames = Constants.OAUTH_CLIENT_CACHE_NAME, key = "#oauthClient.clientId")
     public void updateOauthClient(OauthClient oauthClient) {
         if (oauthClientMapper.updateById(oauthClient) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE);
@@ -102,20 +126,21 @@ public class OauthClientServiceImpl implements OauthClientService {
     }
 
     @Override
-    public void deleteOauthClient(String id, String userId) {
+    @CacheEvict(cacheNames = Constants.OAUTH_CLIENT_CACHE_NAME, key = "#clientId")
+    public void deleteOauthClient(String clientId, String userId) {
 
-        OauthClient oauthClient = getOauthClient(id);
+        OauthClient oauthClient = getOauthClient(clientId);
         oauthClient.delete(userId);
         updateOauthClient(oauthClient);
-        if (oauthClientMapper.deleteById(id) <= 0) {
+        if (oauthClientMapper.deleteById(clientId) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_DELETE);
         }
     }
 
     @Override
-    public OauthClient getOauthClient(String id) {
+    public OauthClient getOauthClient(String clientId) {
 
-        OauthClient oauthClient = oauthClientMapper.selectById(id);
+        OauthClient oauthClient = oauthClientMapper.selectById(clientId);
         if (StringUtil.isEmpty(oauthClient)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
         }
@@ -123,10 +148,10 @@ public class OauthClientServiceImpl implements OauthClientService {
     }
 
     @Override
-    public OauthClient getOauthClientIdentity(String id) {
+    public OauthClient getOauthClientIdentity(String clientId) {
 
         LambdaQueryWrapper<OauthClient> oauthClientLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_IDENTITY);
-        oauthClientLambdaQueryWrapper.eq(OauthClient::getClientId, id);
+        oauthClientLambdaQueryWrapper.eq(OauthClient::getClientId, clientId);
         OauthClient oauthClient = oauthClientMapper.selectOne(oauthClientLambdaQueryWrapper);
         if (StringUtil.isEmpty(oauthClient)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
@@ -135,10 +160,10 @@ public class OauthClientServiceImpl implements OauthClientService {
     }
 
     @Override
-    public OauthClient getOauthClientIdentityNullable(String id) {
+    public OauthClient getOauthClientIdentityNullable(String clientId) {
 
         LambdaQueryWrapper<OauthClient> oauthClientLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_IDENTITY);
-        oauthClientLambdaQueryWrapper.eq(OauthClient::getClientId, id);
+        oauthClientLambdaQueryWrapper.eq(OauthClient::getClientId, clientId);
         return oauthClientMapper.selectOne(oauthClientLambdaQueryWrapper);
     }
 

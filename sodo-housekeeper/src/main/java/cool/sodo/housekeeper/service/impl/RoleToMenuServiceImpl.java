@@ -82,12 +82,12 @@ public class RoleToMenuServiceImpl extends CommonRoleToMenuServiceImpl implement
     }
 
     @Override
-    public List<String> listRoleToMenuMenuIdByRole(List<String> roleIdList) {
-        return super.listRoleToMenuMenuIdByRole(roleIdList);
+    public List<String> listMenuIdByRole(List<String> roleIdList) {
+        return super.listMenuIdByRole(roleIdList);
     }
 
     @Override
-    public List<String> listRoleToMenuMenuIdByRole(String roleId) {
-        return super.listRoleToMenuMenuIdByRole(roleId);
+    public List<String> listMenuIdByRole(String roleId) {
+        return super.listMenuIdByRole(roleId);
     }
 }

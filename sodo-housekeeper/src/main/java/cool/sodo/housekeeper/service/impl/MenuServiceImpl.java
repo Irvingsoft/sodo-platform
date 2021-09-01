@@ -155,7 +155,7 @@ public class MenuServiceImpl implements MenuService {
         if (StringUtil.isEmpty(roleIdList)) {
             return null;
         }
-        List<String> menuIdList = roleToMenuService.listRoleToMenuMenuIdByRole(roleIdList);
+        List<String> menuIdList = roleToMenuService.listMenuIdByRole(roleIdList);
         if (StringUtil.isEmpty(menuIdList)) {
             return null;
         }
@@ -168,7 +168,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<String> listMenu(String roleId) {
 
-        List<String> menuIdList = roleToMenuService.listRoleToMenuMenuIdByRole(roleId);
+        List<String> menuIdList = roleToMenuService.listMenuIdByRole(roleId);
         if (StringUtil.isEmpty(menuIdList)) {
             return null;
         }

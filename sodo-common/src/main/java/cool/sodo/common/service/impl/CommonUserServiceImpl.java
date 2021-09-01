@@ -10,11 +10,15 @@ import cool.sodo.common.mapper.CommonUserMapper;
 import cool.sodo.common.service.CommonMenuService;
 import cool.sodo.common.service.CommonRoleService;
 import cool.sodo.common.service.CommonUserService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/1 23:55
+ */
 @Service
 public class CommonUserServiceImpl implements CommonUserService {
 
@@ -63,6 +67,7 @@ public class CommonUserServiceImpl implements CommonUserService {
     }
 
     @Override
+    @Cacheable(cacheNames = Constants.USER_IDENTITY_CACHE_NAME, key = "#identity")
     public User getIdentity(String identity) {
 
         LambdaQueryWrapper<User> userLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_IDENTITY);
@@ -79,15 +84,6 @@ public class CommonUserServiceImpl implements CommonUserService {
         if (user == null) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT, identity);
         }
-        return user;
-    }
-
-    @Override
-    public User getIdentityDetail(String identity) {
-
-        User user = getIdentity(identity);
-        List<String> roleIdList = roleService.listRoleRoleId(user.getUserId());
-        user.setCodeList(menuService.listMenuCode(roleIdList));
         return user;
     }
 

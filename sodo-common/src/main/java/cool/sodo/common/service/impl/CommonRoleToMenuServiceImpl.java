@@ -19,7 +19,7 @@ public class CommonRoleToMenuServiceImpl implements CommonRoleToMenuService {
     private CommonRoleToMenuMapper commonRoleToMenuMapper;
 
     @Override
-    public List<String> listRoleToMenuMenuIdByRole(List<String> roleIdList) {
+    public List<String> listMenuIdByRole(List<String> roleIdList) {
 
         if (StringUtil.isEmpty(roleIdList)) {
             return null;
@@ -34,7 +34,7 @@ public class CommonRoleToMenuServiceImpl implements CommonRoleToMenuService {
     }
 
     @Override
-    public List<String> listRoleToMenuMenuIdByRole(String roleId) {
+    public List<String> listMenuIdByRole(String roleId) {
 
         LambdaQueryWrapper<RoleToMenu> roleToMenuLambdaQueryWrapper = Wrappers.lambdaQuery();
         roleToMenuLambdaQueryWrapper.select(RoleToMenu::getMenuId)

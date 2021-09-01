@@ -14,7 +14,7 @@ public interface RoleToMenuService {
 
     void deleteByMenu(List<String> menuIdList);
 
-    List<String> listRoleToMenuMenuIdByRole(String roleId);
+    List<String> listMenuIdByRole(String roleId);
 
-    List<String> listRoleToMenuMenuIdByRole(List<String> roleIdList);
+    List<String> listMenuIdByRole(List<String> roleIdList);
 }

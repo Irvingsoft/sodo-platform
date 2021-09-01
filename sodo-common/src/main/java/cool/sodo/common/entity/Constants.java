@@ -31,6 +31,9 @@ public class Constants {
      * @date 2021/7/17 15:14
      */
     public static final String ACCESS_TOKEN_CACHE_NAME = "ACCESS_TOKEN";
+    public static final String OAUTH_CLIENT_CACHE_NAME = "CLIENT";
+    public static final String USER_IDENTITY_CACHE_NAME = "USER_IDENTITY";
+    public static final String USER_ROLE_CACHE_NAME = "USER_ROLE";
 
     /**
      * Redis Expire

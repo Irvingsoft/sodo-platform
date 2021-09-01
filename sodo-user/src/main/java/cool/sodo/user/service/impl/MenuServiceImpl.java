@@ -104,7 +104,7 @@ public class MenuServiceImpl implements MenuService {
 
         LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = generateQueryWrapperInUse();
         if (!StringUtil.isEmpty(roleIdList)) {
-            menuLambdaQueryWrapper.in(Menu::getMenuId, roleToMenuService.listRoleToMenuMenuIdByRole(roleIdList));
+            menuLambdaQueryWrapper.in(Menu::getMenuId, roleToMenuService.listMenuIdByRole(roleIdList));
         }
         if (!StringUtil.isEmpty(menuType)) {
             menuLambdaQueryWrapper.eq(Menu::getMenuType, menuType);

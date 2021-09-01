@@ -13,10 +13,7 @@ import cool.sodo.common.entity.ServiceInfo;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.publisher.OauthApiAccessPublisher;
 import cool.sodo.common.publisher.OauthApiLogPublisher;
-import cool.sodo.common.service.CommonAccessTokenService;
-import cool.sodo.common.service.CommonClientApiService;
-import cool.sodo.common.service.CommonOauthApiService;
-import cool.sodo.common.service.CommonUserService;
+import cool.sodo.common.service.*;
 import cool.sodo.common.util.StringPool;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.WebUtil;
@@ -64,7 +61,10 @@ public class OauthApiAspect {
     private RedisCacheHelper redisCacheHelper;
     @Resource
     private OauthApiLogPublisher apiLogPublisher;
-
+    @Resource
+    private CommonRoleService roleService;
+    @Resource
+    private CommonMenuService menuService;
 
     /**
      * 在所有 Controller 包中的所有类的所有方法上环绕
@@ -101,16 +101,14 @@ public class OauthApiAspect {
         if (oauthApi.getAuth()) {
 
             String token = WebUtil.getAccessToken(request);
-            if (StringUtil.isEmpty(token)) {
-                throw new SoDoException(ResultEnum.UNAUTHORIZED, "请登录后重试！");
-            }
             // AccessToken Check, And User Status Check.
             accessToken = accessTokenService.getFromCache(token);
             checkAccessToken(accessToken, clientId);
-            User user = userService.getIdentityDetail(accessToken.getIdentity());
+            User user = userService.getIdentity(accessToken.getIdentity());
             userService.checkUserStatus(user);
+            // Check User`s Permission if OauthApi Needs.
             if (!StringUtil.isEmpty(oauthApi.getCode())) {
-                checkUserAccess(user, oauthApi.getCode());
+                checkUserAccess(user.getUserId(), oauthApi.getCode());
             }
         }
 
@@ -121,15 +119,12 @@ public class OauthApiAspect {
         if (oauthApi.getLog()) {
 
             long startTime = System.currentTimeMillis();
-
             LogApi logApi = generateLogApi(getRequestBody(point),
                     oauthApi.getApiId(),
                     point.getTarget().getClass().getName(),
                     method.getName());
             saveLogApi(WebUtil.getHeader(request, Constants.REQUEST_ID), logApi);
-
             Object result = point.proceed();
-
             apiLogPublisher.publishEvent(request,
                     logApi,
                     getResponseStatus(result),
@@ -139,10 +134,13 @@ public class OauthApiAspect {
         } else {
             return point.proceed();
         }
-
     }
 
     private void checkAccessToken(AccessToken accessToken, String clientId) {
+
+        if (StringUtil.isEmpty(accessToken)) {
+            throw new SoDoException(ResultEnum.UNAUTHORIZED, "请登录后重试！");
+        }
         if (!accessToken.getClientId().equals(clientId)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, "令牌不属于当前客户端！");
         }
@@ -151,7 +149,6 @@ public class OauthApiAspect {
     private String getApiPath(HttpServletRequest request, Method method) {
 
         StringBuilder pathBuilder = new StringBuilder(serviceInfo.getPath() + request.getRequestURI());
-
         int pathParameterCount = 0;
         for (Parameter parameter : method.getParameters()) {
             if (parameter.isAnnotationPresent(PathVariable.class)) {
@@ -198,8 +195,11 @@ public class OauthApiAspect {
         }
     }
 
-    private void checkUserAccess(User user, String code) {
-        if (!user.getCodeList().contains(code)) {
+    private void checkUserAccess(String userId, String code) {
+
+        List<String> codeList = menuService.listCode(roleService.listRoleId(userId));
+        if (!StringUtil.isEmpty(codeList)
+                && !codeList.contains(code)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, "权限不足！");
         }
     }

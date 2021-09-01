@@ -10,18 +10,16 @@ import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.mapper.CommonAccessTokenMapper;
 import cool.sodo.common.service.CommonAccessTokenService;
 import cool.sodo.common.util.StringUtil;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.concurrent.TimeUnit;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/1 22:55
+ */
 @Service
 public class CommonAccessTokenServiceImpl implements CommonAccessTokenService {
-
-    public static final String ERROR_INSERT = "AccessToken 新增失败！";
-    public static final String ERROR_UPDATE = "AccessToken 更新失败！";
-    public static final String ERROR_DELETE = "AccessToken 删除失败！";
 
     public static final String INVALID_TOKEN = "请重新登录获取新的令牌！";
 
@@ -41,7 +39,6 @@ public class CommonAccessTokenServiceImpl implements CommonAccessTokenService {
 
         LambdaQueryWrapper<AccessToken> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(AccessToken::getIdentity, identity);
-
         return commonAccessTokenMapper.selectOne(queryWrapper);
     }
 
@@ -63,57 +60,6 @@ public class CommonAccessTokenServiceImpl implements CommonAccessTokenService {
 
     @Override
     public AccessToken getFromCache(String token) {
-
-        AccessToken accessToken = null;
-        if (redisCacheHelper.hasKey(Constants.ACCESS_TOKEN_CACHE_PREFIX + token)) {
-            accessToken = (AccessToken) redisCacheHelper.get(Constants.ACCESS_TOKEN_CACHE_PREFIX + token);
-        } else {
-            accessToken = get(token);
-            if (accessToken.getExpireAt().getTime() >= System.currentTimeMillis()) {
-                redisCacheHelper.set(Constants.ACCESS_TOKEN_CACHE_PREFIX + accessToken.getToken(),
-                        accessToken,
-                        TimeUnit.MILLISECONDS.toSeconds(accessToken.getExpireAt().getTime() - System.currentTimeMillis()));
-            } else {
-                throw new SoDoException(ResultEnum.INVALID_TOKEN, "令牌已过期，请重新登录获取新令牌！");
-            }
-        }
-        return accessToken;
-    }
-
-    @Override
-    @CacheEvict(cacheNames = Constants.ACCESS_TOKEN_CACHE_NAME, key = "#root.args[0].token")
-    public void update(AccessToken accessToken) {
-
-        if (commonAccessTokenMapper.updateById(accessToken) <= 0) {
-            throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE);
-        }
-    }
-
-    @Override
-    @CacheEvict(cacheNames = Constants.ACCESS_TOKEN_CACHE_NAME, key = "#root.args[0]")
-    public void delete(String token) {
-
-        if (commonAccessTokenMapper.deleteById(token) <= 0) {
-            throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_DELETE);
-        }
-    }
-
-    @Override
-    public void deleteByIdentity(String identity) {
-
-        // TODO CACHE DELETE
-        LambdaQueryWrapper<AccessToken> accessTokenLambdaQueryWrapper = Wrappers.lambdaQuery();
-        accessTokenLambdaQueryWrapper.eq(AccessToken::getIdentity, identity);
-        if (commonAccessTokenMapper.delete(accessTokenLambdaQueryWrapper) < 0) {
-            throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_DELETE);
-        }
-    }
-
-    @Override
-    public void insert(AccessToken accessToken) {
-
-        if (commonAccessTokenMapper.insert(accessToken) <= 0) {
-            throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_INSERT);
-        }
+        return (AccessToken) redisCacheHelper.get(Constants.ACCESS_TOKEN_CACHE_PREFIX + token);
     }
 }

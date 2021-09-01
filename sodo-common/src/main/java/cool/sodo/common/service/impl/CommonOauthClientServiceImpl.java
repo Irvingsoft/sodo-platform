@@ -3,11 +3,13 @@ package cool.sodo.common.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.domain.OauthClient;
+import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.mapper.CommonOauthClientMapper;
 import cool.sodo.common.service.CommonOauthClientService;
 import cool.sodo.common.util.StringUtil;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,6 +29,7 @@ public class CommonOauthClientServiceImpl implements CommonOauthClientService {
     private CommonOauthClientMapper commonOauthClientMapper;
 
     @Override
+    @Cacheable(cacheNames = Constants.OAUTH_CLIENT_CACHE_NAME, key = "#clientId")
     public OauthClient getOauthClientIdentity(String clientId) {
 
         LambdaQueryWrapper<OauthClient> oauthClientLambdaQueryWrapper = Wrappers.lambdaQuery();

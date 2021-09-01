@@ -65,7 +65,6 @@ public class UserController {
         if (!client.getRegister()) {
             return Result.badRequest("客户端不允许注册！");
         }
-        // 用户字段校验
         // 手机验证码校验
 
         getLock(userRegisterDTO);

@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface CommonMenuService {
 
-    List<String> listMenuCode(List<String> roleIdList);
+    List<String> listCode(List<String> roleIdList);
 }

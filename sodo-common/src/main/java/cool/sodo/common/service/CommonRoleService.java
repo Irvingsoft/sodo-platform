@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface CommonRoleService {
 
-    List<String> listRoleRoleId(String userId);
+    List<String> listRoleId(String userId);
 }

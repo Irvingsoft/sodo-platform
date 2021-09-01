@@ -169,7 +169,12 @@ public class WebUtil {
         if (!StringUtil.isEmpty(header)) {
             return header.split(StringPool.BLANK)[1];
         }
-        return null;
+        throw new SoDoException(ResultEnum.UNAUTHORIZED, "请登录后重试！");
+    }
+
+    public static String getAccessTokenNullable(HttpServletRequest request) {
+        String header = getHeaderNullable(request, Constants.AUTHORIZATION);
+        return !StringUtil.isEmpty(header) ? header.split(StringPool.BLANK)[1] : null;
     }
 
     public static String getAccessToken(WebRequest request) {
@@ -177,6 +182,6 @@ public class WebUtil {
         if (!StringUtil.isEmpty(header)) {
             return header.split(StringPool.BLANK)[1];
         }
-        return null;
+        throw new SoDoException(ResultEnum.UNAUTHORIZED, "请登录后重试！");
     }
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface CommonRoleToMenuService {
 
-    List<String> listRoleToMenuMenuIdByRole(List<String> roleIdList);
+    List<String> listMenuIdByRole(List<String> roleIdList);
 
-    List<String> listRoleToMenuMenuIdByRole(String roleId);
+    List<String> listMenuIdByRole(String roleId);
 }

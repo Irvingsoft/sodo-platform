@@ -29,14 +29,6 @@ public interface CommonUserService {
     User getIdentity(String identity);
 
     /**
-     * 获取用户的身份认证信息，包括其权限列表
-     *
-     * @param identity 身份认证关键字，包括 userId、username、openId、phone、email
-     * @return cool.sodo.common.domain.User
-     */
-    User getIdentityDetail(String identity);
-
-    /**
      * 检查用户状态（status）
      *
      * @param user getIdentity() 返回的实体

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import cool.sodo.auth.entity.*;
 import cool.sodo.auth.message.UserMqProducer;
 import cool.sodo.auth.message.UserMqProperty;
+import cool.sodo.auth.service.AccessTokenService;
 import cool.sodo.auth.service.OauthAuthService;
 import cool.sodo.auth.service.OauthUserService;
 import cool.sodo.auth.service.WechatAuthService;
@@ -17,7 +18,6 @@ import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.Notification;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
-import cool.sodo.common.service.CommonAccessTokenService;
 import cool.sodo.common.service.CommonOauthClientService;
 import cool.sodo.common.service.CommonUserService;
 import cool.sodo.common.util.AesCbcUtil;
@@ -64,7 +64,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
     @Resource
     private CommonUserService userService;
     @Resource
-    private CommonAccessTokenService accessTokenService;
+    private AccessTokenService accessTokenService;
     @Resource
     private RedisCacheHelper redisCacheHelper;
     @Resource
@@ -111,7 +111,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
     public boolean validateCaptcha(String captcha, HttpServletRequest request) {
         String captchaCache = (String) redisCacheHelper.get(Constants.CAPTCHA_KEY_CACHE_PREFIX + WebUtil.getHeader(request, Constants.CAPTCHA_KEY));
         return !StringUtil.isEmpty(captcha) &&
-                       captcha.toUpperCase(Locale.ROOT).equals(captchaCache.toUpperCase(Locale.ROOT));
+                captcha.toUpperCase(Locale.ROOT).equals(captchaCache.toUpperCase(Locale.ROOT));
     }
 
     @Override
@@ -185,15 +185,14 @@ public class OauthAuthServiceImpl implements OauthAuthService {
         OauthClient oauthClient = oauthClientService.getOauthClientIdentity(clientId);
 
         WechatToken wechatToken = wechatAuthService.getAccessToken(authenticateRequest.getCode(), oauthClient);
-
         if (wechatToken == null || StringUtil.isEmpty(wechatToken.getSessionKey())) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_WECHAT_TOKEN);
         }
 
         OauthUser oauthUser = JSON.toJavaObject(AesCbcUtil.decrypt(
-                authenticateRequest.getEncryptedData().replace(CharPool.SPACE, CharPool.PLUS)
-                , wechatToken.getSessionKey()
-                , authenticateRequest.getIv().replace(CharPool.SPACE, CharPool.PLUS)
+                        authenticateRequest.getEncryptedData().replace(CharPool.SPACE, CharPool.PLUS)
+                        , wechatToken.getSessionKey()
+                        , authenticateRequest.getIv().replace(CharPool.SPACE, CharPool.PLUS)
                 )
                 , OauthUser.class);
 
@@ -278,11 +277,11 @@ public class OauthAuthServiceImpl implements OauthAuthService {
      * @return cool.sodo.common.domain.AccessToken
      */
     private AccessToken getAccessToken(String identity, OauthClient oauthClient) {
-        
-        AccessToken accessToken = null;
 
+        AccessToken accessToken = null;
         if (oauthClient.getConcurrentLogin()) {
             if (oauthClient.getShareToken()) {
+                // 共享 Token 时，认为库中单个用户最多只有一条 Token 记录
                 accessToken = accessTokenService.getByIdentity(identity);
                 if (accessToken != null) {
                     // Token 存在，验证 Token
@@ -304,14 +303,12 @@ public class OauthAuthServiceImpl implements OauthAuthService {
                             getExpireAt(oauthClient));
                 }
             } else {
-
                 accessToken = generatorAccessToken(identity, oauthClient.getClientId(), getExpireAt(oauthClient));
             }
         } else {
-            accessTokenService.deleteByIdentity(identity);
+            accessTokenService.deleteCacheByIdentity(identity);
             accessToken = generatorAccessToken(identity, oauthClient.getClientId(), getExpireAt(oauthClient));
         }
-
         return accessToken;
     }
 
@@ -334,17 +331,17 @@ public class OauthAuthServiceImpl implements OauthAuthService {
 
     private Date getExpireAt(OauthClient oauthClient) {
         return StringUtil.isEmpty(oauthClient.getTokenExpire()) ?
-                       new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_CACHE_EXPIRE_MILLISECONDS) :
-                       new Date(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(oauthClient.getTokenExpire()));
+                new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_CACHE_EXPIRE_MILLISECONDS) :
+                new Date(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(oauthClient.getTokenExpire()));
     }
 
     private Long getExpire(OauthClient oauthClient) {
         return StringUtil.isEmpty(oauthClient.getTokenExpire()) ?
-                       Constants.ACCESS_TOKEN_CACHE_EXPIRE_SECONDS : oauthClient.getTokenExpire();
+                Constants.ACCESS_TOKEN_CACHE_EXPIRE_SECONDS : oauthClient.getTokenExpire();
     }
 
     private String getRedirectUri(OauthClient oauthClient, AuthenticationIdentity authenticationIdentity) {
         return StringUtil.isEmpty(authenticationIdentity.getRedirectUri()) ?
-                       oauthClient.getRedirectUri() : authenticationIdentity.getRedirectUri();
+                oauthClient.getRedirectUri() : authenticationIdentity.getRedirectUri();
     }
 }

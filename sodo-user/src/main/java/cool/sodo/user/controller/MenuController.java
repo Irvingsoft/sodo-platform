@@ -24,14 +24,14 @@ public class MenuController {
     @GetMapping(value = "route")
     public Result route(@CurrentUser User user) {
 
-        List<String> roleIdList = roleService.listRoleRoleId(user.getUserId());
+        List<String> roleIdList = roleService.listRoleId(user.getUserId());
         return Result.success(menuService.route(roleIdList));
     }
 
     @GetMapping(value = "button")
     public Result button(@CurrentUser User user) {
 
-        List<String> roleIdList = roleService.listRoleRoleId(user.getUserId());
+        List<String> roleIdList = roleService.listRoleId(user.getUserId());
         return Result.success(menuService.button(roleIdList));
     }
 }

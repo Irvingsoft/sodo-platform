@@ -9,12 +9,4 @@ public interface CommonAccessTokenService {
     AccessToken get(String token);
 
     AccessToken getFromCache(String token);
-
-    void update(AccessToken accessToken);
-
-    void delete(String token);
-
-    void deleteByIdentity(String identity);
-
-    void insert(AccessToken accessToken);
 }

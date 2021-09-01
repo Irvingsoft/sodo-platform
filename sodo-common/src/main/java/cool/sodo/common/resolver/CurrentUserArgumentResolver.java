@@ -2,9 +2,7 @@ package cool.sodo.common.resolver;
 
 import cool.sodo.common.annotation.CurrentUser;
 import cool.sodo.common.component.RedisCacheHelper;
-import cool.sodo.common.domain.AccessToken;
 import cool.sodo.common.domain.User;
-import cool.sodo.common.entity.Constants;
 import cool.sodo.common.service.CommonAccessTokenService;
 import cool.sodo.common.service.CommonUserService;
 import cool.sodo.common.util.WebUtil;
@@ -22,10 +20,7 @@ import javax.annotation.Resource;
  * @author TimeChaser
  * @date 2021/5/29 11:12
  */
-@SuppressWarnings("all")
 public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolver {
-
-    public static final String ERROR_USER_RESOLVER = "用户信息注入失败";
 
     @Resource
     private RedisCacheHelper redisCacheHelper;
@@ -46,16 +41,7 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
                                   NativeWebRequest nativeWebRequest,
                                   WebDataBinderFactory webDataBinderFactory) throws Exception {
 
-        AccessToken accessToken = null;
         String token = WebUtil.getAccessToken(nativeWebRequest);
-
-        if (redisCacheHelper.hasKey(Constants.ACCESS_TOKEN_CACHE_PREFIX + token)) {
-            accessToken = (AccessToken) redisCacheHelper.get(Constants.ACCESS_TOKEN_CACHE_PREFIX + token);
-        } else {
-            accessToken = accessTokenService.get(token);
-            redisCacheHelper.set(Constants.ACCESS_TOKEN_CACHE_PREFIX + accessToken.getToken(), accessToken, Constants.ACCESS_TOKEN_CACHE_EXPIRE_SECONDS);
-        }
-
-        return userService.getIdentity(accessToken.getIdentity());
+        return userService.getIdentity(accessTokenService.getFromCache(token).getIdentity());
     }
 }

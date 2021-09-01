@@ -12,6 +12,10 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/2 0:04
+ */
 @Service
 public class CommonRoleServiceImpl implements CommonRoleService {
 
@@ -21,7 +25,7 @@ public class CommonRoleServiceImpl implements CommonRoleService {
     private CommonUserToRoleService userToRoleService;
 
     @Override
-    public List<String> listRoleRoleId(String userId) {
+    public List<String> listRoleId(String userId) {
 
         List<String> roleIdList = userToRoleService.listUserToRoleRoleId(userId);
         LambdaQueryWrapper<Role> roleLambdaQueryWrapper = Wrappers.lambdaQuery();

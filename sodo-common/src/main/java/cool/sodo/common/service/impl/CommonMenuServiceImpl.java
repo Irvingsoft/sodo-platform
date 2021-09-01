@@ -6,6 +6,7 @@ import cool.sodo.common.domain.Menu;
 import cool.sodo.common.mapper.CommonMenuMapper;
 import cool.sodo.common.service.CommonMenuService;
 import cool.sodo.common.service.CommonRoleToMenuService;
+import cool.sodo.common.util.StringUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,11 +22,15 @@ public class CommonMenuServiceImpl implements CommonMenuService {
     private CommonRoleToMenuService roleToMenuService;
 
     @Override
-    public List<String> listMenuCode(List<String> roleIdList) {
+    public List<String> listCode(List<String> roleIdList) {
 
+        List<String> menuIdList = roleToMenuService.listMenuIdByRole(roleIdList);
+        if (StringUtil.isEmpty(menuIdList)) {
+            return null;
+        }
         LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = Wrappers.lambdaQuery();
         menuLambdaQueryWrapper.select(Menu::getCode)
-                .in(Menu::getMenuId, roleToMenuService.listRoleToMenuMenuIdByRole(roleIdList));
+                .in(Menu::getMenuId, menuIdList);
         return commonMenuMapper.selectList(menuLambdaQueryWrapper)
                 .stream()
                 .map(Menu::getCode)

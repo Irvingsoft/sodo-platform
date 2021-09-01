@@ -61,14 +61,6 @@ public class UserTestApplication {
     }
 
     @Test
-    public void testCache() {
-
-        System.out.println(commonUserService.getIdentityDetail("1"));
-        System.out.println(commonUserService.getIdentityDetail("1"));
-        System.out.println(commonUserService.getIdentityDetail("1"));
-    }
-
-    @Test
     public void testIfAbsent() {
 
         System.out.println(redisCacheHelper.setIfAbsent("aaa", "aa"));

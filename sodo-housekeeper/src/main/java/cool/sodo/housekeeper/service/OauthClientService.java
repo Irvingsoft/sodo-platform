@@ -14,13 +14,13 @@ public interface OauthClientService {
 
     void updateOauthClient(OauthClient oauthClient);
 
-    void deleteOauthClient(String id, String userId);
+    void deleteOauthClient(String clientId, String userId);
 
-    OauthClient getOauthClient(String id);
+    OauthClient getOauthClient(String clientId);
 
-    OauthClient getOauthClientIdentity(String id);
+    OauthClient getOauthClientIdentity(String clientId);
 
-    OauthClient getOauthClientIdentityNullable(String id);
+    OauthClient getOauthClientIdentityNullable(String clientId);
 
     OauthClient getOauthClientInfoDetail(String clientId);
 
