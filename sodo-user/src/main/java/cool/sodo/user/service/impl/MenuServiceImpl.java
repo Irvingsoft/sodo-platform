@@ -20,6 +20,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/2 18:58
+ */
 @Service
 public class MenuServiceImpl implements MenuService {
 
@@ -83,20 +87,10 @@ public class MenuServiceImpl implements MenuService {
     public List<MenuVO> button(List<String> roleIdList) {
 
         List<Menu> roleMenuList = listMenu(roleIdList, Constants.MENU_TYPE_BUTTON);
-        List<Menu> parentMenuList = listMenu(roleMenuList.stream().map(Menu::getParentId).collect(Collectors.toList()));
         LinkedList<Menu> buttonMenuList = new LinkedList<>(roleMenuList);
-        buttonMenuList.addAll(parentMenuList);
         buttonMenuList.sort(Comparator.comparing(Menu::getSort));
 
         return ForestNodeMerger.merge(toMenuVO(buttonMenuList));
-    }
-
-    @Override
-    public List<Menu> listMenu(List<String> menuIdList) {
-
-        LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = generateQueryWrapperInUse();
-        menuLambdaQueryWrapper.in(Menu::getMenuId, menuIdList);
-        return menuMapper.selectList(menuLambdaQueryWrapper);
     }
 
     @Override

@@ -9,7 +9,6 @@ import cool.sodo.common.mapper.CommonMenuMapper;
 import cool.sodo.common.util.BeanUtil;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.node.ForestNodeMerger;
-import cool.sodo.housekeeper.common.Constants;
 import cool.sodo.housekeeper.entity.MenuDTO;
 import cool.sodo.housekeeper.entity.MenuVO;
 import cool.sodo.housekeeper.service.MenuService;
@@ -143,8 +142,7 @@ public class MenuServiceImpl implements MenuService {
     public List<MenuVO> treeMenu(String clientId) {
 
         LambdaQueryWrapper<Menu> menuLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_TREE);
-        menuLambdaQueryWrapper.eq(Menu::getClientId, clientId)
-                .eq(Menu::getMenuType, Constants.MENU_TYPE_MENU);
+        menuLambdaQueryWrapper.eq(Menu::getClientId, clientId);
         List<Menu> menuList = menuMapper.selectList(menuLambdaQueryWrapper);
         return ForestNodeMerger.merge(toMenuVO(menuList));
     }

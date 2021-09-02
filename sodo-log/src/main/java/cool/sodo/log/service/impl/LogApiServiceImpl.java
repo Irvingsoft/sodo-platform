@@ -19,6 +19,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/3 0:27
+ */
 @Service
 public class LogApiServiceImpl implements LogApiService {
 
@@ -60,7 +64,6 @@ public class LogApiServiceImpl implements LogApiService {
     @Async
     @Override
     public void insertLogApiByAsync(LogApi logApi) {
-
         if (logApiMapper.insert(logApi) <= 0) {
             throw new AsyncException(ERROR_INSERT_ASYNC);
         }

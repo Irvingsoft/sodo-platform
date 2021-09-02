@@ -1,7 +1,6 @@
 package cool.sodo.common.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
-import cool.sodo.common.entity.Constants;
 import cool.sodo.common.util.StringUtil;
 import lombok.Data;
 
@@ -66,9 +65,6 @@ public class OauthClient implements Serializable {
 
     public void init(String userId) {
 
-        if (StringUtil.isEmpty(this.userStatus)) {
-            this.userStatus = Constants.USER_STATUS_FREEZE;
-        }
         if (!StringUtil.isEmpty(this.tokenExpire) && this.tokenExpire <= 0) {
             this.tokenExpire = null;
         }

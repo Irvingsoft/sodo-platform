@@ -4,21 +4,25 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import cool.sodo.common.domain.OauthIp;
 import cool.sodo.housekeeper.entity.OauthIpDTO;
 
+import java.util.List;
+
 public interface OauthIpService {
 
-    void insertOauthIp(OauthIp oauthIp);
+    void insertOauthIp(OauthIp oauthIp, String createBy);
 
-    void deleteOauthIp(String id);
+    void deleteOauthIp(String ipId, String deleteBy);
+
+    void deleteOauthIp(List<String> ipIdList, String deleteBy);
 
     void updateOauthIp(OauthIp oauthIp);
 
+    void updateOauthIp(OauthIp oauthIp, String updateBy);
+
     void updateOauthIpValidNumByAsync(String ipId);
 
-    OauthIp getOauthIp(String id);
-
-    OauthIp getOauthIpIdentity(String id);
-
-    OauthIp getOauthIpIdentityNullable(String id);
+    OauthIp getOauthIp(String ipId);
 
     IPage<OauthIp> pageOauthIpInfo(OauthIpDTO oauthIpDTO);
+
+    void check(String ipId, String ip, String clientId);
 }

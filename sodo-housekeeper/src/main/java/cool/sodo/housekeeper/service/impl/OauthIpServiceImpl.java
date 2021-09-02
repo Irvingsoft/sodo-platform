@@ -13,10 +13,16 @@ import cool.sodo.common.util.StringUtil;
 import cool.sodo.housekeeper.entity.OauthIpDTO;
 import cool.sodo.housekeeper.mapper.OauthIpMapper;
 import cool.sodo.housekeeper.service.OauthIpService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/2 22:44
+ */
 @Service
 public class OauthIpServiceImpl implements OauthIpService {
 
@@ -56,33 +62,62 @@ public class OauthIpServiceImpl implements OauthIpService {
     }
 
     @Override
-    public void insertOauthIp(OauthIp oauthIp) {
+    public void insertOauthIp(OauthIp oauthIp, String createBy) {
 
+        oauthIp.init(createBy);
+        check(null, oauthIp.getIp(), oauthIp.getClientId());
         if (oauthIpMapper.insert(oauthIp) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_INSERT);
         }
     }
 
     @Override
-    public void deleteOauthIp(String id) {
+    public void deleteOauthIp(String ipId, String deleteBy) {
 
-        if (oauthIpMapper.deleteById(id) <= 0) {
+        OauthIp oauthIp = getOauthIp(ipId);
+        oauthIp.delete(deleteBy);
+        updateOauthIp(oauthIp);
+        if (oauthIpMapper.deleteById(ipId) <= 0) {
+            throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_DELETE);
+        }
+    }
+
+    @Override
+    public void deleteOauthIp(List<String> ipIdList, String deleteBy) {
+
+        if (StringUtil.isEmpty(ipIdList)) {
+            return;
+        }
+        for (String ipId : ipIdList) {
+            OauthIp oauthIp = getOauthIp(ipId);
+            oauthIp.delete(deleteBy);
+            updateOauthIp(oauthIp);
+        }
+        if (oauthIpMapper.deleteBatchIds(ipIdList) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_DELETE);
         }
     }
 
     @Override
     public void updateOauthIp(OauthIp oauthIp) {
-
-        OauthIp oauthIpOld = getOauthIp(oauthIp.getIpId());
-
-        oauthIpOld.update(oauthIp);
-        if (oauthIpMapper.updateById(oauthIpOld) < 0) {
+        if (oauthIpMapper.updateById(oauthIp) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE);
         }
     }
 
     @Override
+    public void updateOauthIp(OauthIp oauthIp, String updateBy) {
+
+        OauthIp oauthIpOld = getOauthIp(oauthIp.getIpId());
+        oauthIpOld.update(oauthIp, updateBy);
+        check(oauthIpOld.getIpId(), oauthIpOld.getIp(), oauthIpOld.getClientId());
+        if (oauthIpMapper.updateById(oauthIpOld) <= 0) {
+            throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE);
+        }
+    }
+
+    @Override
+    @Async
     public void updateOauthIpValidNumByAsync(String ipId) {
 
         LambdaQueryWrapper<OauthIp> oauthIpLambdaQueryWrapper = Wrappers.lambdaQuery();
@@ -98,42 +133,21 @@ public class OauthIpServiceImpl implements OauthIpService {
     }
 
     @Override
-    public OauthIp getOauthIp(String id) {
+    public OauthIp getOauthIp(String ipId) {
 
-        OauthIp oauthIp = oauthIpMapper.selectById(id);
+        OauthIp oauthIp = oauthIpMapper.selectById(ipId);
         if (StringUtil.isEmpty(oauthIp)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
         }
         return oauthIp;
-    }
-
-    @Override
-    public OauthIp getOauthIpIdentity(String id) {
-
-        LambdaQueryWrapper<OauthIp> oauthIpLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_IDENTITY);
-        oauthIpLambdaQueryWrapper.eq(OauthIp::getIpId, id);
-        OauthIp oauthIp = oauthIpMapper.selectOne(oauthIpLambdaQueryWrapper);
-        if (StringUtil.isEmpty(oauthIp)) {
-            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT);
-        }
-        return oauthIp;
-    }
-
-    @Override
-    public OauthIp getOauthIpIdentityNullable(String id) {
-        LambdaQueryWrapper<OauthIp> oauthIpLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_IDENTITY);
-        oauthIpLambdaQueryWrapper.eq(OauthIp::getIpId, id);
-        return oauthIpMapper.selectOne(oauthIpLambdaQueryWrapper);
     }
 
     @Override
     public IPage<OauthIp> pageOauthIpInfo(OauthIpDTO oauthIpDTO) {
 
         LambdaQueryWrapper<OauthIp> oauthIpLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_INFO);
-
-        if (!StringUtil.isEmpty(oauthIpDTO.getClientId())) {
-            oauthIpLambdaQueryWrapper.eq(OauthIp::getClientId, oauthIpDTO.getClientId());
-        }
+        oauthIpLambdaQueryWrapper.eq(OauthIp::getClientId, oauthIpDTO.getClientId())
+                .eq(OauthIp::getValid, oauthIpDTO.getValid());
         if (!StringUtil.isEmpty(oauthIpDTO.getContent())) {
             oauthIpLambdaQueryWrapper.and(
                     wrapper -> wrapper.like(OauthIp::getIp, oauthIpDTO.getContent())
@@ -141,7 +155,23 @@ public class OauthIpServiceImpl implements OauthIpService {
                             .like(OauthIp::getDescription, oauthIpDTO.getContent())
             );
         }
-
         return oauthIpMapper.selectPage(new Page<>(oauthIpDTO.getPageNum(), oauthIpDTO.getPageSize()), oauthIpLambdaQueryWrapper);
+    }
+
+    @Override
+    public void check(String ipId, String ip, String clientId) {
+
+        if (!StringUtil.isEmpty(ipId)) {
+            OauthIp oauthIp = getOauthIp(ipId);
+            if (oauthIp.getIp().equals(ip)) {
+                return;
+            }
+        }
+        LambdaQueryWrapper<OauthIp> oauthIpLambdaQueryWrapper = Wrappers.lambdaQuery();
+        oauthIpLambdaQueryWrapper.eq(OauthIp::getIp, ip)
+                .eq(OauthIp::getClientId, clientId);
+        if (oauthIpMapper.selectCount(oauthIpLambdaQueryWrapper) != 0) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, "该客户端已存在 IP 为：" + ip + " 的记录！");
+        }
     }
 }

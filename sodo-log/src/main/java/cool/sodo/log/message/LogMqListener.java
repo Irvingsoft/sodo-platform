@@ -45,18 +45,26 @@ public class LogMqListener {
         log.info("接收到一条通告信息... ");
         log.info("通告消息类型为：[{}]", notification.getEventType());
         log.info("消息来源：[{}]", notification.getOrigin());
-        log.info("消息实体：[{}]", dataString);
 
         switch (notification.getEventType()) {
-            case Constants.LOG_MQ_EVENT_TYPE_API:
-                logApiService.insertLogApiByAsync(mapper.readValue(dataString, LogApi.class));
-                break;
-            case Constants.LOG_MQ_EVENT_TYPE_ERROR:
-                logErrorService.insertLogErrorByAsync(mapper.readValue(dataString, LogError.class));
-                break;
-            case Constants.LOG_MQ_EVENT_TYPE_BUSINESS:
-                logBusinessService.insertLogBusinessByAsync(mapper.readValue(dataString, LogBusiness.class));
-                break;
+            case Constants.LOG_MQ_EVENT_TYPE_API: {
+                LogApi logApi = mapper.readValue(dataString, LogApi.class);
+                logApiService.insertLogApiByAsync(logApi);
+                log.info("消息实体：[{}]", logApi);
+            }
+            break;
+            case Constants.LOG_MQ_EVENT_TYPE_ERROR: {
+                LogError logError = mapper.readValue(dataString, LogError.class);
+                logErrorService.insertLogErrorByAsync(logError);
+                log.error("消息实体：[{}]", logError);
+            }
+            break;
+            case Constants.LOG_MQ_EVENT_TYPE_BUSINESS: {
+                LogBusiness logBusiness = mapper.readValue(dataString, LogBusiness.class);
+                logBusinessService.insertLogBusinessByAsync(logBusiness);
+                log.info("消息实体：[{}]", logBusiness);
+            }
+            break;
             default:
                 break;
         }

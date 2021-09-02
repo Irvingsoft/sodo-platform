@@ -17,6 +17,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/3 0:27
+ */
 @Service
 public class LogErrorServiceImpl implements LogErrorService {
 
@@ -57,8 +61,6 @@ public class LogErrorServiceImpl implements LogErrorService {
     @Override
     @Async
     public void insertLogErrorByAsync(LogError logError) {
-
-        System.out.println(logError);
         if (logErrorMapper.insert(logError) <= 0) {
             throw new AsyncException(ERROR_INSERT_ASYNC);
         }

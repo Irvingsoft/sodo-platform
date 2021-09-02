@@ -11,7 +11,5 @@ public interface MenuService {
 
     List<MenuVO> button(List<String> roleIdList);
 
-    List<Menu> listMenu(List<String> menuIdList);
-
     List<Menu> listMenu(List<String> roleIdList, Integer menuType);
 }

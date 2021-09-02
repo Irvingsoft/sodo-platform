@@ -16,6 +16,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/3 0:27
+ */
 @Service
 public class LogBusinessServiceImpl implements LogBusinessService {
 
@@ -56,7 +60,6 @@ public class LogBusinessServiceImpl implements LogBusinessService {
     @Override
     @Async
     public void insertLogBusinessByAsync(LogBusiness logBusiness) {
-
         if (logBusinessMapper.insert(logBusiness) <= 0) {
             throw new AsyncException(ERROR_INSERT_ASYNC);
         }

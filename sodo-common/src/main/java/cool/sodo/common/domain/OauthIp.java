@@ -2,10 +2,13 @@ package cool.sodo.common.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import cool.sodo.common.entity.Constants;
 import cool.sodo.common.util.StringUtil;
 import lombok.Data;
 
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,6 +27,7 @@ public class OauthIp implements Serializable {
 
     private String clientId;
 
+    @Pattern(regexp = Constants.IP_REGEXP)
     private String ip;
 
     private String description;
@@ -40,7 +44,17 @@ public class OauthIp implements Serializable {
 
     private Date updateAt;
 
-    public void update(OauthIp oauthIp) {
+    @TableLogic
+    private Boolean deleted;
+
+    public void init(String createBy) {
+
+        this.ipId = null;
+        this.validNum = 0;
+        this.createBy = createBy;
+    }
+
+    public void update(OauthIp oauthIp, String updateBy) {
 
         if (!StringUtil.isEmpty(oauthIp.getClientId())) {
             this.clientId = oauthIp.getClientId();
@@ -51,12 +65,13 @@ public class OauthIp implements Serializable {
         if (!StringUtil.isEmpty(oauthIp.getDescription())) {
             this.description = oauthIp.getDescription();
         }
-        if (!StringUtil.isEmpty(oauthIp.getValid())) {
-            this.valid = oauthIp.getValid();
-        }
-        if (!StringUtil.isEmpty(oauthIp.getUpdateBy())) {
-            this.updateBy = oauthIp.getUpdateBy();
-        }
+        this.updateBy = updateBy;
+        this.updateAt = new Date();
+    }
+
+    public void delete(String deleteBy) {
+
+        this.updateBy = deleteBy;
         this.updateAt = new Date();
     }
 }
