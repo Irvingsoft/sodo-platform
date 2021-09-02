@@ -81,10 +81,12 @@ public class UserController {
         while (true) {
             usernameLock = redisCacheHelper.setIfAbsent(
                     Constants.USER_CHECK_LOCK_PREFIX + userRegisterDTO.getUsername(),
-                    userRegisterDTO.getUsername()) || usernameLock;
+                    userRegisterDTO.getUsername(),
+                    Constants.USER_CHECK_LOCK_EXPIRE_SECONDS) || usernameLock;
             phoneLock = redisCacheHelper.setIfAbsent(
                     Constants.USER_CHECK_LOCK_PREFIX + userRegisterDTO.getPhone(),
-                    userRegisterDTO.getPhone()) || phoneLock;
+                    userRegisterDTO.getPhone(),
+                    Constants.USER_CHECK_LOCK_EXPIRE_SECONDS) || phoneLock;
             if (usernameLock && phoneLock) {
                 return;
             }
@@ -114,7 +116,8 @@ public class UserController {
     @GetMapping(value = "username/{username}")
     public Result checkUserName(@PathVariable String username, HttpServletRequest request) {
 
-        userService.checkUsername(username,
+        userService.checkUsername(null,
+                username,
                 WebUtil.getHeader(request, Constants.CLIENT_ID));
         return Result.success();
     }
@@ -122,7 +125,8 @@ public class UserController {
     @GetMapping(value = "phone/{phone}")
     public Result checkPhone(@PathVariable String phone, HttpServletRequest request) {
 
-        userService.checkPhone(phone,
+        userService.checkPhone(null,
+                phone,
                 WebUtil.getHeader(request, Constants.CLIENT_ID));
         return Result.success();
     }

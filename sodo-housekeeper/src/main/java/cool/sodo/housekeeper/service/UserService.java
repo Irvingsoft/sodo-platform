@@ -27,4 +27,6 @@ public interface UserService {
     User getInfoDetail(String userId);
 
     IPage<User> pageBaseDetail(UserDTO userDTO);
+
+    void logout(String userId);
 }

@@ -45,6 +45,34 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     }
 
     @Override
+    public void deleteCacheByIdentity(String identity) {
+
+        List<String> tokenList = listTokenByIdentity(identity);
+        if (!StringUtil.isEmpty(tokenList)) {
+            for (String token : tokenList) {
+                redisCacheHelper.delete(Constants.ACCESS_TOKEN_CACHE_PREFIX + token);
+            }
+            LambdaQueryWrapper<AccessToken> accessTokenLambdaQueryWrapper = Wrappers.lambdaQuery();
+            accessTokenLambdaQueryWrapper.in(AccessToken::getToken, tokenList);
+            if (accessTokenMapper.delete(accessTokenLambdaQueryWrapper) < 0) {
+                throw new SoDoException(ResultEnum.SERVER_ERROR, "AccessToken 删除失败！");
+            }
+        }
+    }
+
+    @Override
+    public List<String> listTokenByIdentity(String identity) {
+
+        LambdaQueryWrapper<AccessToken> accessTokenLambdaQueryWrapper = Wrappers.lambdaQuery();
+        accessTokenLambdaQueryWrapper.eq(AccessToken::getIdentity, identity)
+                .select(AccessToken::getToken);
+        return accessTokenMapper.selectList(accessTokenLambdaQueryWrapper)
+                .stream()
+                .map(AccessToken::getToken)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<String> listTokenByClient(String clientId) {
 
         LambdaQueryWrapper<AccessToken> accessTokenLambdaQueryWrapper = Wrappers.lambdaQuery();

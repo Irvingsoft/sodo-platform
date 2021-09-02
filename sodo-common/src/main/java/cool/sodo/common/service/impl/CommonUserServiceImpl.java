@@ -10,6 +10,7 @@ import cool.sodo.common.mapper.CommonUserMapper;
 import cool.sodo.common.service.CommonMenuService;
 import cool.sodo.common.service.CommonRoleService;
 import cool.sodo.common.service.CommonUserService;
+import cool.sodo.common.util.StringUtil;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -103,21 +104,42 @@ public class CommonUserServiceImpl implements CommonUserService {
     }
 
     @Override
-    public void checkUsername(String username, String clientId) {
+    public void checkUsername(String userId, String username, String clientId) {
+
+        if (!StringUtil.isEmpty(userId)) {
+            User user = getIdentity(userId);
+            if (user.getUsername().equals(username)) {
+                return;
+            }
+        }
         if (countByIdentityAndClient(username, clientId) != 0) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, username + " 已被注册！");
         }
     }
 
     @Override
-    public void checkPhone(String phone, String clientId) {
+    public void checkPhone(String userId, String phone, String clientId) {
+
+        if (!StringUtil.isEmpty(userId)) {
+            User user = getIdentity(userId);
+            if (user.getPhone().equals(phone)) {
+                return;
+            }
+        }
         if (countByIdentityAndClient(phone, clientId) != 0) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, phone + " 已绑定其它账号！");
         }
     }
 
     @Override
-    public void checkEmail(String email, String clientId) {
+    public void checkEmail(String userId, String email, String clientId) {
+
+        if (!StringUtil.isEmpty(userId)) {
+            User user = getIdentity(userId);
+            if (user.getEmail().equals(email)) {
+                return;
+            }
+        }
         if (countByIdentityAndClient(email, clientId) != 0) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, email + " 已绑定其它账号！");
         }

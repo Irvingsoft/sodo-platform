@@ -13,6 +13,7 @@ import cool.sodo.common.mapper.CommonUserMapper;
 import cool.sodo.common.service.impl.CommonUserServiceImpl;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.housekeeper.entity.UserDTO;
+import cool.sodo.housekeeper.service.AccessTokenService;
 import cool.sodo.housekeeper.service.UserService;
 import cool.sodo.housekeeper.service.UserToRoleService;
 import org.springframework.context.annotation.Primary;
@@ -34,6 +35,8 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
     private PasswordHelper passwordHelper;
     @Resource
     private UserToRoleService userToRoleService;
+    @Resource
+    private AccessTokenService accessTokenService;
 
     private LambdaQueryWrapper<User> generateSelectQueryWrapper(int type) {
 
@@ -63,9 +66,9 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
         passwordHelper.encryptPassword(user);
         user.init(userId);
         user.setNickname(Constants.NICKNAME_PREFIX + userMapper.selectCount(null));
-        checkUsername(user.getUsername(), user.getClientId());
-        checkPhone(user.getPhone(), user.getClientId());
-        checkEmail(user.getEmail(), user.getClientId());
+        checkUsername(null, user.getUsername(), user.getClientId());
+        checkPhone(null, user.getPhone(), user.getClientId());
+        checkEmail(null, user.getEmail(), user.getClientId());
         if (userMapper.insert(user) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "新增 User 记录失败！");
         }
@@ -110,8 +113,8 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
 
         User userOld = get(user.getUserId());
         userOld.update(user, updateBy);
-        checkPhone(user.getPhone(), userOld.getClientId());
-        checkEmail(user.getEmail(), userOld.getClientId());
+        checkPhone(user.getUserId(), user.getPhone(), userOld.getClientId());
+        checkEmail(user.getUserId(), user.getEmail(), userOld.getClientId());
         if (userMapper.updateById(user) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, "更新 User 记录失败！");
         }
@@ -186,5 +189,18 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
         Page<User> userPage = userMapper.selectPage(new Page<>(userDTO.getPageNum(), userDTO.getPageSize()), userLambdaQueryWrapper);
         userPage.getRecords().forEach(user -> user.setRoleIdList(userToRoleService.listUserToRoleRoleId(user.getUserId())));
         return userPage;
+    }
+
+    @Override
+    public void logout(String userId) {
+
+        LambdaQueryWrapper<User> userLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_IDENTITY);
+        userLambdaQueryWrapper.eq(User::getUserId, userId);
+        User user = userMapper.selectOne(userLambdaQueryWrapper);
+        if (StringUtil.isEmpty(user)) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, "用户不存在！");
+        }
+        accessTokenService.deleteCacheByIdentity(user.getUsername());
+        accessTokenService.deleteCacheByIdentity(user.getOpenId());
     }
 }

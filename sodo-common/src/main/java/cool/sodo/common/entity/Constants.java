@@ -51,6 +51,7 @@ public class Constants {
     public static final long RSA_PRIVATE_KEY_CACHE_EXPIRE_SECONDS = 30 * 60L;
     public static final long CAPTCHA_CACHE_EXPIRE_SECONDS = 30 * 60L;
     public static final long REQUEST_CACHE_EXPIRE_SECONDS = 60L;
+    public static final long USER_CHECK_LOCK_EXPIRE_SECONDS = 1L;
 
     public static final long USER_CHECK_LOCK_TIME_OUT_MILLISECONDS = 500L;
 
@@ -132,11 +133,11 @@ public class Constants {
      * @author TimeChaser
      * @date 2021/7/5 10:16
      */
-    public static final String USERNAME_REGEX = "/^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/";
-    public static final String PHONE_REGEX = "/^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$/";
-    public static final String PASSWORD_REGEX = "/^.*(?=.{8,})(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/";
-    public static final String EMAIL_REGEX = "/^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$/";
-    public static final String IDCARD_REGEX = "/^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$/";
+    public static final String USERNAME_REGEXP = "/^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/";
+    public static final String PHONE_REGEXP = "/^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$/";
+    public static final String PASSWORD_REGEXP = "/^.*(?=.{8,})(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/";
+    public static final String EMAIL_REGEXP = "/^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$/";
+    public static final String IDCARD_REGEXP = "/^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$/";
 
     public static final String GATEWAY_PATH = "/zuul";
 }

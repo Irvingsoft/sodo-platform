@@ -148,6 +148,10 @@ public class RedisCacheHelper {
         return redisTemplate.opsForValue().setIfAbsent(key, value);
     }
 
+    public Boolean setIfAbsent(String key, Object value, Long time) {
+        return redisTemplate.opsForValue().setIfAbsent(key, value, time, TimeUnit.SECONDS);
+    }
+
     /**
      * 递增
      *

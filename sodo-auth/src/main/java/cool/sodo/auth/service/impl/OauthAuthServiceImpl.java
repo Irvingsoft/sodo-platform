@@ -188,14 +188,12 @@ public class OauthAuthServiceImpl implements OauthAuthService {
         if (wechatToken == null || StringUtil.isEmpty(wechatToken.getSessionKey())) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_WECHAT_TOKEN);
         }
-
         OauthUser oauthUser = JSON.toJavaObject(AesCbcUtil.decrypt(
                         authenticateRequest.getEncryptedData().replace(CharPool.SPACE, CharPool.PLUS)
                         , wechatToken.getSessionKey()
                         , authenticateRequest.getIv().replace(CharPool.SPACE, CharPool.PLUS)
                 )
                 , OauthUser.class);
-
         if (oauthUser == null) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_OAUTH_USER);
         }
@@ -238,9 +236,9 @@ public class OauthAuthServiceImpl implements OauthAuthService {
      */
     @Override
     public AuthorizationIdentity authorize(AuthorizeRequest authorizeRequest, HttpServletRequest request) {
+
         // 检查 AuthCode 是否合法，并获取 AuthIdentity
         AuthenticationIdentity authenticationIdentity = getAuthIdentityByAuthCode(authorizeRequest.getCode());
-
         // 检查认证客户端、授权客户端是否相同
         String clientId = WebUtil.getHeader(request, Constants.CLIENT_ID);
         if (!clientId.equals(authenticationIdentity.getClientId())) {

@@ -21,11 +21,9 @@ public interface UserService {
 
     User getGeneral(String id);
 
-    boolean validatePassword(String password);
-
     void decryptRsaPassword(User user);
 
-    void checkUsername(String username, String clientId);
+    void checkUsername(String userId, String username, String clientId);
 
-    void checkPhone(String phone, String clientId);
+    void checkPhone(String userId, String phone, String clientId);
 }

@@ -47,13 +47,16 @@ public class UserController {
         while (true) {
             usernameLock = redisCacheHelper.setIfAbsent(
                     Constants.USER_CHECK_LOCK_PREFIX + userInsertDTO.getUsername(),
-                    userInsertDTO.getUsername()) || usernameLock;
+                    userInsertDTO.getUsername(),
+                    Constants.USER_CHECK_LOCK_EXPIRE_SECONDS) || usernameLock;
             phoneLock = redisCacheHelper.setIfAbsent(
                     Constants.USER_CHECK_LOCK_PREFIX + userInsertDTO.getPhone(),
-                    userInsertDTO.getPhone()) || phoneLock;
+                    userInsertDTO.getPhone(),
+                    Constants.USER_CHECK_LOCK_EXPIRE_SECONDS) || phoneLock;
             emailLock = redisCacheHelper.setIfAbsent(
                     Constants.USER_CHECK_LOCK_PREFIX + userInsertDTO.getEmail(),
-                    userInsertDTO.getEmail()) || emailLock;
+                    userInsertDTO.getEmail(),
+                    Constants.USER_CHECK_LOCK_EXPIRE_SECONDS) || emailLock;
             if (usernameLock && phoneLock && emailLock) {
                 return;
             }
@@ -107,10 +110,12 @@ public class UserController {
         while (true) {
             phoneLock = redisCacheHelper.setIfAbsent(
                     Constants.USER_CHECK_LOCK_PREFIX + userUpdateDTO.getPhone(),
-                    userUpdateDTO.getPhone()) || phoneLock;
+                    userUpdateDTO.getPhone(),
+                    Constants.USER_CHECK_LOCK_EXPIRE_SECONDS) || phoneLock;
             emailLock = redisCacheHelper.setIfAbsent(
                     Constants.USER_CHECK_LOCK_PREFIX + userUpdateDTO.getEmail(),
-                    userUpdateDTO.getEmail()) || emailLock;
+                    userUpdateDTO.getEmail(),
+                    Constants.USER_CHECK_LOCK_EXPIRE_SECONDS) || emailLock;
             if (phoneLock && emailLock) {
                 return;
             }
@@ -144,5 +149,11 @@ public class UserController {
     @GetMapping(value = "{userId}")
     public Result getUserInfoDetail(@PathVariable String userId) {
         return Result.success(userService.getInfoDetail(userId));
+    }
+
+    @GetMapping(value = "logout/{userId}")
+    public Result logout(@PathVariable String userId) {
+        userService.logout(userId);
+        return Result.success();
     }
 }

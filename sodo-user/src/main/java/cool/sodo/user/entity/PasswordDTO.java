@@ -1,7 +1,10 @@
 package cool.sodo.user.entity;
 
+import cool.sodo.common.entity.Constants;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**
@@ -13,7 +16,9 @@ import java.io.Serializable;
 @Data
 public class PasswordDTO implements Serializable {
 
+    @NotBlank
     private String oldPassword;
 
+    @Pattern(regexp = Constants.PASSWORD_REGEXP)
     private String newPassword;
 }

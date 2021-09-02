@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Date;
 
 /**
@@ -44,9 +45,6 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
     public static final String ERROR_COUNT = "用户已存在！";
     public static final String ERROR_INSERT = "新增用户失败！";
     public static final String ERROR_INSERT_MQ = "异步消息队列新增用户失败！";
-
-    public static final String ERROR_OLD_PASSWORD = "原密码有误！";
-    public static final String ERROR_NEW_PASSWORD = "原密码有误！";
 
     public static final String ERROR_PRIVATE_KEY = "私钥已失效！";
 
@@ -95,8 +93,8 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
         passwordHelper.encryptPassword(user);
         user.init(client);
         user.setNickname(Constants.NICKNAME_PREFIX + userMapper.selectCount(null));
-        checkUsername(user.getUsername(), user.getClientId());
-        checkPhone(user.getPhone(), user.getClientId());
+        checkUsername(null, user.getUsername(), user.getClientId());
+        checkPhone(null, user.getPhone(), user.getClientId());
         if (userMapper.insert(user) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_INSERT, user);
         }
@@ -140,15 +138,10 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
     }
 
     @Override
-    public void updatePassword(PasswordDTO passwordDTO, User user) {
+    public void updatePassword(@Valid PasswordDTO passwordDTO, User user) {
 
-        if (StringUtil.isEmpty(passwordDTO.getOldPassword()) ||
-                !passwordHelper.validatePassword(user, passwordDTO.getOldPassword())) {
-            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_OLD_PASSWORD, user);
-        }
-        if (StringUtil.isEmpty(passwordDTO.getNewPassword()) ||
-                !validatePassword(passwordDTO.getNewPassword())) {
-            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_NEW_PASSWORD, user);
+        if (!passwordHelper.validatePassword(user, passwordDTO.getOldPassword())) {
+            throw new SoDoException(ResultEnum.BAD_REQUEST, "原密码有误！", user);
         }
         user.updatePassword(passwordDTO.getNewPassword());
         passwordHelper.encryptPassword(user);
@@ -200,13 +193,6 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
     }
 
     @Override
-    public boolean validatePassword(String password) {
-
-//        return Pattern.matches(Constants.PASSWORD_REGEX, password);
-        return password.length() >= 6 && password.length() <= 20;
-    }
-
-    @Override
     public void decryptRsaPassword(User user) {
 
         HttpServletRequest request = WebUtil.getRequest();
@@ -219,12 +205,12 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
     }
 
     @Override
-    public void checkUsername(String username, String clientId) {
-        super.checkUsername(username, clientId);
+    public void checkUsername(String userId, String username, String clientId) {
+        super.checkUsername(userId, username, clientId);
     }
 
     @Override
-    public void checkPhone(String phone, String clientId) {
-        super.checkPhone(phone, clientId);
+    public void checkPhone(String userId, String phone, String clientId) {
+        super.checkPhone(userId, phone, clientId);
     }
 }

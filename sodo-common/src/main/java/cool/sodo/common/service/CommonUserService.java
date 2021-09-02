@@ -37,25 +37,32 @@ public interface CommonUserService {
 
     /**
      * 检查用户名是否是合法的身份认证关键字
+     * <p>
+     * 1. 用户 ID 为空表示新增，则验证该客户端是否存在该身份认证关键字
+     * <p>
+     * 2. 用户 ID 为空表示更新，如果身份验证关键字没变则无需验证
      *
+     * @param userId   用户 ID
      * @param username 用户名
-     * @param clientId
+     * @param clientId 客户端 ID
      */
-    void checkUsername(String username, String clientId);
+    void checkUsername(String userId, String username, String clientId);
 
     /**
      * 检查手机号是否是合法的身份认证关键字
      *
+     * @param userId   用户 ID
      * @param phone    手机号
-     * @param clientId
+     * @param clientId 客户端 ID
      */
-    void checkPhone(String phone, String clientId);
+    void checkPhone(String userId, String phone, String clientId);
 
     /**
      * 检查邮箱是否是合法的身份认证关键字
      *
+     * @param userId   用户 ID
      * @param email    邮箱
-     * @param clientId
+     * @param clientId 客户端 ID
      */
-    void checkEmail(String email, String clientId);
+    void checkEmail(String userId, String email, String clientId);
 }
