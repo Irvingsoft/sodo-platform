@@ -3,6 +3,7 @@ package cool.sodo.housekeeper;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import cool.sodo.common.component.RedisCacheHelper;
 import cool.sodo.common.domain.OauthApi;
 import cool.sodo.common.domain.User;
 import cool.sodo.common.mapper.CommonUserMapper;
@@ -23,6 +24,10 @@ public class HousekeeperApplicationTest {
     private OauthApiService oauthApiService;
     @Resource
     private CommonUserMapper userMapper;
+    @Resource
+    private RedisCacheHelper redisCacheHelper;
+    @Resource
+    private AccessTokenServiceImplTest accessTokenService;
 
     /**
      * org.springframework.util.StringUtil 可以判断对象是否为空
@@ -90,5 +95,10 @@ public class HousekeeperApplicationTest {
             user.setRoleIdList(new ArrayList<>());
         }
         System.out.println(userList);
+    }
+
+    @Test
+    public void testRedis() {
+        accessTokenService.delete("44a1789f4f8248b249940e152bc8024b");
     }
 }

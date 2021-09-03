@@ -289,7 +289,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
                         accessTokenService.update(accessToken);
                     } else {
                         // 已过期，重新生成 Token
-                        accessTokenService.delete(accessToken.getToken());
+                        accessTokenService.deleteCache(accessToken.getToken());
                         accessToken = generatorAccessToken(identity,
                                 oauthClient.getClientId(),
                                 getExpireAt(oauthClient));

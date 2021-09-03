@@ -8,7 +8,7 @@ public interface AccessTokenService {
 
     void insert(AccessToken accessToken);
 
-    void delete(String token);
+    void deleteCache(String token);
 
     void deleteCacheByIdentity(String identity);
 

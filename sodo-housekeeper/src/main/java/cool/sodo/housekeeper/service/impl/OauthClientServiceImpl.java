@@ -118,7 +118,6 @@ public class OauthClientServiceImpl implements OauthClientService {
     }
 
     @Override
-    @CacheEvict(cacheNames = Constants.OAUTH_CLIENT_CACHE_NAME, key = "#oauthClient.clientId")
     public void updateOauthClient(OauthClient oauthClient) {
         if (oauthClientMapper.updateById(oauthClient) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE);

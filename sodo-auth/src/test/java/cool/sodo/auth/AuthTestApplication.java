@@ -2,9 +2,9 @@ package cool.sodo.auth;
 
 import com.alibaba.fastjson.JSONObject;
 import cool.sodo.auth.message.UserMqProperty;
+import cool.sodo.auth.service.AccessTokenService;
 import cool.sodo.common.component.RedisCacheHelper;
 import cool.sodo.common.domain.AccessToken;
-import cool.sodo.common.service.CommonAccessTokenService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -14,11 +14,11 @@ import javax.annotation.Resource;
 public class AuthTestApplication {
 
     @Resource
-    private CommonAccessTokenService accessTokenService;
-    @Resource
     private RedisCacheHelper redisCacheHelper;
     @Resource
     private UserMqProperty userMqProperty;
+    @Resource
+    private AccessTokenService accessTokenService;
 
     @Test
     public void test() {
@@ -31,5 +31,11 @@ public class AuthTestApplication {
     @Test
     public void testUserMqProperty() {
         System.out.println(JSONObject.toJSON(userMqProperty));
+    }
+
+    @Test
+    public void testCache() {
+
+        accessTokenService.deleteCache("76ee966b0a483dd65d32a2acdd393cea");
     }
 }

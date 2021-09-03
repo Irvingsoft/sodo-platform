@@ -3,6 +3,7 @@ package cool.sodo.auth.controller;
 import com.wf.captcha.SpecCaptcha;
 import cool.sodo.auth.entity.AuthType;
 import cool.sodo.auth.entity.AuthenticateRequest;
+import cool.sodo.auth.service.AccessTokenService;
 import cool.sodo.auth.service.OauthAuthService;
 import cool.sodo.common.component.PasswordHelper;
 import cool.sodo.common.component.RedisCacheHelper;
@@ -13,6 +14,7 @@ import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.util.RsaUtil;
 import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.UUIDUtil;
+import cool.sodo.common.util.WebUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +44,8 @@ public class AuthenticationController {
     private RedisCacheHelper redisCacheHelper;
     @Resource
     private PasswordHelper passwordHelper;
+    @Resource
+    private AccessTokenService accessTokenService;
 
     @ApiOperation(value = "Authenticate Key 请求", notes = "账号密码登录获取密码加密密钥", produces = "application/json")
     @GetMapping(value = "key")
@@ -96,5 +100,12 @@ public class AuthenticationController {
         }
 
         return Result.of(ResultEnum.INVALID_AUTH);
+    }
+
+    @GetMapping(value = "logout")
+    public Result logout(HttpServletRequest request) {
+
+        accessTokenService.deleteCache(WebUtil.getAccessToken(request));
+        return Result.success();
     }
 }

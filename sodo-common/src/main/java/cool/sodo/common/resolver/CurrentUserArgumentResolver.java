@@ -2,9 +2,13 @@ package cool.sodo.common.resolver;
 
 import cool.sodo.common.annotation.CurrentUser;
 import cool.sodo.common.component.RedisCacheHelper;
+import cool.sodo.common.domain.AccessToken;
 import cool.sodo.common.domain.User;
+import cool.sodo.common.entity.ResultEnum;
+import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.service.CommonAccessTokenService;
 import cool.sodo.common.service.CommonUserService;
+import cool.sodo.common.util.StringUtil;
 import cool.sodo.common.util.WebUtil;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -39,9 +43,13 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
     public Object resolveArgument(MethodParameter methodParameter,
                                   ModelAndViewContainer modelAndViewContainer,
                                   NativeWebRequest nativeWebRequest,
-                                  WebDataBinderFactory webDataBinderFactory) throws Exception {
+                                  WebDataBinderFactory webDataBinderFactory) {
 
         String token = WebUtil.getAccessToken(nativeWebRequest);
-        return userService.getIdentity(accessTokenService.getFromCache(token).getIdentity());
+        AccessToken accessToken = accessTokenService.getFromCache(token);
+        if (StringUtil.isEmpty(accessToken)) {
+            throw new SoDoException(ResultEnum.UNAUTHORIZED, "请登录后重试！");
+        }
+        return userService.getIdentity(accessToken.getIdentity());
     }
 }

@@ -11,7 +11,6 @@ import cool.sodo.common.exception.SoDoException;
 import cool.sodo.common.mapper.CommonAccessTokenMapper;
 import cool.sodo.common.service.impl.CommonAccessTokenServiceImpl;
 import cool.sodo.common.util.StringUtil;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -44,9 +43,9 @@ public class AccessTokenServiceImpl extends CommonAccessTokenServiceImpl impleme
     }
 
     @Override
-    @CacheEvict(cacheNames = Constants.ACCESS_TOKEN_CACHE_NAME, key = "#token")
-    public void delete(String token) {
+    public void deleteCache(String token) {
 
+        redisCacheHelper.delete(Constants.ACCESS_TOKEN_CACHE_PREFIX + token);
         if (accessTokenMapper.deleteById(token) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_DELETE);
         }
@@ -69,9 +68,9 @@ public class AccessTokenServiceImpl extends CommonAccessTokenServiceImpl impleme
     }
 
     @Override
-    @CacheEvict(cacheNames = Constants.ACCESS_TOKEN_CACHE_NAME, key = "#accessToken.token")
     public void update(AccessToken accessToken) {
 
+        redisCacheHelper.delete(Constants.ACCESS_TOKEN_CACHE_PREFIX + accessToken.getToken());
         if (accessTokenMapper.updateById(accessToken) <= 0) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE);
         }

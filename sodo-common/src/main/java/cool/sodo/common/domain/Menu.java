@@ -103,14 +103,12 @@ public class Menu implements Serializable {
     public void update(Menu menu, String updateBy) {
 
         this.parentId = menu.getParentId();
+        this.icon = menu.getIcon();
         if (!StringUtil.isEmpty(menu.getCode())) {
             this.code = menu.getCode();
         }
         if (!StringUtil.isEmpty(menu.getName())) {
             this.name = menu.getName();
-        }
-        if (!StringUtil.isEmpty(menu.getIcon())) {
-            this.icon = menu.getIcon();
         }
         if (!StringUtil.isEmpty(menu.getPath())) {
             this.path = menu.getPath();
