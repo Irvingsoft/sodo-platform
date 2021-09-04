@@ -34,7 +34,6 @@ import java.util.Collections;
 @Configuration
 @EnableCaching
 @EnableRedisHttpSession
-@SuppressWarnings("all")
 public class RedisConfig {
 
     @Bean

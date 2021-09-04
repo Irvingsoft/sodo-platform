@@ -73,7 +73,7 @@ public class User implements Serializable {
     private Boolean deleted;
 
     @TableField(exist = false)
-    private List<String> codeList;
+    private Boolean online;
     @TableField(exist = false)
     private List<String> roleIdList;
 

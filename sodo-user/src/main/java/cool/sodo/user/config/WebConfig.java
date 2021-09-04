@@ -26,8 +26,6 @@ import java.util.List;
  * @author TimeChaser
  * @date 2020/11/5 11:31 下午
  */
-
-
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 

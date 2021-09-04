@@ -160,6 +160,7 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
         if (StringUtil.isEmpty(user)) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, "用户不存在！");
         }
+        user.setOnline(accessTokenService.online(user));
         user.setRoleIdList(userToRoleService.listUserToRoleRoleId(userId));
         return user;
     }
@@ -187,7 +188,10 @@ public class UserServiceImpl extends CommonUserServiceImpl implements UserServic
         userLambdaQueryWrapper.orderByDesc(User::getCreateAt)
                 .orderByDesc(User::getUpdateAt);
         Page<User> userPage = userMapper.selectPage(new Page<>(userDTO.getPageNum(), userDTO.getPageSize()), userLambdaQueryWrapper);
-        userPage.getRecords().forEach(user -> user.setRoleIdList(userToRoleService.listUserToRoleRoleId(user.getUserId())));
+        userPage.getRecords().forEach(user -> {
+            user.setOnline(accessTokenService.online(user));
+            user.setRoleIdList(userToRoleService.listUserToRoleRoleId(user.getUserId()));
+        });
         return userPage;
     }
 

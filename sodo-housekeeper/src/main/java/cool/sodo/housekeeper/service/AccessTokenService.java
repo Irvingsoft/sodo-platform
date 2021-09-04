@@ -1,5 +1,7 @@
 package cool.sodo.housekeeper.service;
 
+import cool.sodo.common.domain.User;
+
 import java.util.List;
 
 public interface AccessTokenService {
@@ -11,4 +13,6 @@ public interface AccessTokenService {
     List<String> listTokenByIdentity(String identity);
 
     List<String> listTokenByClient(String clientId);
+
+    Boolean online(User user);
 }

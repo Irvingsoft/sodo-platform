@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.common.component.RedisCacheHelper;
 import cool.sodo.common.domain.AccessToken;
+import cool.sodo.common.domain.User;
 import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ResultEnum;
 import cool.sodo.common.exception.SoDoException;
@@ -82,5 +83,18 @@ public class AccessTokenServiceImpl implements AccessTokenService {
                 .stream()
                 .map(AccessToken::getToken)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Boolean online(User user) {
+
+        List<String> tokenList = listTokenByIdentity(user.getUsername());
+        tokenList.addAll(listTokenByIdentity(user.getOpenId()));
+        for (String token : tokenList) {
+            if (redisCacheHelper.hasKey(Constants.ACCESS_TOKEN_CACHE_PREFIX + token)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
