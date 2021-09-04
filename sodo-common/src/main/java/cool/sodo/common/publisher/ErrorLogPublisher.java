@@ -36,7 +36,6 @@ public class ErrorLogPublisher {
     public void publishEvent(HttpServletRequest request, Throwable error, String params) {
 
         LogError logError = new LogError();
-
         if (!StringUtil.isEmpty(error)) {
             logError.setStackTrace(ExceptionUtil.getStackTraceAsString(error));
             logError.setExceptionName(error.getClass().getName());

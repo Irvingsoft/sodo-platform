@@ -1,7 +1,6 @@
 package cool.sodo.common.publisher;
 
 import cool.sodo.common.domain.LogBusiness;
-import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.ServiceInfo;
 import cool.sodo.common.event.BusinessLogEvent;
 import cool.sodo.common.service.CommonAccessTokenService;
@@ -40,10 +39,10 @@ public class BusinessLogPublisher {
      * @param message      业务备注
      */
     public void publishEvent(HttpServletRequest request, String businessType, String businessId,
-                             String businessData, String message) {
+                             String businessData, String message, String className, String methodName) {
 
         LogBusiness logBusiness = new LogBusiness();
-        String token = WebUtil.getHeaderNullable(request, Constants.AUTHORIZATION);
+        String token = WebUtil.getAccessTokenNullable(request);
         if (!StringUtil.isEmpty(token)
                 && !StringUtil.isEmpty(accessTokenService.getFromCache(token))) {
             logBusiness.setUserId(userService.getIdentity(
@@ -54,6 +53,8 @@ public class BusinessLogPublisher {
         logBusiness.setBusinessId(businessId);
         logBusiness.setBusinessData(businessData);
         logBusiness.setMessage(message);
+        logBusiness.setClassName(className);
+        logBusiness.setMethodName(methodName);
         logBusiness.setRequestUrl(WebUtil.getRequestUrl(request, serviceInfo.getPath()));
         LogAbstractUtil.addRequestInfo(logBusiness, request);
 

@@ -55,7 +55,9 @@ public class BusinessLoggerAspect {
                 businessLogger.businessType(),
                 businessId,
                 businessData,
-                businessLogger.message());
+                businessLogger.message(),
+                point.getTarget().getClass().getName(),
+                method.getName());
         return point.proceed();
     }
 }

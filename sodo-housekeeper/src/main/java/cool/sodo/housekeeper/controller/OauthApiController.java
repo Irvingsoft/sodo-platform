@@ -1,8 +1,10 @@
 package cool.sodo.housekeeper.controller;
 
+import cool.sodo.common.annotation.BusinessLogger;
 import cool.sodo.common.annotation.CurrentUser;
 import cool.sodo.common.domain.OauthApi;
 import cool.sodo.common.domain.User;
+import cool.sodo.common.entity.Constants;
 import cool.sodo.common.entity.Result;
 import cool.sodo.housekeeper.entity.OauthApiDTO;
 import cool.sodo.housekeeper.service.OauthApiService;
@@ -33,6 +35,7 @@ public class OauthApiController {
     }
 
     @DeleteMapping(value = "/{apiId}")
+    @BusinessLogger(businessType = Constants.BUSINESS_DELETE, message = "删除 OauthApi")
     public Result deleteOauthApi(@PathVariable String apiId, @CurrentUser User user) {
 
         oauthApiService.deleteOauthApi(apiId, user.getUserId());
