@@ -7,8 +7,10 @@ node {
          extensions: [],
          userRemoteConfigs: [[url: "${project_url}"]]])
     }
-    stage('Build') {
-        echo 'Build'
+    stage('构建') {
+        // 安装 common 包脚本
+        sh "mvn -f sodo-common clean install"
+        sh "mvn -f ${project_name} clean package"
     }
     stage('Results') {
         echo 'Results'
