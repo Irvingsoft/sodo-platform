@@ -248,29 +248,6 @@ public class RsaUtil {
         return Base64.encodeBase64String(signature.sign());
     }
 
-    public static void main(String[] args) {
-        try {
-            Map<String, String> keyMap = initKey();
-            String publicKeyString = keyMap.get(PUBLIC_KEY);
-            String privateKeyString = keyMap.get(PRIVATE_KEY);
-            System.out.println("公钥:" + publicKeyString);
-            System.out.println("私钥:" + privateKeyString);
-
-            // 待加密数据
-            String data = "admin123";
-            // 公钥加密
-            String encrypt = RsaUtil.encryptByPublicKey(data, publicKeyString);
-            // 私钥解密
-            String decrypt = RsaUtil.decryptByPrivateKey(encrypt, privateKeyString);
-
-            System.out.println("加密前:" + data);
-            System.out.println("加密后:" + encrypt);
-            System.out.println("解密后:" + decrypt);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * RSA校验数字签名
      *
