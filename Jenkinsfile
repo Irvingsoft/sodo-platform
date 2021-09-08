@@ -13,9 +13,8 @@ node {
         // 参数化打包
         sh "mvn -f ${project_name}/pom.xml clean"
 
-        sh "cd ${project_name}"
-
-        sh "mvn dockerfile:build"
+        sh "cd ${project_name} \
+        mvn dockerfile:build"
 
     }
     stage('Results') {
