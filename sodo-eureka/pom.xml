@@ -39,7 +39,7 @@
                     <repository>sodo-eureka</repository>
                     <tag>1.0-SNAPSHOT</tag>
                     <buildArgs>
-                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                        <JAR_FILE>sodo-eureka.jar</JAR_FILE>
                     </buildArgs>
                 </configuration>
             </plugin>
