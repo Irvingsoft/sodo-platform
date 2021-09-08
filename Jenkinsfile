@@ -4,7 +4,9 @@ node {
     stage('拉取代码') {
         checkout([$class: 'GitSCM',
          branches: [[name: '*/master']],
+         doGenerateSubmoduleConfigurations: false,
          extensions: [],
+         submoduleCfg: [],
          userRemoteConfigs: [[url: "${project_url}"]]])
     }
     stage('构建') {
