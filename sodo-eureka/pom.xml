@@ -27,8 +27,8 @@
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>${dockerfile-maven.version}</version>
                 <configuration>
-                    <repository>${project.artifactId}</repository>
-                    <tag>${project.artifactId}</tag>
+                    <repository>sodo-eureka</repository>
+                    <tag>1.0-SNAPSHOT</tag>
                     <buildArgs>
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
