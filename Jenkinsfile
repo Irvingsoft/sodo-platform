@@ -8,9 +8,11 @@ node {
          userRemoteConfigs: [[url: "${project_url}"]]])
     }
     stage('构建') {
-        // 安装 common 包脚本
+        // 安装 common 包依赖
         sh "mvn -f sodo-common/pom.xml clean install"
+        // 参数化打包
         sh "mvn -f ${project_name}/pom.xml clean package"
+
     }
     stage('Results') {
         echo 'Results'
