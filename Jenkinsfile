@@ -15,7 +15,7 @@ node {
 
         sh "cd ${project_name}"
 
-        sh "dockerfile:build"
+        sh "mvn dockerfile:build"
 
     }
     stage('Results') {
