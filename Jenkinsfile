@@ -12,6 +12,8 @@ node {
     stage('构建') {
         // 安装 common 包依赖
         sh "pwd"
+        sh "cd sodo-common"
+        sh "pwd"
         sh "mvn -f sodo-common clean install"
         // 参数化打包
         sh "mvn -f ${project_name} clean package dockerfile:build"
