@@ -15,4 +15,8 @@ public class StringUtil extends StringUtils {
     public static <T> boolean isEmpty(List<T> list) {
         return StringUtils.isEmpty(list) || list.isEmpty();
     }
+
+    public static <T> boolean isEmpty(String[] strings) {
+        return StringUtils.isEmpty(strings) || strings.length == 0;
+    }
 }

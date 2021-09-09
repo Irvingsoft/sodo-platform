@@ -49,6 +49,18 @@ public class RedisCacheHelper {
         }
     }
 
+    public Boolean expire(String key, Long time, TimeUnit timeUnit) {
+        try {
+            if (time > 0L) {
+                redisTemplate.expire(key, time, timeUnit);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     /**
      * 根据key 获取过期时间
      *
@@ -57,6 +69,10 @@ public class RedisCacheHelper {
      */
     public Long getExpire(String key) {
         return redisTemplate.getExpire(key, TimeUnit.SECONDS);
+    }
+
+    public Long getExpire(String key, TimeUnit timeUnit) {
+        return redisTemplate.getExpire(key, timeUnit);
     }
 
     /**
@@ -143,12 +159,30 @@ public class RedisCacheHelper {
         }
     }
 
+    public Boolean set(String key, Object value, Long time, TimeUnit timeUnit) {
+        try {
+            if (time > 0L) {
+                redisTemplate.opsForValue().set(key, value, time, timeUnit);
+            } else {
+                set(key, value);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public Boolean setIfAbsent(String key, Object value) {
         return redisTemplate.opsForValue().setIfAbsent(key, value);
     }
 
     public Boolean setIfAbsent(String key, Object value, Long time) {
         return redisTemplate.opsForValue().setIfAbsent(key, value, time, TimeUnit.SECONDS);
+    }
+
+    public Boolean setIfAbsent(String key, Object value, Long time, TimeUnit timeUnit) {
+        return redisTemplate.opsForValue().setIfAbsent(key, value, time, timeUnit);
     }
 
     /**
