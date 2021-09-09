@@ -1,6 +1,6 @@
 package cool.sodo.goods.controller;
 
-import cool.sodo.common.entity.Result;
+import cool.sodo.common.base.entity.Result;
 import cool.sodo.goods.service.GoodsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

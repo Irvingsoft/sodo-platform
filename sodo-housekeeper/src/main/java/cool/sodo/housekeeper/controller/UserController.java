@@ -1,12 +1,12 @@
 package cool.sodo.housekeeper.controller;
 
-import cool.sodo.common.annotation.CurrentUser;
-import cool.sodo.common.component.RedisCacheHelper;
-import cool.sodo.common.domain.User;
-import cool.sodo.common.entity.Constants;
-import cool.sodo.common.entity.Result;
-import cool.sodo.common.entity.ResultEnum;
-import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.base.component.RedisCacheHelper;
+import cool.sodo.common.base.domain.User;
+import cool.sodo.common.base.entity.Constants;
+import cool.sodo.common.base.entity.Result;
+import cool.sodo.common.base.entity.ResultEnum;
+import cool.sodo.common.base.exception.SoDoException;
+import cool.sodo.common.core.annotation.CurrentUser;
 import cool.sodo.housekeeper.entity.GrantDTO;
 import cool.sodo.housekeeper.entity.UserDTO;
 import cool.sodo.housekeeper.entity.UserInsertDTO;

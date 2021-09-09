@@ -1,6 +1,6 @@
 package cool.sodo.user.service;
 
-import cool.sodo.common.domain.Menu;
+import cool.sodo.common.base.domain.Menu;
 import cool.sodo.user.entity.MenuVO;
 
 import java.util.List;

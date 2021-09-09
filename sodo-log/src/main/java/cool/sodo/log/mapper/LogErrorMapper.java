@@ -1,7 +1,7 @@
 package cool.sodo.log.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import cool.sodo.common.domain.LogError;
+import cool.sodo.log.domain.LogError;
 
 public interface LogErrorMapper extends BaseMapper<LogError> {
 }

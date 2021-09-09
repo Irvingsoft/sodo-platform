@@ -1,7 +1,7 @@
 package cool.sodo.goods.service;
 
 
-import cool.sodo.common.domain.Schedule;
+import cool.sodo.common.base.domain.Schedule;
 
 import java.util.List;
 

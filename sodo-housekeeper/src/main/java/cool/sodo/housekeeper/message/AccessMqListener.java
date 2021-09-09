@@ -2,10 +2,10 @@ package cool.sodo.housekeeper.message;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cool.sodo.common.entity.Notification;
 import cool.sodo.housekeeper.common.Constants;
 import cool.sodo.housekeeper.service.OauthApiService;
 import cool.sodo.housekeeper.service.OauthIpService;
+import cool.sodo.rabbitmq.entity.Notification;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

@@ -1,6 +1,6 @@
 package cool.sodo.auth.message;
 
-import cool.sodo.common.entity.MqProperty;
+import cool.sodo.rabbitmq.entity.MqProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;

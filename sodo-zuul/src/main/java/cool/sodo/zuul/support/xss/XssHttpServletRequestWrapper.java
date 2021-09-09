@@ -1,6 +1,6 @@
 package cool.sodo.zuul.support.xss;
 
-import cool.sodo.common.util.StringUtil;
+import cool.sodo.common.base.util.StringUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 

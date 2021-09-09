@@ -2,12 +2,12 @@ package cool.sodo.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import cool.sodo.common.domain.Menu;
-import cool.sodo.common.mapper.CommonMenuMapper;
-import cool.sodo.common.service.CommonRoleToMenuService;
-import cool.sodo.common.util.BeanUtil;
-import cool.sodo.common.util.StringUtil;
-import cool.sodo.common.util.node.ForestNodeMerger;
+import cool.sodo.common.base.domain.Menu;
+import cool.sodo.common.base.mapper.CommonMenuMapper;
+import cool.sodo.common.base.service.CommonRoleToMenuService;
+import cool.sodo.common.base.util.BeanUtil;
+import cool.sodo.common.base.util.StringUtil;
+import cool.sodo.common.base.util.node.ForestNodeMerger;
 import cool.sodo.user.common.Constants;
 import cool.sodo.user.entity.MenuVO;
 import cool.sodo.user.service.MenuService;

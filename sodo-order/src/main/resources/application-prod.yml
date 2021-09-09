@@ -44,7 +44,7 @@ eureka:
     healthcheck:
       enabled: true
 mybatis-plus:
-  type-aliases-package: cool.sodo.common.domain
+  type-aliases-package: cool.sodo.common.base.domain
   mapper-locations: classpath:mapper/*.xml
   configuration:
     jdbc-type-for-null: null

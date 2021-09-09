@@ -1,7 +1,7 @@
 package cool.sodo.goods.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import cool.sodo.common.domain.Shop;
+import cool.sodo.common.base.domain.Shop;
 import cool.sodo.goods.entity.ShopDTO;
 
 public interface ShopService {

@@ -1,6 +1,6 @@
 package cool.sodo.goods.service;
 
-import cool.sodo.common.domain.GoodsSet;
+import cool.sodo.common.base.domain.GoodsSet;
 
 import java.util.List;
 

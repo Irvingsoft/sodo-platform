@@ -1,6 +1,6 @@
 package cool.sodo.housekeeper.config;
 
-import cool.sodo.common.resolver.CurrentUserArgumentResolver;
+import cool.sodo.common.core.resolver.CurrentUserArgumentResolver;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

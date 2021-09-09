@@ -1,13 +1,13 @@
 package cool.sodo.housekeeper.controller;
 
-import cool.sodo.common.annotation.BusinessLogger;
-import cool.sodo.common.annotation.CurrentUser;
-import cool.sodo.common.domain.OauthApi;
-import cool.sodo.common.domain.User;
-import cool.sodo.common.entity.Constants;
-import cool.sodo.common.entity.Result;
+import cool.sodo.common.base.domain.OauthApi;
+import cool.sodo.common.base.domain.User;
+import cool.sodo.common.base.entity.Constants;
+import cool.sodo.common.base.entity.Result;
+import cool.sodo.common.core.annotation.CurrentUser;
 import cool.sodo.housekeeper.entity.OauthApiDTO;
 import cool.sodo.housekeeper.service.OauthApiService;
+import cool.sodo.log.annotation.BusinessLogger;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

@@ -1,6 +1,6 @@
 package cool.sodo.goods.service;
 
-import cool.sodo.common.domain.ShopToCategory;
+import cool.sodo.common.base.domain.ShopToCategory;
 
 import java.util.List;
 

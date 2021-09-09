@@ -1,6 +1,6 @@
 package cool.sodo.zuul.support.xss;
 
-import cool.sodo.common.util.StringPool;
+import cool.sodo.common.base.util.StringPool;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

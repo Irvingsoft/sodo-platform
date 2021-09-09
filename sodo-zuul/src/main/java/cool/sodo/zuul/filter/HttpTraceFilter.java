@@ -2,8 +2,8 @@ package cool.sodo.zuul.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import cool.sodo.common.entity.Constants;
-import cool.sodo.common.util.UUIDUtil;
+import cool.sodo.common.base.entity.Constants;
+import cool.sodo.common.base.util.UUIDUtil;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 
 /**

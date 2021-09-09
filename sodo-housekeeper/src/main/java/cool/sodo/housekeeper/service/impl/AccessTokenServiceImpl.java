@@ -2,14 +2,14 @@ package cool.sodo.housekeeper.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import cool.sodo.common.component.RedisCacheHelper;
-import cool.sodo.common.domain.AccessToken;
-import cool.sodo.common.domain.User;
-import cool.sodo.common.entity.Constants;
-import cool.sodo.common.entity.ResultEnum;
-import cool.sodo.common.exception.SoDoException;
-import cool.sodo.common.mapper.CommonAccessTokenMapper;
-import cool.sodo.common.util.StringUtil;
+import cool.sodo.common.base.component.RedisCacheHelper;
+import cool.sodo.common.base.domain.AccessToken;
+import cool.sodo.common.base.domain.User;
+import cool.sodo.common.base.entity.Constants;
+import cool.sodo.common.base.entity.ResultEnum;
+import cool.sodo.common.base.exception.SoDoException;
+import cool.sodo.common.base.mapper.CommonAccessTokenMapper;
+import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.housekeeper.service.AccessTokenService;
 import org.springframework.stereotype.Service;
 

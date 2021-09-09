@@ -1,7 +1,7 @@
 package cool.sodo.goods.handler;
 
-import cool.sodo.common.entity.Result;
-import cool.sodo.common.entity.ResultEnum;
+import cool.sodo.common.base.entity.Result;
+import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.goods.exception.GoodsException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
