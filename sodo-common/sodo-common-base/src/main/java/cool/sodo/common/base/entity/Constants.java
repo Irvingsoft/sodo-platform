@@ -22,7 +22,7 @@ public class Constants {
     public static final String PASSWORD_KEY_CACHE_PREFIX = "PASSWORD_KEY::";
     public static final String CAPTCHA_KEY_CACHE_PREFIX = "CAPTCHA::";
     public static final String REQUEST_CACHE_PREFIX = "REQUEST::";
-    public static final String USER_CHECK_LOCK_PREFIX = "USER_CHECK_LOCK::";
+    public static final String LOCK_PREFIX = "LOCK::";
 
     /**
      * Redis key Name
@@ -51,9 +51,9 @@ public class Constants {
     public static final long RSA_PRIVATE_KEY_CACHE_EXPIRE_SECONDS = 30 * 60L;
     public static final long CAPTCHA_CACHE_EXPIRE_SECONDS = 30 * 60L;
     public static final long REQUEST_CACHE_EXPIRE_SECONDS = 60L;
-    public static final long USER_CHECK_LOCK_EXPIRE_SECONDS = 1L;
+    public static final long LOCK_WAIT_MILLISECONDS = 500L;
+    public static final long LOCK_LEAST_MILLISECONDS = 500L;
 
-    public static final long USER_CHECK_LOCK_TIME_OUT_MILLISECONDS = 500L;
 
     /**
      * Other Prefix

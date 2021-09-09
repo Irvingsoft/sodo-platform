@@ -33,7 +33,7 @@ public class ExceptionHandlerAspect {
     @Resource
     private OauthApiLogPublisher apiLogPublisher;
 
-    @Around(value = "@annotation(exceptionHandler)")
+    @Around(value = "@within(exceptionHandler) || @annotation(exceptionHandler)")
     public Object process(ProceedingJoinPoint point, ExceptionHandler exceptionHandler) throws Throwable {
 
         HttpServletRequest request = WebUtil.getRequest();

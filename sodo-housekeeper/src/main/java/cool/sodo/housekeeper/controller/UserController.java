@@ -1,17 +1,14 @@
 package cool.sodo.housekeeper.controller;
 
-import cool.sodo.common.base.component.RedisCacheHelper;
 import cool.sodo.common.base.domain.User;
-import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.Result;
-import cool.sodo.common.base.entity.ResultEnum;
-import cool.sodo.common.base.exception.SoDoException;
 import cool.sodo.common.core.annotation.CurrentUser;
 import cool.sodo.housekeeper.entity.GrantDTO;
 import cool.sodo.housekeeper.entity.UserDTO;
 import cool.sodo.housekeeper.entity.UserInsertDTO;
 import cool.sodo.housekeeper.entity.UserUpdateDTO;
 import cool.sodo.housekeeper.service.UserService;
+import cool.sodo.redis.annotation.Lock;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,59 +21,16 @@ public class UserController {
 
     @Resource
     private UserService userService;
-    @Resource
-    private RedisCacheHelper redisCacheHelper;
 
     @PostMapping(value = "")
+    @Lock(key = "#userInsertDTO.username")
+    @Lock(key = "#userInsertDTO.phone")
+    @Lock(key = "#userInsertDTO.email")
     public Result insertUser(@RequestBody UserInsertDTO userInsertDTO, @CurrentUser User currentUser) {
 
         // 用户字段校验
-
-        getLock(userInsertDTO);
         userService.insert(userInsertDTO.toUser(), currentUser.getUserId());
-        deleteLock(userInsertDTO);
         return Result.success();
-    }
-
-    private void getLock(UserInsertDTO userInsertDTO) {
-
-        long beginAt = System.currentTimeMillis();
-        boolean usernameLock = false;
-        boolean phoneLock = false;
-        boolean emailLock = false;
-        while (true) {
-            usernameLock = redisCacheHelper.setIfAbsent(
-                    Constants.USER_CHECK_LOCK_PREFIX + userInsertDTO.getUsername(),
-                    userInsertDTO.getUsername(),
-                    Constants.USER_CHECK_LOCK_EXPIRE_SECONDS) || usernameLock;
-            phoneLock = redisCacheHelper.setIfAbsent(
-                    Constants.USER_CHECK_LOCK_PREFIX + userInsertDTO.getPhone(),
-                    userInsertDTO.getPhone(),
-                    Constants.USER_CHECK_LOCK_EXPIRE_SECONDS) || phoneLock;
-            emailLock = redisCacheHelper.setIfAbsent(
-                    Constants.USER_CHECK_LOCK_PREFIX + userInsertDTO.getEmail(),
-                    userInsertDTO.getEmail(),
-                    Constants.USER_CHECK_LOCK_EXPIRE_SECONDS) || emailLock;
-            if (usernameLock && phoneLock && emailLock) {
-                return;
-            }
-            if (System.currentTimeMillis() - beginAt >= Constants.USER_CHECK_LOCK_TIME_OUT_MILLISECONDS) {
-                deleteLock(userInsertDTO);
-                if (!usernameLock) {
-                    throw new SoDoException(ResultEnum.SERVER_ERROR, "用户名校验失败！");
-                }
-                if (!phoneLock) {
-                    throw new SoDoException(ResultEnum.SERVER_ERROR, "手机号校验失败！");
-                }
-                throw new SoDoException(ResultEnum.SERVER_ERROR, "邮箱校验失败！");
-            }
-        }
-    }
-
-    private void deleteLock(UserInsertDTO userInsertDTO) {
-        redisCacheHelper.delete(Constants.USER_CHECK_LOCK_PREFIX + userInsertDTO.getUsername());
-        redisCacheHelper.delete(Constants.USER_CHECK_LOCK_PREFIX + userInsertDTO.getPhone());
-        redisCacheHelper.delete(Constants.USER_CHECK_LOCK_PREFIX + userInsertDTO.getEmail());
     }
 
     @DeleteMapping(value = "{userId}")
@@ -94,44 +48,12 @@ public class UserController {
     }
 
     @PatchMapping(value = "")
+    @Lock(key = "#userUpdateDTO.phone")
+    @Lock(key = "#userUpdateDTO.email")
     public Result updateUser(@RequestBody UserUpdateDTO userUpdateDTO, @CurrentUser User currentUser) {
 
-        getLock(userUpdateDTO);
         userService.update(userUpdateDTO.toUser(), currentUser.getUserId());
-        deleteLock(userUpdateDTO);
         return Result.success();
-    }
-
-    private void getLock(UserUpdateDTO userUpdateDTO) {
-
-        long beginAt = System.currentTimeMillis();
-        boolean phoneLock = false;
-        boolean emailLock = false;
-        while (true) {
-            phoneLock = redisCacheHelper.setIfAbsent(
-                    Constants.USER_CHECK_LOCK_PREFIX + userUpdateDTO.getPhone(),
-                    userUpdateDTO.getPhone(),
-                    Constants.USER_CHECK_LOCK_EXPIRE_SECONDS) || phoneLock;
-            emailLock = redisCacheHelper.setIfAbsent(
-                    Constants.USER_CHECK_LOCK_PREFIX + userUpdateDTO.getEmail(),
-                    userUpdateDTO.getEmail(),
-                    Constants.USER_CHECK_LOCK_EXPIRE_SECONDS) || emailLock;
-            if (phoneLock && emailLock) {
-                return;
-            }
-            if (System.currentTimeMillis() - beginAt >= Constants.USER_CHECK_LOCK_TIME_OUT_MILLISECONDS) {
-                deleteLock(userUpdateDTO);
-                if (!phoneLock) {
-                    throw new SoDoException(ResultEnum.SERVER_ERROR, "手机号校验失败！");
-                }
-                throw new SoDoException(ResultEnum.SERVER_ERROR, "邮箱校验失败！");
-            }
-        }
-    }
-
-    private void deleteLock(UserUpdateDTO userUpdateDTO) {
-        redisCacheHelper.delete(Constants.USER_CHECK_LOCK_PREFIX + userUpdateDTO.getPhone());
-        redisCacheHelper.delete(Constants.USER_CHECK_LOCK_PREFIX + userUpdateDTO.getEmail());
     }
 
     @PostMapping(value = "grant")
