@@ -1,12 +1,12 @@
 package cool.sodo.auth.controller;
 
-import cool.sodo.common.component.RedisCacheHelper;
-import cool.sodo.common.entity.Constants;
-import cool.sodo.common.entity.IDContent;
-import cool.sodo.common.entity.Result;
-import cool.sodo.common.util.RsaUtil;
-import cool.sodo.common.util.UUIDUtil;
-import cool.sodo.common.util.WebUtil;
+import cool.sodo.common.base.component.RedisCacheHelper;
+import cool.sodo.common.base.entity.Constants;
+import cool.sodo.common.base.entity.IDContent;
+import cool.sodo.common.base.entity.Result;
+import cool.sodo.common.base.util.RsaUtil;
+import cool.sodo.common.base.util.UUIDUtil;
+import cool.sodo.common.base.util.WebUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

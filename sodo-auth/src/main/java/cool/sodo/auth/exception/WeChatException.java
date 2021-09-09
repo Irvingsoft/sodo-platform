@@ -1,7 +1,7 @@
 package cool.sodo.auth.exception;
 
-import cool.sodo.common.entity.ResultEnum;
-import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.base.entity.ResultEnum;
+import cool.sodo.common.base.exception.SoDoException;
 
 import java.io.Serializable;
 

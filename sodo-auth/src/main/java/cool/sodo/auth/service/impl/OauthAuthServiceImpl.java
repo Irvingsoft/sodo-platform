@@ -8,22 +8,22 @@ import cool.sodo.auth.service.AccessTokenService;
 import cool.sodo.auth.service.OauthAuthService;
 import cool.sodo.auth.service.OauthUserService;
 import cool.sodo.auth.service.WechatAuthService;
-import cool.sodo.common.component.PasswordHelper;
-import cool.sodo.common.component.RedisCacheHelper;
-import cool.sodo.common.domain.AccessToken;
-import cool.sodo.common.domain.OauthClient;
-import cool.sodo.common.domain.OauthUser;
-import cool.sodo.common.domain.User;
-import cool.sodo.common.entity.Constants;
-import cool.sodo.common.entity.Notification;
-import cool.sodo.common.entity.ResultEnum;
-import cool.sodo.common.exception.SoDoException;
-import cool.sodo.common.service.CommonOauthClientService;
-import cool.sodo.common.service.CommonUserService;
-import cool.sodo.common.util.AesCbcUtil;
-import cool.sodo.common.util.CharPool;
-import cool.sodo.common.util.StringUtil;
-import cool.sodo.common.util.WebUtil;
+import cool.sodo.common.base.component.RedisCacheHelper;
+import cool.sodo.common.base.domain.AccessToken;
+import cool.sodo.common.base.domain.OauthClient;
+import cool.sodo.common.base.domain.OauthUser;
+import cool.sodo.common.base.domain.User;
+import cool.sodo.common.base.entity.Constants;
+import cool.sodo.common.base.entity.ResultEnum;
+import cool.sodo.common.base.exception.SoDoException;
+import cool.sodo.common.base.service.CommonOauthClientService;
+import cool.sodo.common.base.service.CommonUserService;
+import cool.sodo.common.base.util.AesCbcUtil;
+import cool.sodo.common.base.util.CharPool;
+import cool.sodo.common.base.util.StringUtil;
+import cool.sodo.common.base.util.WebUtil;
+import cool.sodo.common.core.component.PasswordHelper;
+import cool.sodo.rabbitmq.entity.Notification;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -272,7 +272,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
      *
      * @param identity    身份标识
      * @param oauthClient 客户端
-     * @return cool.sodo.common.domain.AccessToken
+     * @return cool.sodo.common.base.domain.AccessToken
      */
     private AccessToken getAccessToken(String identity, OauthClient oauthClient) {
 

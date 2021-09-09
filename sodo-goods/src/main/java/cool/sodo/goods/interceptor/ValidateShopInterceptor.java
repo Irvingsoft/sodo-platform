@@ -1,12 +1,12 @@
 package cool.sodo.goods.interceptor;
 
 import com.alibaba.fastjson.JSON;
-import cool.sodo.common.domain.Goods;
-import cool.sodo.common.domain.GoodsChoice;
-import cool.sodo.common.domain.GoodsSet;
-import cool.sodo.common.domain.ShopMenu;
-import cool.sodo.common.entity.Constants;
-import cool.sodo.common.entity.ResultEnum;
+import cool.sodo.common.base.domain.Goods;
+import cool.sodo.common.base.domain.GoodsChoice;
+import cool.sodo.common.base.domain.GoodsSet;
+import cool.sodo.common.base.domain.ShopMenu;
+import cool.sodo.common.base.entity.Constants;
+import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.goods.annotation.ValidateShop;
 import cool.sodo.goods.exception.GoodsException;
 import cool.sodo.goods.service.GoodsService;

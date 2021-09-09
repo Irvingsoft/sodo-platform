@@ -1,7 +1,7 @@
 package cool.sodo.user.service;
 
-import cool.sodo.common.domain.OauthClient;
-import cool.sodo.common.domain.User;
+import cool.sodo.common.base.domain.OauthClient;
+import cool.sodo.common.base.domain.User;
 import cool.sodo.user.entity.PasswordDTO;
 import cool.sodo.user.entity.UserUpdateDTO;
 

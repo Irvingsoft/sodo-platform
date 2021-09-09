@@ -2,10 +2,10 @@ package cool.sodo.zuul.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import cool.sodo.common.entity.Constants;
-import cool.sodo.common.entity.ResultEnum;
-import cool.sodo.common.exception.SoDoException;
-import cool.sodo.common.util.WebUtil;
+import cool.sodo.common.base.entity.Constants;
+import cool.sodo.common.base.entity.ResultEnum;
+import cool.sodo.common.base.exception.SoDoException;
+import cool.sodo.common.base.util.WebUtil;
 import cool.sodo.zuul.service.OauthIpService;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.util.PatternMatchUtils;

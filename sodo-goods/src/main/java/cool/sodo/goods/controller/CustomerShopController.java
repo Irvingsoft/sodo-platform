@@ -1,8 +1,8 @@
 package cool.sodo.goods.controller;
 
-import cool.sodo.common.entity.Result;
-import cool.sodo.common.entity.ResultEnum;
-import cool.sodo.common.util.StringUtil;
+import cool.sodo.common.base.entity.Result;
+import cool.sodo.common.base.entity.ResultEnum;
+import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.goods.entity.ShopDTO;
 import cool.sodo.goods.exception.GoodsException;
 import cool.sodo.goods.service.ShopService;

@@ -1,16 +1,16 @@
 package cool.sodo.user.controller;
 
-import cool.sodo.common.annotation.CurrentUser;
-import cool.sodo.common.component.PasswordHelper;
-import cool.sodo.common.component.RedisCacheHelper;
-import cool.sodo.common.domain.OauthClient;
-import cool.sodo.common.domain.User;
-import cool.sodo.common.entity.Constants;
-import cool.sodo.common.entity.Result;
-import cool.sodo.common.entity.ResultEnum;
-import cool.sodo.common.exception.SoDoException;
-import cool.sodo.common.service.CommonOauthClientService;
-import cool.sodo.common.util.WebUtil;
+import cool.sodo.common.base.component.RedisCacheHelper;
+import cool.sodo.common.base.domain.OauthClient;
+import cool.sodo.common.base.domain.User;
+import cool.sodo.common.base.entity.Constants;
+import cool.sodo.common.base.entity.Result;
+import cool.sodo.common.base.entity.ResultEnum;
+import cool.sodo.common.base.exception.SoDoException;
+import cool.sodo.common.base.service.CommonOauthClientService;
+import cool.sodo.common.base.util.WebUtil;
+import cool.sodo.common.core.annotation.CurrentUser;
+import cool.sodo.common.core.component.PasswordHelper;
 import cool.sodo.user.entity.PasswordDTO;
 import cool.sodo.user.entity.UserRegisterDTO;
 import cool.sodo.user.entity.UserUpdateDTO;

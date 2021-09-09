@@ -3,7 +3,7 @@ package cool.sodo.goods.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import cool.sodo.common.domain.ShopToCategory;
+import cool.sodo.common.base.domain.ShopToCategory;
 import cool.sodo.goods.mapper.ShopToCategoryMapper;
 import cool.sodo.goods.service.ShopToCategoryService;
 import org.springframework.stereotype.Service;

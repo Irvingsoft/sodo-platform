@@ -1,9 +1,9 @@
 package cool.sodo.housekeeper.controller;
 
-import cool.sodo.common.annotation.CurrentUser;
-import cool.sodo.common.domain.Role;
-import cool.sodo.common.domain.User;
-import cool.sodo.common.entity.Result;
+import cool.sodo.common.base.domain.Role;
+import cool.sodo.common.base.domain.User;
+import cool.sodo.common.base.entity.Result;
+import cool.sodo.common.core.annotation.CurrentUser;
 import cool.sodo.housekeeper.entity.GrantDTO;
 import cool.sodo.housekeeper.entity.RoleDTO;
 import cool.sodo.housekeeper.service.RoleService;

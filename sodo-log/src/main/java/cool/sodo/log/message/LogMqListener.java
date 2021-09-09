@@ -2,14 +2,14 @@ package cool.sodo.log.message;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cool.sodo.common.domain.LogApi;
-import cool.sodo.common.domain.LogBusiness;
-import cool.sodo.common.domain.LogError;
-import cool.sodo.common.entity.Notification;
 import cool.sodo.log.common.Constants;
+import cool.sodo.log.domain.LogApi;
+import cool.sodo.log.domain.LogBusiness;
+import cool.sodo.log.domain.LogError;
 import cool.sodo.log.service.LogApiService;
 import cool.sodo.log.service.LogBusinessService;
 import cool.sodo.log.service.LogErrorService;
+import cool.sodo.rabbitmq.entity.Notification;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

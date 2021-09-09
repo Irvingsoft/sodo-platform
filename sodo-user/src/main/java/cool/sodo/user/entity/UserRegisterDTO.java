@@ -1,6 +1,6 @@
 package cool.sodo.user.entity;
 
-import cool.sodo.common.domain.User;
+import cool.sodo.common.base.domain.User;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

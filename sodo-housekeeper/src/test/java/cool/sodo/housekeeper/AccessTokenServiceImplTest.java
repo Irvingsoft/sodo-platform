@@ -1,6 +1,6 @@
 package cool.sodo.housekeeper;
 
-import cool.sodo.common.entity.Constants;
+import cool.sodo.common.base.entity.Constants;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 

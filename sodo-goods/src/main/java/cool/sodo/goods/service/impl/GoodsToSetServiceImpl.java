@@ -2,7 +2,7 @@ package cool.sodo.goods.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import cool.sodo.common.domain.GoodsToSet;
+import cool.sodo.common.base.domain.GoodsToSet;
 import cool.sodo.goods.mapper.GoodsToSetMapper;
 import cool.sodo.goods.service.GoodsToSetService;
 import org.springframework.stereotype.Service;

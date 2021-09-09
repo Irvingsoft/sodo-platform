@@ -1,6 +1,6 @@
 package cool.sodo.zuul.exception;
 
-import cool.sodo.common.exception.SoDoException;
+import cool.sodo.common.base.exception.SoDoException;
 import lombok.Data;
 
 import java.io.Serializable;

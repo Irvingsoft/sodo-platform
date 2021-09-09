@@ -6,12 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import cool.sodo.auth.entity.WechatToken;
 import cool.sodo.auth.exception.WeChatException;
 import cool.sodo.auth.service.WechatAuthService;
-import cool.sodo.common.domain.OauthClient;
-import cool.sodo.common.domain.OauthUser;
-import cool.sodo.common.entity.Constants;
-import cool.sodo.common.entity.ResultEnum;
-import cool.sodo.common.exception.SoDoException;
-import cool.sodo.common.util.StringUtil;
+import cool.sodo.common.base.domain.OauthClient;
+import cool.sodo.common.base.domain.OauthUser;
+import cool.sodo.common.base.entity.Constants;
+import cool.sodo.common.base.entity.ResultEnum;
+import cool.sodo.common.base.exception.SoDoException;
+import cool.sodo.common.base.util.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 

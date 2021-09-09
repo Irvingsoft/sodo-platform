@@ -3,8 +3,8 @@ package cool.sodo.auth;
 import com.alibaba.fastjson.JSONObject;
 import cool.sodo.auth.message.UserMqProperty;
 import cool.sodo.auth.service.AccessTokenService;
-import cool.sodo.common.component.RedisCacheHelper;
-import cool.sodo.common.domain.AccessToken;
+import cool.sodo.common.base.component.RedisCacheHelper;
+import cool.sodo.common.base.domain.AccessToken;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

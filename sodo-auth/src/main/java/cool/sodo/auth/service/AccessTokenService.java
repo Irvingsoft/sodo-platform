@@ -1,6 +1,6 @@
 package cool.sodo.auth.service;
 
-import cool.sodo.common.domain.AccessToken;
+import cool.sodo.common.base.domain.AccessToken;
 
 import java.util.List;
 

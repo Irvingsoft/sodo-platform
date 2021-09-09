@@ -1,6 +1,6 @@
 package cool.sodo.goods.exception;
 
-import cool.sodo.common.entity.ResultEnum;
+import cool.sodo.common.base.entity.ResultEnum;
 import lombok.Data;
 
 /**

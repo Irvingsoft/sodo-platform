@@ -1,6 +1,6 @@
 package cool.sodo.user.entity;
 
-import cool.sodo.common.entity.Constants;
+import cool.sodo.common.base.entity.Constants;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

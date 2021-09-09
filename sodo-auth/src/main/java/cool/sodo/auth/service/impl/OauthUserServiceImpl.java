@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.auth.mapper.OauthUserMapper;
 import cool.sodo.auth.service.OauthUserService;
-import cool.sodo.common.domain.OauthUser;
+import cool.sodo.common.base.domain.OauthUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

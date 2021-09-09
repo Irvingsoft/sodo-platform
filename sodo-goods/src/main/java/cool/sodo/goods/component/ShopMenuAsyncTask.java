@@ -1,7 +1,7 @@
 package cool.sodo.goods.component;
 
-import cool.sodo.common.domain.ShopMenu;
-import cool.sodo.common.entity.ResultEnum;
+import cool.sodo.common.base.domain.ShopMenu;
+import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.goods.exception.GoodsException;
 import cool.sodo.goods.mapper.ShopMenuMapper;
 import org.springframework.scheduling.annotation.Async;

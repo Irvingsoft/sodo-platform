@@ -1,6 +1,6 @@
 package cool.sodo.user.service;
 
-import cool.sodo.common.domain.Address;
+import cool.sodo.common.base.domain.Address;
 
 import java.util.List;
 

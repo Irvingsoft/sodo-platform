@@ -1,6 +1,6 @@
 package cool.sodo.housekeeper.service;
 
-import cool.sodo.common.domain.Menu;
+import cool.sodo.common.base.domain.Menu;
 import cool.sodo.housekeeper.entity.MenuDTO;
 import cool.sodo.housekeeper.entity.MenuVO;
 
