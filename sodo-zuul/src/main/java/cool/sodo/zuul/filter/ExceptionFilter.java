@@ -6,8 +6,10 @@ import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
+import cool.sodo.log.publisher.ErrorLogPublisher;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 
@@ -25,6 +27,9 @@ public class ExceptionFilter extends ZuulFilter {
 
     public static final String THROWABLE = "throwable";
     public static final String CONTENT_TYPE = "text/json";
+
+    @Resource
+    private ErrorLogPublisher errorLogPublisher;
 
     @Override
     public String filterType() {
@@ -64,6 +69,7 @@ public class ExceptionFilter extends ZuulFilter {
             response.setContentType(CONTENT_TYPE);
             response.setCharacterEncoding(StandardCharsets.UTF_8.name());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            errorLogPublisher.publishEvent(currentContext.getRequest(), (Throwable) e, null);
         }
         return null;
     }

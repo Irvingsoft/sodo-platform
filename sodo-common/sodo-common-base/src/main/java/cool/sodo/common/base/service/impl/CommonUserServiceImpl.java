@@ -108,7 +108,7 @@ public class CommonUserServiceImpl implements CommonUserService {
 
         if (!StringUtil.isEmpty(userId)) {
             User user = getIdentity(userId);
-            if (user.getUsername().equals(username)) {
+            if (!StringUtil.isEmpty(user.getUsername()) && user.getUsername().equals(username)) {
                 return;
             }
         }
@@ -122,7 +122,7 @@ public class CommonUserServiceImpl implements CommonUserService {
 
         if (!StringUtil.isEmpty(userId)) {
             User user = getIdentity(userId);
-            if (user.getPhone().equals(phone)) {
+            if (!StringUtil.isEmpty(user.getPhone()) && user.getPhone().equals(phone)) {
                 return;
             }
         }
@@ -136,7 +136,7 @@ public class CommonUserServiceImpl implements CommonUserService {
 
         if (!StringUtil.isEmpty(userId)) {
             User user = getIdentity(userId);
-            if (user.getEmail().equals(email)) {
+            if (!StringUtil.isEmpty(user.getEmail()) && user.getEmail().equals(email)) {
                 return;
             }
         }
