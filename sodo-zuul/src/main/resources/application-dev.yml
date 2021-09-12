@@ -86,6 +86,9 @@ zuul:
     housekeeper:
       path: /housekeeper/**
       serviceId: housekeeper
+    catkin:
+      path: /catkin/**
+      serviceId: catkin
     auth:
       path: /auth/**
       serviceId: auth
@@ -122,7 +125,7 @@ sodo:
   xss:
     enabled: true
     url:
-      excludePatterns: /**/v2/api-docs
+      excludePatterns: /**/v2/api-docs, /catkin/**
 ribbon:
   ReadTimeout: 60000
   ConnectTimeout: 60000

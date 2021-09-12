@@ -1,11 +1,11 @@
 server:
-  port: 10031
+  port: 10021
 
 spring:
   application:
-    name: log
-    path: /log
-    env: prod
+    name: catkin # 服务名称，同服务在集群架构下的服务名称统一
+    path: /catkin
+    env: dev
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/sodo_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
@@ -55,7 +55,7 @@ eureka:
     healthcheck:
       enabled: true
 mybatis-plus:
-  type-aliases-package: cool.sodo.common.base.domain
+  type-aliases-package: cool.sodo.catkin.domain
   mapper-locations: classpath:mapper/*.xml
   configuration:
     jdbc-type-for-null: null
@@ -65,9 +65,6 @@ mybatis-plus:
     db-config:
       logic-delete-value: true
       logic-not-delete-value: false
-#配置日志地址
-logging:
-  config: classpath:log/logback_${spring.application.env}.xml
 log-message:
   enabled: true
   queue-name: log.sync.queue

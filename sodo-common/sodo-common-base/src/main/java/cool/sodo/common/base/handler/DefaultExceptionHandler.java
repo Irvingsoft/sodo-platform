@@ -1,12 +1,9 @@
-package cool.sodo.common.core.handler;
+package cool.sodo.common.base.handler;
 
-import com.alibaba.fastjson.JSON;
 import cool.sodo.common.base.entity.Result;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
-import cool.sodo.common.base.util.WebUtil;
-import cool.sodo.log.publisher.ErrorLogPublisher;
-import org.springframework.core.Ordered;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -33,20 +29,14 @@ import java.util.List;
  * @date 2021/6/19 14:33
  */
 @RestControllerAdvice
-@Order(Ordered.HIGHEST_PRECEDENCE)
-@SuppressWarnings("all")
+@Order()
+@Slf4j
 public class DefaultExceptionHandler {
-
-    @Resource
-    private ErrorLogPublisher errorLogPublisher;
 
     @ExceptionHandler(value = SoDoException.class)
     public ResponseEntity handleSoDoException(SoDoException e) {
 
-        errorLogPublisher.publishEvent(
-                WebUtil.getContentCachingRequest(),
-                e, e.getParams() == null ? null : JSON.toJSONString(e.getParams()));
-
+        log.error("SoDoException Code: {} Detail: {}", e.getResultEnum().getCode(), e.getDetail());
         if (e.getResultEnum() != null) {
             return new ResponseEntity(
                     Result.of(e.getResultEnum(), e.getDetail()),
@@ -64,13 +54,11 @@ public class DefaultExceptionHandler {
     public Result handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 
         List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
-
         StringBuilder detail = new StringBuilder();
         for (FieldError fieldError : fieldErrors) {
             detail.append(fieldError.getDefaultMessage());
             detail.append(" ");
         }
-
         return Result.of(ResultEnum.BAD_REQUEST, detail.toString());
     }
 
@@ -88,8 +76,7 @@ public class DefaultExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Result handleException(Exception e) {
 
-        errorLogPublisher.publishEvent(WebUtil.getContentCachingRequest(), e, null);
+        log.error("Exception message: {}", e.getMessage());
         return Result.of(ResultEnum.SERVER_ERROR, e.getMessage());
     }
-
 }

@@ -3,6 +3,7 @@ package cool.sodo.common.base.util;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 字符串工具类
@@ -16,7 +17,11 @@ public class StringUtil extends StringUtils {
         return StringUtils.isEmpty(list) || list.isEmpty();
     }
 
-    public static <T> boolean isEmpty(String[] strings) {
+    public static boolean isEmpty(String[] strings) {
         return StringUtils.isEmpty(strings) || strings.length == 0;
+    }
+
+    public static <T> boolean isEmpty(Set<T> set) {
+        return StringUtils.isEmpty(set) || set.size() == 0;
     }
 }
