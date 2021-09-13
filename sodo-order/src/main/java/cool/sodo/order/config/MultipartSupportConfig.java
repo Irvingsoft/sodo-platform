@@ -1,6 +1,6 @@
 package cool.sodo.order.config;
 
-import cool.sodo.common.base.support.FeignSpringFormEncoder;
+import cool.sodo.common.core.support.FeignSpringFormEncoder;
 import feign.codec.Encoder;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;

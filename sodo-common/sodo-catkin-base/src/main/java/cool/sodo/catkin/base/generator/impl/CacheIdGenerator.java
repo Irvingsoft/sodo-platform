@@ -21,17 +21,17 @@ import java.util.concurrent.TimeUnit;
  */
 public class CacheIdGenerator implements IdGenerator {
 
-    protected String bizType;
-    protected SegmentIdService segmentIdService;
-    protected volatile SegmentId current;
-    protected volatile SegmentId next;
-    private volatile boolean loadingNext;
     private final Object lock = new Object();
     private final ExecutorService executorService =
             new ThreadPoolExecutor(1, 1,
                     0L, TimeUnit.MILLISECONDS,
                     new LinkedBlockingQueue<Runnable>(),
                     new NamedThreadFactory("catkin-generator"));
+    protected String bizType;
+    protected SegmentIdService segmentIdService;
+    protected volatile SegmentId current;
+    protected volatile SegmentId next;
+    private volatile boolean loadingNext;
 
     public CacheIdGenerator(String bizType, SegmentIdService segmentIdService) {
         this.bizType = bizType;

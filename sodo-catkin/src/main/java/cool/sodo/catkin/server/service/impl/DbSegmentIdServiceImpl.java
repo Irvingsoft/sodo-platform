@@ -26,7 +26,7 @@ public class DbSegmentIdServiceImpl implements SegmentIdService {
     private CatkinInfoService catkinInfoService;
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
     public SegmentId getNextSegmentId(String bizType) {
 
         for (int i = 0; i < Constants.RETRY; i++) {

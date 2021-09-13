@@ -3,6 +3,20 @@ package cool.sodo.common.base.entity;
 @SuppressWarnings("all")
 public class Constants {
 
+    /**
+     * ServiceNames
+     *
+     * @author TimeChaser
+     * @date 2021/9/13 15:38
+     */
+    public static final String SODO_EUREKA = "eureka";
+    public static final String SODO_ZUUL = "zuul";
+    public static final String SODO_CATKIN = "catkin";
+    public static final String SODO_LOG = "log";
+    public static final String SODO_AUTH = "auth";
+    public static final String SODO_USER = "user";
+    public static final String SODO_HOUSEKEEPER = "housekeeper";
+
     public static final String CACHE_NAME = "SODO";
 
     public static final String ERROR_LIMITS_AUTHORITY = "权限不足";
@@ -109,9 +123,6 @@ public class Constants {
     public static final int CAPTCHA_WIDTH = 130;
     public static final int CAPTCHA_HEIGHT = 48;
     public static final int CAPTCHA_LENGTH = 5;
-
-    public static final String SODO_AUTH = "auth";
-    public static final String SODO_USER = "user";
 
     public static final String LOG_BUSINESS_INSERT = "插入";
     public static final String LOG_BUSINESS_DELETE = "删除";

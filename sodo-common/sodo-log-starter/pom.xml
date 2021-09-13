@@ -28,6 +28,7 @@
             <artifactId>UserAgentUtils</artifactId>
             <version>${useragent.version}</version>
         </dependency>
+
     </dependencies>
 
 </project>

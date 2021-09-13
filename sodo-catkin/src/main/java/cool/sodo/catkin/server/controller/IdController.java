@@ -9,7 +9,6 @@ import cool.sodo.common.base.entity.Result;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.util.StringUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +32,7 @@ public class IdController {
     @Value("100000")
     private Integer batchSizeMax;
 
-    @GetMapping(value = "")
+    @RequestMapping(value = "")
     public Result id(String token, String bizType, Integer batchSize) {
 
         batchSize = checkBatchSize(batchSize);
@@ -45,7 +44,7 @@ public class IdController {
         return Result.success(ids);
     }
 
-    @GetMapping(value = "simple")
+    @RequestMapping(value = "simple")
     public String idSimple(String token, String bizType, Integer batchSize) {
 
         if (!catkinTokenService.validate(token, bizType)) {
@@ -68,7 +67,7 @@ public class IdController {
         return response.toString();
     }
 
-    @GetMapping(value = "segment")
+    @RequestMapping(value = "segment")
     public Result segmentId(String token, String bizType) {
 
         if (!catkinTokenService.validate(token, bizType)) {
@@ -77,7 +76,7 @@ public class IdController {
         return Result.success(segmentIdService.getNextSegmentId(bizType));
     }
 
-    @GetMapping(value = "segment/simple")
+    @RequestMapping(value = "segment/simple")
     public String segmentIdSimple(String token, String bizType) {
 
         if (!catkinTokenService.validate(token, bizType)) {

@@ -1,11 +1,25 @@
 server:
   port: 10011
-
+  servlet:
+    session:
+      cookie:
+        http-only: false
+        max-age: 604800 # 1 Week
+      timeout: 604800
 spring:
   application:
     name: housekeeper
     path: /housekeeper
     env: prod
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save
+      namespace: sodo:session
+  resources:
+    add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/sodo_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root

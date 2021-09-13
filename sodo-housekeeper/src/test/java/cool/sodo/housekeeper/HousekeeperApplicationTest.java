@@ -3,6 +3,8 @@ package cool.sodo.housekeeper;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import cool.sodo.catkin.client.feign.CatkinClientService;
+import cool.sodo.catkin.client.property.CatkinClientProperty;
 import cool.sodo.common.base.component.RedisCacheHelper;
 import cool.sodo.common.base.domain.OauthApi;
 import cool.sodo.common.base.domain.User;
@@ -28,6 +30,10 @@ public class HousekeeperApplicationTest {
     private RedisCacheHelper redisCacheHelper;
     @Resource
     private AccessTokenServiceImplTest accessTokenService;
+    @Resource
+    private CatkinClientService catkinClientService;
+    @Resource
+    private CatkinClientProperty catkinClientProperty;
 
     /**
      * org.springframework.util.StringUtil 可以判断对象是否为空
@@ -101,4 +107,10 @@ public class HousekeeperApplicationTest {
     public void testRedis() {
         accessTokenService.delete("44a1789f4f8248b249940e152bc8024b");
     }
+
+    @Test
+    public void testFeign() {
+        System.out.println(catkinClientService.idSimple(catkinClientProperty.getCatkinToken(), "test", 1));
+    }
+
 }

@@ -13,6 +13,10 @@ import java.util.Set;
  */
 public class StringUtil extends StringUtils {
 
+    public static boolean isEmpty(String string) {
+        return StringUtils.isEmpty(string) || string.isEmpty();
+    }
+
     public static <T> boolean isEmpty(List<T> list) {
         return StringUtils.isEmpty(list) || list.isEmpty();
     }
