@@ -152,7 +152,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
             throw new SoDoException(ResultEnum.INVALID_CAPTCHA, ERROR_CAPTCHA, authenticateRequest);
         }
 
-        User user = userService.getIdentity(authenticateRequest.getUsername());
+        User user = userService.getIdentity(authenticateRequest.getUsername(), clientId);
         userService.checkUserStatus(user);
         if (!user.getClientId().equals(clientId)) {
             throw new SoDoException(ResultEnum.INVALID_CLIENT, ERROR_USER_CLIENT, user);
@@ -198,7 +198,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_OAUTH_USER);
         }
 
-        User user = userService.getIdentity(oauthUser.getOpenId());
+        User user = userService.getIdentity(oauthUser.getOpenId(), clientId);
         if (StringUtil.isEmpty(user)) {
             // 微信小程序用户第一次登录
             oauthUser.setClientId(clientId);
@@ -276,7 +276,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
      */
     private AccessToken getAccessToken(String identity, OauthClient oauthClient) {
 
-        AccessToken accessToken = null;
+        AccessToken accessToken;
         if (oauthClient.getConcurrentLogin()) {
             if (oauthClient.getShareToken()) {
                 // 共享 Token 时，认为库中单个用户最多只有一条 Token 记录

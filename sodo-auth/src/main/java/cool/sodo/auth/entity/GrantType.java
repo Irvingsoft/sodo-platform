@@ -9,7 +9,7 @@ package cool.sodo.auth.entity;
 public enum GrantType {
 
     UNRECOGNIZED(-1, "不支持的方式"),
-    AUTHCODE(0, "认证码");
+    AUTH_CODE(0, "认证码");
 
     private Integer type;
     private String desc;

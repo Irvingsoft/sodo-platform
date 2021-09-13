@@ -79,7 +79,7 @@ public class OauthApiAspect {
 
         String clientId = WebUtil.getHeader(request, Constants.CLIENT_ID);
         Method method = ((MethodSignature) point.getSignature()).getMethod();
-        AccessToken accessToken = null;
+        AccessToken accessToken;
 
         OauthApi oauthApi = oauthApiService.getOauthApiIdentityByPathAndMethod(
                 getApiPath(request, method),
@@ -104,7 +104,7 @@ public class OauthApiAspect {
             // AccessToken Check, And User Status Check.
             accessToken = accessTokenService.getFromCache(token);
             checkAccessToken(accessToken, clientId);
-            User user = userService.getIdentity(accessToken.getIdentity());
+            User user = userService.getIdentity(accessToken.getIdentity(), clientId);
             userService.checkUserStatus(user);
             // Check User`s Permission if OauthApi Needs.
             if (!StringUtil.isEmpty(oauthApi.getCode())) {

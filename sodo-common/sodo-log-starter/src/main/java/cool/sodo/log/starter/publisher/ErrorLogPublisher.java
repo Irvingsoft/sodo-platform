@@ -1,5 +1,6 @@
 package cool.sodo.log.starter.publisher;
 
+import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ServiceInfo;
 import cool.sodo.common.base.service.CommonAccessTokenService;
 import cool.sodo.common.base.service.CommonUserService;
@@ -61,7 +62,8 @@ public class ErrorLogPublisher {
             if (!StringUtil.isEmpty(token)
                     && !StringUtil.isEmpty(accessTokenService.getFromCache(token))) {
                 logError.setUserId(userService.getIdentity(
-                        accessTokenService.getFromCache(token).getIdentity()
+                        accessTokenService.getFromCache(token).getIdentity(),
+                        WebUtil.getHeader(request, Constants.CLIENT_ID)
                 ).getUserId());
             }
             logError.setRequestUrl(WebUtil.getRequestUrl(request, serviceInfo.getPath()));

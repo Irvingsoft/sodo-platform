@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "shedule")
+@RequestMapping(value = "schedule")
 @Api(tags = "时间表相关接口")
 public class ScheduleController {
 
