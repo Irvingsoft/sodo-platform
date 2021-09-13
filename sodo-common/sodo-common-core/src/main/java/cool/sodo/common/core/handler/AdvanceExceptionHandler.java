@@ -5,7 +5,7 @@ import cool.sodo.common.base.entity.Result;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
 import cool.sodo.common.base.util.WebUtil;
-import cool.sodo.log.publisher.ErrorLogPublisher;
+import cool.sodo.log.starter.publisher.ErrorLogPublisher;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;

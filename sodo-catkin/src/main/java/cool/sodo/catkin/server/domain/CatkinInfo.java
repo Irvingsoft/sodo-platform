@@ -3,8 +3,8 @@ package cool.sodo.catkin.server.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import cool.sodo.catkin.base.entity.SegmentId;
 import cool.sodo.catkin.server.common.Constants;
+import cool.sodo.catkin.server.entity.SegmentId;
 import lombok.Data;
 
 import java.io.Serializable;

@@ -1,6 +1,6 @@
 package cool.sodo.auth.message;
 
-import cool.sodo.rabbitmq.entity.Notification;
+import cool.sodo.rabbitmq.starter.entity.Notification;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.scheduling.annotation.Async;

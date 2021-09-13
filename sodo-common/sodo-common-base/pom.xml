@@ -11,10 +11,22 @@
     <artifactId>sodo-common-base</artifactId>
 
     <dependencies>
+        <!-- Mybatis-plus、代码生成器 -->
         <dependency>
-            <groupId>cool.sodo</groupId>
-            <artifactId>sodo-mysql-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+            <version>${mybatis-plus.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>

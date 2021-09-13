@@ -1,6 +1,6 @@
 package cool.sodo.catkin.server;
 
-import cool.sodo.catkin.base.service.SegmentIdService;
+import cool.sodo.catkin.server.service.SegmentIdService;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

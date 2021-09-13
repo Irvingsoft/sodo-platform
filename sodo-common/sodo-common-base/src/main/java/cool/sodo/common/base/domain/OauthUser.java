@@ -1,6 +1,5 @@
 package cool.sodo.common.base.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -12,7 +11,7 @@ import java.util.Date;
 @TableName(value = "oauth_user")
 public class OauthUser implements Serializable {
 
-    @TableId(type = IdType.ASSIGN_UUID)
+    @TableId
     private String openId;
 
     private String unionId;

@@ -6,7 +6,7 @@ import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
-import cool.sodo.log.publisher.ErrorLogPublisher;
+import cool.sodo.log.starter.publisher.ErrorLogPublisher;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 
 import javax.annotation.Resource;

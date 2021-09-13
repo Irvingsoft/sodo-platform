@@ -8,7 +8,7 @@ import cool.sodo.common.base.service.CommonOauthClientService;
 import cool.sodo.common.base.util.WebUtil;
 import cool.sodo.common.core.annotation.CurrentUser;
 import cool.sodo.common.core.component.PasswordHelper;
-import cool.sodo.redis.annotation.Lock;
+import cool.sodo.redis.starter.annotation.Lock;
 import cool.sodo.user.entity.PasswordDTO;
 import cool.sodo.user.entity.UserRegisterDTO;
 import cool.sodo.user.entity.UserUpdateDTO;

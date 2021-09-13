@@ -1,7 +1,7 @@
 package cool.sodo.log.controller;
 
 import cool.sodo.common.base.entity.Result;
-import cool.sodo.log.entity.LogApiDTO;
+import cool.sodo.log.starter.entity.LogApiDTO;
 import cool.sodo.log.service.LogApiService;
 import org.springframework.web.bind.annotation.*;
 

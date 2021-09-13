@@ -7,7 +7,7 @@ import cool.sodo.common.base.entity.Result;
 import cool.sodo.common.core.annotation.CurrentUser;
 import cool.sodo.housekeeper.entity.OauthApiDTO;
 import cool.sodo.housekeeper.service.OauthApiService;
-import cool.sodo.log.annotation.BusinessLogger;
+import cool.sodo.log.starter.annotation.BusinessLogger;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

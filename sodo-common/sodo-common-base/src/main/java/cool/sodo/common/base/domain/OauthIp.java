@@ -22,7 +22,7 @@ import java.util.Date;
 @TableName(value = "oauth_ip")
 public class OauthIp implements Serializable {
 
-    @TableId(type = IdType.ASSIGN_UUID)
+    @TableId(type = IdType.ASSIGN_ID)
     private String ipId;
 
     private String clientId;

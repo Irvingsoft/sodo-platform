@@ -6,7 +6,7 @@ import cool.sodo.common.base.domain.User;
 import cool.sodo.common.base.service.CommonUserService;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.core.component.PasswordHelper;
-import cool.sodo.redis.annotation.Lock;
+import cool.sodo.redis.starter.annotation.Lock;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

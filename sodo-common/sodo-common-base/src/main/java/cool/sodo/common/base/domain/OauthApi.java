@@ -20,7 +20,7 @@ import java.util.List;
 @TableName(value = "oauth_api")
 public class OauthApi implements Serializable {
 
-    @TableId(type = IdType.ASSIGN_UUID)
+    @TableId(type = IdType.ASSIGN_ID)
     private String apiId;
 
     private String name;

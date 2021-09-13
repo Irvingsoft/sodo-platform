@@ -1,12 +1,13 @@
 package cool.sodo.catkin.server.controller;
 
-import cool.sodo.catkin.base.entity.SegmentId;
-import cool.sodo.catkin.base.generator.IdGenerator;
-import cool.sodo.catkin.base.service.SegmentIdService;
+import cool.sodo.catkin.server.entity.SegmentId;
 import cool.sodo.catkin.server.factory.impl.IdGeneratorFactoryServer;
+import cool.sodo.catkin.server.generator.IdGenerator;
 import cool.sodo.catkin.server.service.CatkinTokenService;
+import cool.sodo.catkin.server.service.SegmentIdService;
 import cool.sodo.common.base.entity.Result;
 import cool.sodo.common.base.entity.ResultEnum;
+import cool.sodo.common.base.exception.SoDoException;
 import cool.sodo.common.base.util.StringUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,26 +46,13 @@ public class IdController {
     }
 
     @RequestMapping(value = "simple")
-    public String idSimple(String token, String bizType, Integer batchSize) {
+    public Long idSimple(String token, String bizType) {
 
         if (!catkinTokenService.validate(token, bizType)) {
-            return "";
+            throw new SoDoException(ResultEnum.BAD_REQUEST, "Catkin 认证信息有误！");
         }
-        StringBuilder response = new StringBuilder();
-        batchSize = checkBatchSize(batchSize);
         IdGenerator idGenerator = idGeneratorFactoryServer.getIdGenerator(bizType);
-        if (batchSize == 1) {
-            response.append(idGenerator.nextId());
-        } else {
-            for (Integer i = 0; i < batchSize; i++) {
-                List<Long> ids = idGenerator.nextId(batchSize);
-                for (Long id : ids) {
-                    response.append(id).append(",");
-                }
-                response.deleteCharAt(response.length() - 1);
-            }
-        }
-        return response.toString();
+        return idGenerator.nextId();
     }
 
     @RequestMapping(value = "segment")

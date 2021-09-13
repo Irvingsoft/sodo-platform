@@ -3,8 +3,8 @@ package cool.sodo.housekeeper;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import cool.sodo.catkin.client.feign.CatkinClientService;
-import cool.sodo.catkin.client.property.CatkinClientProperty;
+import cool.sodo.catkin.starter.feign.CatkinClientService;
+import cool.sodo.catkin.starter.property.CatkinClientProperty;
 import cool.sodo.common.base.component.RedisCacheHelper;
 import cool.sodo.common.base.domain.OauthApi;
 import cool.sodo.common.base.domain.User;
@@ -110,7 +110,7 @@ public class HousekeeperApplicationTest {
 
     @Test
     public void testFeign() {
-        System.out.println(catkinClientService.idSimple(catkinClientProperty.getCatkinToken(), "test", 1));
+        System.out.println(catkinClientService.idSimple(catkinClientProperty.getCatkinToken(), "test"));
     }
 
 }

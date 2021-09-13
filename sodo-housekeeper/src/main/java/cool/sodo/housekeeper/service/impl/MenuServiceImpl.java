@@ -10,7 +10,7 @@ import cool.sodo.common.base.util.BeanUtil;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.base.util.node.ForestNodeMerger;
 import cool.sodo.housekeeper.entity.MenuDTO;
-import cool.sodo.housekeeper.entity.MenuVO;
+import cool.sodo.common.base.entity.MenuVO;
 import cool.sodo.housekeeper.service.MenuService;
 import cool.sodo.housekeeper.service.RoleToMenuService;
 import org.springframework.stereotype.Service;

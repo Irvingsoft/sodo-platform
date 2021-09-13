@@ -1,10 +1,10 @@
 package cool.sodo.catkin.server.service.impl;
 
-import cool.sodo.catkin.base.entity.SegmentId;
-import cool.sodo.catkin.base.service.SegmentIdService;
 import cool.sodo.catkin.server.common.Constants;
 import cool.sodo.catkin.server.domain.CatkinInfo;
+import cool.sodo.catkin.server.entity.SegmentId;
 import cool.sodo.catkin.server.service.CatkinInfoService;
+import cool.sodo.catkin.server.service.SegmentIdService;
 import cool.sodo.common.base.exception.SoDoException;
 import cool.sodo.common.base.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +52,6 @@ public class DbSegmentIdServiceImpl implements SegmentIdService {
                 log.error("getNextSegmentId conflict CatkinInfo:{}", catkinInfo);
             }
         }
-        throw new SoDoException("get next segmentId conflict");
+        throw new SoDoException("getNextSegmentId conflict");
     }
 }

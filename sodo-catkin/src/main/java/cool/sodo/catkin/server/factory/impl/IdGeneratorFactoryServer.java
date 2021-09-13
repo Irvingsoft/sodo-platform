@@ -1,9 +1,9 @@
 package cool.sodo.catkin.server.factory.impl;
 
-import cool.sodo.catkin.base.factory.AbstractIdGeneratorFactory;
-import cool.sodo.catkin.base.generator.IdGenerator;
-import cool.sodo.catkin.base.generator.impl.CacheIdGenerator;
-import cool.sodo.catkin.base.service.SegmentIdService;
+import cool.sodo.catkin.server.factory.AbstractIdGeneratorFactory;
+import cool.sodo.catkin.server.generator.IdGenerator;
+import cool.sodo.catkin.server.generator.impl.CacheIdGenerator;
+import cool.sodo.catkin.server.service.SegmentIdService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

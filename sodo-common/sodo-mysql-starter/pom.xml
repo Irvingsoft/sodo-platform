@@ -35,6 +35,12 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>cool.sodo</groupId>
+            <artifactId>sodo-catkin-starter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

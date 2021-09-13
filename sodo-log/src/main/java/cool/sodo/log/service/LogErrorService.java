@@ -1,8 +1,8 @@
 package cool.sodo.log.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import cool.sodo.log.domain.LogError;
-import cool.sodo.log.entity.LogErrorDTO;
+import cool.sodo.log.starter.domain.LogError;
+import cool.sodo.log.starter.entity.LogErrorDTO;
 
 public interface LogErrorService {
 
@@ -12,7 +12,7 @@ public interface LogErrorService {
      * 查询 LogError 详情信息
      *
      * @param id LogError.id
-     * @return cool.sodo.log.domain.LogError
+     * @return cool.sodo.log.starter.domain.LogError
      */
     LogError getLogErrorInfo(String id);
 
@@ -20,7 +20,7 @@ public interface LogErrorService {
      * 分页查询 LogError
      *
      * @param logErrorDTO 错误日志多条件查询实体
-     * @return com.baomidou.mybatisplus.core.metadata.IPage<cool.sodo.log.domain.LogError>
+     * @return com.baomidou.mybatisplus.core.metadata.IPage<cool.sodo.log.starter.domain.LogError>
      */
     IPage<LogError> pageLogErrorBase(LogErrorDTO logErrorDTO);
 }

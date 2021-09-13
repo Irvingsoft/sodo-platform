@@ -23,7 +23,7 @@ import cool.sodo.common.base.util.CharPool;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.base.util.WebUtil;
 import cool.sodo.common.core.component.PasswordHelper;
-import cool.sodo.rabbitmq.entity.Notification;
+import cool.sodo.rabbitmq.starter.entity.Notification;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

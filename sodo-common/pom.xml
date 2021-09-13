@@ -14,12 +14,11 @@
     <modules>
         <module>sodo-common-core</module>
         <module>sodo-log-starter</module>
-        <module>sodo-catkin-client</module>
+        <module>sodo-catkin-starter</module>
         <module>sodo-redis-starter</module>
         <module>sodo-rabbitmq-starter</module>
         <module>sodo-common-base</module>
         <module>sodo-mysql-starter</module>
-        <module>sodo-catkin-base</module>
     </modules>
 
     <dependencies>

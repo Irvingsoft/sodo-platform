@@ -16,7 +16,7 @@ import java.util.List;
 @TableName(value = "user")
 public class User implements Serializable {
 
-    @TableId(type = IdType.ASSIGN_UUID)
+    @TableId(type = IdType.ASSIGN_ID)
     private String userId;
 
     private String name;

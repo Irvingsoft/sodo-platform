@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import cool.sodo.housekeeper.common.Constants;
 import cool.sodo.housekeeper.service.OauthApiService;
 import cool.sodo.housekeeper.service.OauthIpService;
-import cool.sodo.rabbitmq.entity.Notification;
+import cool.sodo.rabbitmq.starter.entity.Notification;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
