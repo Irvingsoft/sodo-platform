@@ -18,7 +18,7 @@ import java.util.List;
 @TableName(value = "oauth_client")
 public class OauthClient implements Serializable {
 
-    @TableId(type = IdType.ASSIGN_UUID)
+    @TableId(type = IdType.ASSIGN_ID)
     private String clientId;
 
     private String name;

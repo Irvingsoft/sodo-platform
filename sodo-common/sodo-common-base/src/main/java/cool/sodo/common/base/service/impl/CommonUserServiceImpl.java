@@ -7,8 +7,6 @@ import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
 import cool.sodo.common.base.mapper.CommonUserMapper;
-import cool.sodo.common.base.service.CommonMenuService;
-import cool.sodo.common.base.service.CommonRoleService;
 import cool.sodo.common.base.service.CommonUserService;
 import cool.sodo.common.base.util.StringUtil;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,10 +28,6 @@ public class CommonUserServiceImpl implements CommonUserService {
 
     @Resource
     private CommonUserMapper commonUserMapper;
-    @Resource
-    private CommonRoleService roleService;
-    @Resource
-    private CommonMenuService menuService;
 
     private LambdaQueryWrapper<User> generateSelectQueryWrapper(int type) {
 
@@ -69,18 +63,19 @@ public class CommonUserServiceImpl implements CommonUserService {
 
     @Override
     @Cacheable(cacheNames = Constants.USER_IDENTITY_CACHE_NAME, key = "#identity")
-    public User getIdentity(String identity) {
+    public User getIdentity(String identity, String clientId) {
 
         LambdaQueryWrapper<User> userLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_IDENTITY);
-        userLambdaQueryWrapper.eq(User::getUserId, identity)
-                .or()
-                .eq(User::getUsername, identity)
-                .or()
-                .eq(User::getOpenId, identity)
-                .or()
-                .eq(User::getPhone, identity)
-                .or()
-                .eq(User::getEmail, identity);
+        userLambdaQueryWrapper.eq(User::getClientId, clientId)
+                .and(wrapper -> wrapper.eq(User::getUserId, identity)
+                        .or()
+                        .eq(User::getUsername, identity)
+                        .or()
+                        .eq(User::getOpenId, identity)
+                        .or()
+                        .eq(User::getPhone, identity)
+                        .or()
+                        .eq(User::getEmail, identity));
         User user = commonUserMapper.selectOne(userLambdaQueryWrapper);
         if (user == null) {
             throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_SELECT, identity);
@@ -107,7 +102,7 @@ public class CommonUserServiceImpl implements CommonUserService {
     public void checkUsername(String userId, String username, String clientId) {
 
         if (!StringUtil.isEmpty(userId)) {
-            User user = getIdentity(userId);
+            User user = getIdentity(userId, clientId);
             if (!StringUtil.isEmpty(user.getUsername()) && user.getUsername().equals(username)) {
                 return;
             }
@@ -121,7 +116,7 @@ public class CommonUserServiceImpl implements CommonUserService {
     public void checkPhone(String userId, String phone, String clientId) {
 
         if (!StringUtil.isEmpty(userId)) {
-            User user = getIdentity(userId);
+            User user = getIdentity(userId, clientId);
             if (!StringUtil.isEmpty(user.getPhone()) && user.getPhone().equals(phone)) {
                 return;
             }
@@ -135,7 +130,7 @@ public class CommonUserServiceImpl implements CommonUserService {
     public void checkEmail(String userId, String email, String clientId) {
 
         if (!StringUtil.isEmpty(userId)) {
-            User user = getIdentity(userId);
+            User user = getIdentity(userId, clientId);
             if (!StringUtil.isEmpty(user.getEmail()) && user.getEmail().equals(email)) {
                 return;
             }

@@ -5,6 +5,9 @@ import com.netflix.zuul.context.RequestContext;
 import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.util.UUIDUtil;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
+import org.springframework.util.PatternMatchUtils;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 请求追踪过滤器 给请求设置请求 ID
@@ -33,6 +36,7 @@ public class HttpTraceFilter extends ZuulFilter {
     @Override
     public Object run() {
 
+
         RequestContext currentContext = RequestContext.getCurrentContext();
         currentContext.addZuulRequestHeader(Constants.REQUEST_ID, generateRequestId());
         return null;
@@ -40,5 +44,9 @@ public class HttpTraceFilter extends ZuulFilter {
 
     private String generateRequestId() {
         return System.currentTimeMillis() + UUIDUtil.generate();
+    }
+
+    private Boolean isSkip(HttpServletRequest request) {
+        return PatternMatchUtils.simpleMatch(cool.sodo.zuul.common.Constants.HTTP_TRACE_IGNORE, request.getRequestURI());
     }
 }

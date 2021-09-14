@@ -8,10 +8,10 @@ import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.AsyncException;
 import cool.sodo.common.base.exception.SoDoException;
 import cool.sodo.common.base.util.StringUtil;
-import cool.sodo.log.domain.LogError;
-import cool.sodo.log.entity.LogErrorDTO;
 import cool.sodo.log.mapper.LogErrorMapper;
 import cool.sodo.log.service.LogErrorService;
+import cool.sodo.log.starter.domain.LogError;
+import cool.sodo.log.starter.entity.LogErrorDTO;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 

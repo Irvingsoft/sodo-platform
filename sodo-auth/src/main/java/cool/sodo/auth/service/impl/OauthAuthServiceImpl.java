@@ -1,6 +1,5 @@
 package cool.sodo.auth.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import cool.sodo.auth.entity.*;
 import cool.sodo.auth.message.UserMqProducer;
 import cool.sodo.auth.message.UserMqProperty;
@@ -18,12 +17,9 @@ import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
 import cool.sodo.common.base.service.CommonOauthClientService;
 import cool.sodo.common.base.service.CommonUserService;
-import cool.sodo.common.base.util.AesCbcUtil;
-import cool.sodo.common.base.util.CharPool;
-import cool.sodo.common.base.util.StringUtil;
-import cool.sodo.common.base.util.WebUtil;
+import cool.sodo.common.base.util.*;
 import cool.sodo.common.core.component.PasswordHelper;
-import cool.sodo.rabbitmq.entity.Notification;
+import cool.sodo.rabbitmq.starter.entity.Notification;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -152,7 +148,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
             throw new SoDoException(ResultEnum.INVALID_CAPTCHA, ERROR_CAPTCHA, authenticateRequest);
         }
 
-        User user = userService.getIdentity(authenticateRequest.getUsername());
+        User user = userService.getIdentity(authenticateRequest.getUsername(), clientId);
         userService.checkUserStatus(user);
         if (!user.getClientId().equals(clientId)) {
             throw new SoDoException(ResultEnum.INVALID_CLIENT, ERROR_USER_CLIENT, user);
@@ -188,7 +184,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
         if (wechatToken == null || StringUtil.isEmpty(wechatToken.getSessionKey())) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_WECHAT_TOKEN);
         }
-        OauthUser oauthUser = JSON.toJavaObject(AesCbcUtil.decrypt(
+        OauthUser oauthUser = JsonUtil.toObject(AesCbcUtil.decrypt(
                         authenticateRequest.getEncryptedData().replace(CharPool.SPACE, CharPool.PLUS)
                         , wechatToken.getSessionKey()
                         , authenticateRequest.getIv().replace(CharPool.SPACE, CharPool.PLUS)
@@ -198,7 +194,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_OAUTH_USER);
         }
 
-        User user = userService.getIdentity(oauthUser.getOpenId());
+        User user = userService.getIdentity(oauthUser.getOpenId(), clientId);
         if (StringUtil.isEmpty(user)) {
             // 微信小程序用户第一次登录
             oauthUser.setClientId(clientId);
@@ -276,7 +272,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
      */
     private AccessToken getAccessToken(String identity, OauthClient oauthClient) {
 
-        AccessToken accessToken = null;
+        AccessToken accessToken;
         if (oauthClient.getConcurrentLogin()) {
             if (oauthClient.getShareToken()) {
                 // 共享 Token 时，认为库中单个用户最多只有一条 Token 记录

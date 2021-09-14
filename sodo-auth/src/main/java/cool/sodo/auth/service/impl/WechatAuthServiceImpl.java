@@ -1,6 +1,5 @@
 package cool.sodo.auth.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cool.sodo.auth.entity.WechatToken;
@@ -11,6 +10,7 @@ import cool.sodo.common.base.domain.OauthUser;
 import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
+import cool.sodo.common.base.util.JsonUtil;
 import cool.sodo.common.base.util.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -46,16 +46,12 @@ public class WechatAuthServiceImpl implements WechatAuthService {
     public WechatToken getAccessToken(String code, OauthClient oauthClient) {
 
         String url = String.format(ACCESS_TOKEN_OPENID_URL, oauthClient.getClientId(), oauthClient.getClientSecret(), code);
-        String object = restTemplate.getForObject(url, String.class);
+        String objectString = restTemplate.getForObject(url, String.class);
 
-        if (!StringUtil.isEmpty(object) && object.contains(Constants.OPEN_ID)) {
-            return JSONObject.parseObject(object, WechatToken.class);
+        if (!StringUtil.isEmpty(objectString) && objectString.contains(Constants.OPEN_ID)) {
+            return JsonUtil.toObject(objectString, WechatToken.class);
         } else {
-            try {
-                throw new WeChatException(ERROR_TOKEN, objectMapper.readValue(object, WeChatException.WeChatError.class));
-            } catch (JsonProcessingException e) {
-                throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_JSON);
-            }
+            throw new WeChatException(ERROR_TOKEN, JsonUtil.toObject(objectString, WeChatException.WeChatError.class));
         }
     }
 
@@ -72,6 +68,6 @@ public class WechatAuthServiceImpl implements WechatAuthService {
                 throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_JSON);
             }
         }
-        return JSONObject.parseObject(object, OauthUser.class);
+        return JsonUtil.toObject(object, OauthUser.class);
     }
 }

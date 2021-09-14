@@ -23,7 +23,7 @@ import java.util.Objects;
 @TableName(value = "menu")
 public class Menu implements Serializable {
 
-    @TableId(type = IdType.ASSIGN_UUID)
+    @TableId(type = IdType.ASSIGN_ID)
     private String menuId;
 
     private String parentId;

@@ -2,6 +2,7 @@ package cool.sodo.common.core.resolver;
 
 import cool.sodo.common.base.domain.AccessToken;
 import cool.sodo.common.base.domain.User;
+import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
 import cool.sodo.common.base.service.CommonAccessTokenService;
@@ -16,6 +17,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 当前用户信息参数注入
@@ -47,6 +49,7 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
         if (StringUtil.isEmpty(accessToken)) {
             throw new SoDoException(ResultEnum.UNAUTHORIZED, "请登录后重试！");
         }
-        return userService.getIdentity(accessToken.getIdentity());
+        return userService.getIdentity(accessToken.getIdentity(),
+                WebUtil.getHeader(nativeWebRequest.getNativeRequest(HttpServletRequest.class), Constants.CLIENT_ID));
     }
 }

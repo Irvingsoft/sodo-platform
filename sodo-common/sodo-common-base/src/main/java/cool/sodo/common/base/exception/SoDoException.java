@@ -1,8 +1,8 @@
 package cool.sodo.common.base.exception;
 
-import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cool.sodo.common.base.entity.ResultEnum;
+import cool.sodo.common.base.util.JsonUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -38,6 +38,6 @@ public class SoDoException extends RuntimeException {
         super(detail);
         this.resultEnum = resultEnum;
         this.detail = detail;
-        this.params = JSON.toJSONString(params);
+        this.params = JsonUtil.toJsonString(params);
     }
 }

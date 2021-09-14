@@ -1,12 +1,12 @@
 package cool.sodo.goods.interceptor;
 
-import com.alibaba.fastjson.JSON;
 import cool.sodo.common.base.domain.Goods;
 import cool.sodo.common.base.domain.GoodsChoice;
 import cool.sodo.common.base.domain.GoodsSet;
 import cool.sodo.common.base.domain.ShopMenu;
 import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ResultEnum;
+import cool.sodo.common.base.util.JsonUtil;
 import cool.sodo.goods.annotation.ValidateShop;
 import cool.sodo.goods.exception.GoodsException;
 import cool.sodo.goods.service.GoodsService;
@@ -21,6 +21,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Objects;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/14 16:55
+ */
 @Deprecated
 @Component
 public class ValidateShopInterceptor implements HandlerInterceptor {
@@ -46,28 +50,28 @@ public class ValidateShopInterceptor implements HandlerInterceptor {
             Class<?> objectClass = annotation.objectClass();
 
             if (objectClass.equals(Goods.class)) {
-                Goods goods = JSON.parseObject(parameters[0].toString(), Goods.class);
+                Goods goods = JsonUtil.toObject(parameters[0].toString(), Goods.class);
                 String shopId = parameters[1].toString();
 
                 if (!goods.getShopId().equals(shopId)) {
                     throw new GoodsException(ResultEnum.BAD_REQUEST, Constants.ERROR_LIMITS_AUTHORITY, shopId);
                 }
             } else if (objectClass.equals(ShopMenu.class)) {
-                ShopMenu shopMenu = JSON.parseObject(parameters[0].toString(), ShopMenu.class);
+                ShopMenu shopMenu = JsonUtil.toObject(parameters[0].toString(), ShopMenu.class);
                 String shopId = parameters[1].toString();
 
                 if (!shopMenu.getShopId().equals(shopId)) {
                     throw new GoodsException(ResultEnum.BAD_REQUEST, Constants.ERROR_LIMITS_AUTHORITY, shopId);
                 }
             } else if (objectClass.equals(GoodsSet.class)) {
-                GoodsSet goodsSet = JSON.parseObject(parameters[0].toString(), GoodsSet.class);
+                GoodsSet goodsSet = JsonUtil.toObject(parameters[0].toString(), GoodsSet.class);
                 String shopId = parameters[1].toString();
 
                 if (!goodsSet.getShopId().equals(shopId)) {
                     throw new GoodsException(ResultEnum.BAD_REQUEST, Constants.ERROR_LIMITS_AUTHORITY, shopId);
                 }
             } else if (objectClass.equals(GoodsChoice.class)) {
-                GoodsChoice goodsChoice = JSON.parseObject(parameters[0].toString(), GoodsChoice.class);
+                GoodsChoice goodsChoice = JsonUtil.toObject(parameters[0].toString(), GoodsChoice.class);
                 String shopId = parameters[1].toString();
 
                 if (!goodsChoice.getShopId().equals(shopId)) {

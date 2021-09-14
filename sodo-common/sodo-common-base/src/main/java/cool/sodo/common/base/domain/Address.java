@@ -15,7 +15,7 @@ import java.util.Date;
 @TableName(value = "address")
 public class Address implements Serializable {
 
-    @TableId(type = IdType.ASSIGN_UUID)
+    @TableId(type = IdType.ASSIGN_ID)
     private String addressId;
 
     private String userId;

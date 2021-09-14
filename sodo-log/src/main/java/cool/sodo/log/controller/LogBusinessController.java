@@ -1,8 +1,8 @@
 package cool.sodo.log.controller;
 
 import cool.sodo.common.base.entity.Result;
-import cool.sodo.log.entity.LogBusinessDTO;
 import cool.sodo.log.service.LogBusinessService;
+import cool.sodo.log.starter.entity.LogBusinessDTO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

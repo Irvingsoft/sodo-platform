@@ -22,7 +22,7 @@ import java.util.Date;
 @TableName(value = "role")
 public class Role implements Serializable {
 
-    @TableId(type = IdType.ASSIGN_UUID)
+    @TableId(type = IdType.ASSIGN_ID)
     private String roleId;
 
     private String parentId;

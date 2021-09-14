@@ -51,7 +51,7 @@ public class GoodsSetController {
         return Result.success(goodsSetService.getGoodsSet(setId));
     }
 
-    @GetMapping(value = "listBase/{goodId}")
+    @GetMapping(value = "listBase/{goodsId}")
     @ApiOperation(value = "")
     public Result listSetBase(@PathVariable String goodsId) {
 

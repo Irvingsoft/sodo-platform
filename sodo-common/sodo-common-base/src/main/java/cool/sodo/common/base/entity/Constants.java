@@ -3,6 +3,20 @@ package cool.sodo.common.base.entity;
 @SuppressWarnings("all")
 public class Constants {
 
+    /**
+     * ServiceNames
+     *
+     * @author TimeChaser
+     * @date 2021/9/13 15:38
+     */
+    public static final String SODO_EUREKA = "eureka";
+    public static final String SODO_ZUUL = "zuul";
+    public static final String SODO_CATKIN = "catkin";
+    public static final String SODO_LOG = "log";
+    public static final String SODO_AUTH = "auth";
+    public static final String SODO_USER = "user";
+    public static final String SODO_HOUSEKEEPER = "housekeeper";
+
     public static final String CACHE_NAME = "SODO";
 
     public static final String ERROR_LIMITS_AUTHORITY = "权限不足";
@@ -106,12 +120,15 @@ public class Constants {
     public static final int USER_STATUS_REVIEW = 1;
     public static final int USER_STATUS_FREEZE = 2;
 
+    /**
+     * Captcha
+     *
+     * @author TimeChaser
+     * @date 2021/9/14 16:20
+     */
     public static final int CAPTCHA_WIDTH = 130;
     public static final int CAPTCHA_HEIGHT = 48;
     public static final int CAPTCHA_LENGTH = 5;
-
-    public static final String SODO_AUTH = "auth";
-    public static final String SODO_USER = "user";
 
     public static final String LOG_BUSINESS_INSERT = "插入";
     public static final String LOG_BUSINESS_DELETE = "删除";
@@ -141,4 +158,8 @@ public class Constants {
     public static final String IP_REGEXP = "^((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$";
 
     public static final String GATEWAY_PATH = "/zuul";
+
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String TIME_ZONE_GMT8 = "GMT+8";
 }

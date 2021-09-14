@@ -37,7 +37,7 @@ public class AuthorizationController {
 
         GrantType grantType = oauthAuthService.getGrantType(authorizeRequest);
 
-        if (GrantType.AUTHCODE.equals(grantType)) {
+        if (GrantType.AUTH_CODE.equals(grantType)) {
             if (StringUtil.isEmpty(authorizeRequest.getCode())) {
                 return Result.of(ResultEnum.BAD_REQUEST);
             }

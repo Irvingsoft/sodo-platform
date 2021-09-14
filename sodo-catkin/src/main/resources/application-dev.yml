@@ -1,0 +1,80 @@
+server:
+  port: 10021
+
+spring:
+  application:
+    name: catkin # 服务名称，同服务在集群架构下的服务名称统一
+    path: /catkin
+    env: dev
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/sodo_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 600000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    database: 0
+    lettuce:
+      pool:
+        max-active: 9
+        max-wait: -1
+        max-idle: 9
+        min-idle: 0
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: root
+    password: 123456
+  cache:
+    redis:
+      time-to-live: 1d
+      use-key-prefix: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    default-property-inclusion: non_empty
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 20
+    lease-expiration-duration-in-seconds: 40
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:9501/eureka/ # 微服务集群下配置多注册中心，以 "," 分隔，host 为各个注册中心的服务器 host
+    healthcheck:
+      enabled: true
+mybatis-plus:
+  type-aliases-package: cool.sodo.catkin.domain
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    jdbc-type-for-null: null
+    map-underscore-to-camel-case: true
+  global-config:
+    banner: false
+    db-config:
+      logic-delete-value: true
+      logic-not-delete-value: false
+log-message:
+  queue-name: log.sync.queue
+  exchange-name: log-exchange
+  routing-key: log.routingkey
+  api-type: log-api
+  error-type: log-error
+  business-type: log-business
+access-message:
+  queue-name: access.sync.queue
+  exchange-name: access-exchange
+  routing-key: access.routingkey
+  api-type: api-access
+  ip-type: ip-access

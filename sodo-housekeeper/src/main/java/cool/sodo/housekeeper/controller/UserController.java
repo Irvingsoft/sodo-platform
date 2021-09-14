@@ -8,7 +8,7 @@ import cool.sodo.housekeeper.entity.UserDTO;
 import cool.sodo.housekeeper.entity.UserInsertDTO;
 import cool.sodo.housekeeper.entity.UserUpdateDTO;
 import cool.sodo.housekeeper.service.UserService;
-import cool.sodo.redis.annotation.Lock;
+import cool.sodo.redis.starter.annotation.Lock;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

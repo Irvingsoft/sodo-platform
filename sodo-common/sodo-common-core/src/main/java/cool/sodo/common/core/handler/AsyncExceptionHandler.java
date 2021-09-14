@@ -1,7 +1,7 @@
 package cool.sodo.common.core.handler;
 
-import com.alibaba.fastjson.JSON;
-import cool.sodo.log.publisher.ErrorLogPublisher;
+import cool.sodo.common.base.util.JsonUtil;
+import cool.sodo.log.starter.publisher.ErrorLogPublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class AsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
 
         log.error("Async execution error on method: " + method.toString() +
                 ", with message: " + throwable.getMessage() +
-                ", with parameters: " + JSON.toJSONString(objects));
-        errorLogPublisher.publishEvent(null, throwable, JSON.toJSONString(objects));
+                ", with parameters: " + JsonUtil.toJsonString(objects));
+        errorLogPublisher.publishEvent(null, throwable, JsonUtil.toJsonString(objects));
     }
 }

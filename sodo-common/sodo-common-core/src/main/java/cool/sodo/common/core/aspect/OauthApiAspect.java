@@ -1,6 +1,5 @@
 package cool.sodo.common.core.aspect;
 
-import com.alibaba.fastjson.JSON;
 import cool.sodo.common.base.component.RedisCacheHelper;
 import cool.sodo.common.base.domain.AccessToken;
 import cool.sodo.common.base.domain.OauthApi;
@@ -11,12 +10,13 @@ import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.entity.ServiceInfo;
 import cool.sodo.common.base.exception.SoDoException;
 import cool.sodo.common.base.service.*;
+import cool.sodo.common.base.util.JsonUtil;
 import cool.sodo.common.base.util.StringPool;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.base.util.WebUtil;
 import cool.sodo.common.core.publisher.OauthApiAccessPublisher;
-import cool.sodo.log.domain.LogApi;
-import cool.sodo.log.publisher.OauthApiLogPublisher;
+import cool.sodo.log.starter.domain.LogApi;
+import cool.sodo.log.starter.publisher.OauthApiLogPublisher;
 import org.apache.commons.lang.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -79,7 +79,7 @@ public class OauthApiAspect {
 
         String clientId = WebUtil.getHeader(request, Constants.CLIENT_ID);
         Method method = ((MethodSignature) point.getSignature()).getMethod();
-        AccessToken accessToken = null;
+        AccessToken accessToken;
 
         OauthApi oauthApi = oauthApiService.getOauthApiIdentityByPathAndMethod(
                 getApiPath(request, method),
@@ -104,7 +104,7 @@ public class OauthApiAspect {
             // AccessToken Check, And User Status Check.
             accessToken = accessTokenService.getFromCache(token);
             checkAccessToken(accessToken, clientId);
-            User user = userService.getIdentity(accessToken.getIdentity());
+            User user = userService.getIdentity(accessToken.getIdentity(), clientId);
             userService.checkUserStatus(user);
             // Check User`s Permission if OauthApi Needs.
             if (!StringUtil.isEmpty(oauthApi.getCode())) {
@@ -213,7 +213,7 @@ public class OauthApiAspect {
                 .filter(arg -> !(arg instanceof ServletRequest) && !(arg instanceof ServletResponse))
                 .collect(Collectors.toList());
 
-        return JSON.toJSONString(argList);
+        return JsonUtil.toJsonString(argList);
     }
 
     private Integer getResponseStatus(Object result) {
@@ -221,6 +221,6 @@ public class OauthApiAspect {
     }
 
     private String getResponseBody(Object result) {
-        return !StringUtil.isEmpty(result) ? JSON.toJSONString(result) : null;
+        return !StringUtil.isEmpty(result) ? JsonUtil.toJsonString(result) : null;
     }
 }

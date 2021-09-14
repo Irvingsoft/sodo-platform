@@ -1,11 +1,25 @@
 server:
   port: 10011
-
+  servlet:
+    session:
+      cookie:
+        http-only: false
+        max-age: 604800 # 1 Week
+      timeout: 604800
 spring:
   application:
     name: housekeeper
     path: /housekeeper
     env: dev
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save
+      namespace: sodo:session
+  resources:
+    add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/sodo_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
@@ -69,7 +83,6 @@ mybatis-plus:
 logging:
   config: classpath:log/logback_${spring.application.env}.xml
 log-message:
-  enabled: true
   queue-name: log.sync.queue
   exchange-name: log-exchange
   routing-key: log.routingkey
@@ -77,9 +90,12 @@ log-message:
   error-type: log-error
   business-type: log-business
 access-message:
-  enabled: true
   queue-name: access.sync.queue
   exchange-name: access-exchange
   routing-key: access.routingkey
   api-type: api-access
   ip-type: ip-access
+catkin:
+  client:
+    catkin-token: 0f673adf80504e2eaa552f5d791b644c
+    catkin-biz-type: system

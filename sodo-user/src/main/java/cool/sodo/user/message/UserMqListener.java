@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cool.sodo.common.base.domain.User;
 import cool.sodo.common.base.entity.Constants;
-import cool.sodo.rabbitmq.entity.Notification;
+import cool.sodo.rabbitmq.starter.entity.Notification;
 import cool.sodo.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

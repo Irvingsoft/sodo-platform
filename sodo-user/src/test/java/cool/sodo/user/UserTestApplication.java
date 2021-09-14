@@ -6,11 +6,13 @@ import cool.sodo.common.base.domain.User;
 import cool.sodo.common.base.service.CommonUserService;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.core.component.PasswordHelper;
+import cool.sodo.redis.starter.annotation.Lock;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 public class UserTestApplication {
@@ -65,5 +67,11 @@ public class UserTestApplication {
 
         System.out.println(redisCacheHelper.setIfAbsent("aaa", "aa"));
         System.out.println(redisCacheHelper.setIfAbsent("aaa", "aa"));
+    }
+
+    @Test
+    @Lock(key = "12345", leaseTime = 5L, timeUnit = TimeUnit.SECONDS)
+    public void testLock() {
+
     }
 }

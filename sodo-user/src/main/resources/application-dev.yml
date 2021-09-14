@@ -92,7 +92,6 @@ user-message:
   login-type: login
   full-type: full-dose
 log-message:
-  enabled: true
   queue-name: log.sync.queue
   exchange-name: log-exchange
   routing-key: log.routingkey
@@ -100,9 +99,12 @@ log-message:
   error-type: log-error
   business-type: log-business
 access-message:
-  enabled: true
   queue-name: access.sync.queue
   exchange-name: access-exchange
   routing-key: access.routingkey
   api-type: api-access
   ip-type: ip-access
+catkin:
+  client:
+    catkin-token: 0f673adf80504e2eaa552f5d791b644c
+    catkin-biz-type: system

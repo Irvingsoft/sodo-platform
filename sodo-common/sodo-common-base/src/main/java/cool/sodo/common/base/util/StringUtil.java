@@ -2,7 +2,7 @@ package cool.sodo.common.base.util;
 
 import org.springframework.util.StringUtils;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 字符串工具类
@@ -12,11 +12,19 @@ import java.util.List;
  */
 public class StringUtil extends StringUtils {
 
-    public static <T> boolean isEmpty(List<T> list) {
-        return StringUtils.isEmpty(list) || list.isEmpty();
+    public static boolean isEmpty(Object object) {
+        return object == null;
     }
 
-    public static <T> boolean isEmpty(String[] strings) {
-        return StringUtils.isEmpty(strings) || strings.length == 0;
+    public static boolean isEmpty(String string) {
+        return string == null || string.isEmpty();
+    }
+
+    public static boolean isEmpty(String[] strings) {
+        return strings == null || strings.length == 0;
+    }
+
+    public static <T> boolean isEmpty(Collection<T> collection) {
+        return collection == null || collection.isEmpty();
     }
 }
