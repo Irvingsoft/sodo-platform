@@ -1,8 +1,8 @@
 package cool.sodo.auth.service;
 
 import cool.sodo.auth.entity.WechatToken;
-import cool.sodo.common.base.domain.OauthClient;
-import cool.sodo.common.base.domain.OauthUser;
+import cool.sodo.common.core.domain.OauthClient;
+import cool.sodo.common.starter.domain.OauthUser;
 
 public interface WechatAuthService {
 

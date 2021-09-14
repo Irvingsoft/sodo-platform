@@ -2,7 +2,7 @@ package cool.sodo.goods.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import cool.sodo.common.base.domain.Goods;
+import cool.sodo.common.starter.domain.Goods;
 import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.goods.component.ShopMenuAsyncTask;

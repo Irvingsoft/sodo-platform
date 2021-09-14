@@ -1,6 +1,6 @@
 package cool.sodo.goods.config;
 
-import cool.sodo.common.core.resolver.CurrentUserArgumentResolver;
+import cool.sodo.common.starter.resolver.CurrentUserArgumentResolver;
 import cool.sodo.goods.resolver.CurrentShopArgumentResolver;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

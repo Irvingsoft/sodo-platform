@@ -3,14 +3,14 @@ package cool.sodo.auth.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import cool.sodo.auth.service.AccessTokenService;
-import cool.sodo.common.base.component.RedisCacheHelper;
-import cool.sodo.common.base.domain.AccessToken;
+import cool.sodo.common.core.component.RedisCacheHelper;
 import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
-import cool.sodo.common.base.mapper.CommonAccessTokenMapper;
-import cool.sodo.common.base.service.impl.CommonAccessTokenServiceImpl;
 import cool.sodo.common.base.util.StringUtil;
+import cool.sodo.common.core.domain.AccessToken;
+import cool.sodo.common.core.mapper.CommonAccessTokenMapper;
+import cool.sodo.common.core.service.impl.CommonAccessTokenServiceImpl;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 

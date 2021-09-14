@@ -2,7 +2,7 @@ package cool.sodo.goods.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import cool.sodo.common.base.domain.Schedule;
+import cool.sodo.common.starter.domain.Schedule;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.goods.exception.GoodsException;
 import cool.sodo.goods.mapper.ScheduleMapper;

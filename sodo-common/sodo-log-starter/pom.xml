@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>cool.sodo</groupId>
-            <artifactId>sodo-common-base</artifactId>
+            <artifactId>sodo-common-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

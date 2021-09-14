@@ -1,6 +1,6 @@
 package cool.sodo.zuul.service;
 
-import cool.sodo.common.base.domain.OauthIp;
+import cool.sodo.common.starter.domain.OauthIp;
 
 import java.util.List;
 

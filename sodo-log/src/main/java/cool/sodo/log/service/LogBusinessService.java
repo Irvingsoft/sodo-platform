@@ -1,8 +1,8 @@
 package cool.sodo.log.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import cool.sodo.log.starter.domain.LogBusiness;
-import cool.sodo.log.starter.entity.LogBusinessDTO;
+import cool.sodo.common.core.domain.LogBusiness;
+import cool.sodo.log.entity.LogBusinessDTO;
 
 public interface LogBusinessService {
 

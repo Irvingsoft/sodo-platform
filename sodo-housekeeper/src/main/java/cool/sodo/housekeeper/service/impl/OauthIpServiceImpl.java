@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import cool.sodo.common.base.domain.OauthIp;
+import cool.sodo.common.starter.domain.OauthIp;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.AsyncException;
 import cool.sodo.common.base.exception.SoDoException;

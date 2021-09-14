@@ -7,18 +7,18 @@ import cool.sodo.auth.service.AccessTokenService;
 import cool.sodo.auth.service.OauthAuthService;
 import cool.sodo.auth.service.OauthUserService;
 import cool.sodo.auth.service.WechatAuthService;
-import cool.sodo.common.base.component.RedisCacheHelper;
-import cool.sodo.common.base.domain.AccessToken;
-import cool.sodo.common.base.domain.OauthClient;
-import cool.sodo.common.base.domain.OauthUser;
-import cool.sodo.common.base.domain.User;
+import cool.sodo.common.core.component.RedisCacheHelper;
 import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
-import cool.sodo.common.base.service.CommonOauthClientService;
-import cool.sodo.common.base.service.CommonUserService;
 import cool.sodo.common.base.util.*;
-import cool.sodo.common.core.component.PasswordHelper;
+import cool.sodo.common.core.domain.AccessToken;
+import cool.sodo.common.core.domain.OauthClient;
+import cool.sodo.common.core.domain.User;
+import cool.sodo.common.core.service.CommonOauthClientService;
+import cool.sodo.common.core.service.CommonUserService;
+import cool.sodo.common.starter.component.PasswordHelper;
+import cool.sodo.common.starter.domain.OauthUser;
 import cool.sodo.rabbitmq.starter.entity.Notification;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -268,7 +268,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
      *
      * @param identity    身份标识
      * @param oauthClient 客户端
-     * @return cool.sodo.common.base.domain.AccessToken
+     * @return cool.sodo.common.starter.domain.AccessToken
      */
     private AccessToken getAccessToken(String identity, OauthClient oauthClient) {
 

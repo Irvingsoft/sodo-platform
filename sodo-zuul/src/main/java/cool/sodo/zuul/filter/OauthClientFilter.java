@@ -5,7 +5,7 @@ import com.netflix.zuul.context.RequestContext;
 import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
-import cool.sodo.common.base.service.CommonOauthClientService;
+import cool.sodo.common.core.service.CommonOauthClientService;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.base.util.WebUtil;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;

@@ -1,6 +1,6 @@
 package cool.sodo.housekeeper.entity;
 
-import cool.sodo.common.base.domain.User;
+import cool.sodo.common.core.domain.User;
 import cool.sodo.common.base.util.BeanUtil;
 import lombok.Data;
 

@@ -1,6 +1,6 @@
 package cool.sodo.housekeeper.service;
 
-import cool.sodo.common.base.domain.ClientApi;
+import cool.sodo.common.core.domain.ClientApi;
 
 import java.util.List;
 

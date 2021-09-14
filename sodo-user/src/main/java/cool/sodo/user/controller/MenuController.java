@@ -1,9 +1,9 @@
 package cool.sodo.user.controller;
 
-import cool.sodo.common.base.domain.User;
 import cool.sodo.common.base.entity.Result;
-import cool.sodo.common.base.service.CommonRoleService;
-import cool.sodo.common.core.annotation.CurrentUser;
+import cool.sodo.common.core.domain.User;
+import cool.sodo.common.core.service.CommonRoleService;
+import cool.sodo.common.starter.annotation.CurrentUser;
 import cool.sodo.user.service.MenuService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

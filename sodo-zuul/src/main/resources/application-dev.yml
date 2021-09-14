@@ -65,7 +65,7 @@ eureka:
     healthcheck:
       enabled: true # 开启心跳检测
 mybatis-plus:
-  type-aliases-package: cool.sodo.common.base.domain
+  type-aliases-package: cool.sodo.common.starter.domain
   mapper-locations: classpath:mapper/*.xml
   configuration:
     jdbc-type-for-null: null

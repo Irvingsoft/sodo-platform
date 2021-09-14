@@ -2,12 +2,10 @@ package cool.sodo.housekeeper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import cool.sodo.catkin.starter.feign.CatkinClientService;
-import cool.sodo.catkin.starter.property.CatkinClientProperty;
-import cool.sodo.common.base.component.RedisCacheHelper;
-import cool.sodo.common.base.domain.OauthApi;
-import cool.sodo.common.base.domain.User;
-import cool.sodo.common.base.mapper.CommonUserMapper;
+import cool.sodo.common.core.component.RedisCacheHelper;
+import cool.sodo.common.core.domain.OauthApi;
+import cool.sodo.common.core.domain.User;
+import cool.sodo.common.core.mapper.CommonUserMapper;
 import cool.sodo.common.base.util.JsonUtil;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.housekeeper.entity.OauthApiDTO;
@@ -30,10 +28,6 @@ public class HousekeeperApplicationTest {
     private RedisCacheHelper redisCacheHelper;
     @Resource
     private AccessTokenServiceImplTest accessTokenService;
-    @Resource
-    private CatkinClientService catkinClientService;
-    @Resource
-    private CatkinClientProperty catkinClientProperty;
 
     /**
      * org.springframework.util.StringUtil 可以判断对象是否为空
@@ -107,10 +101,4 @@ public class HousekeeperApplicationTest {
     public void testRedis() {
         accessTokenService.delete("44a1789f4f8248b249940e152bc8024b");
     }
-
-    @Test
-    public void testFeign() {
-        System.out.println(catkinClientService.idSimple(catkinClientProperty.getCatkinToken(), "test"));
-    }
-
 }

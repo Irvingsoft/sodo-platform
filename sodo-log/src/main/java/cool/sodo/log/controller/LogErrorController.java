@@ -2,7 +2,7 @@ package cool.sodo.log.controller;
 
 import cool.sodo.common.base.entity.Result;
 import cool.sodo.log.service.LogErrorService;
-import cool.sodo.log.starter.entity.LogErrorDTO;
+import cool.sodo.log.entity.LogErrorDTO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

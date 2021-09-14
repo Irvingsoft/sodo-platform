@@ -2,11 +2,11 @@ package cool.sodo.housekeeper.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import cool.sodo.common.base.domain.RoleToMenu;
+import cool.sodo.common.core.domain.RoleToMenu;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
-import cool.sodo.common.base.mapper.CommonRoleToMenuMapper;
-import cool.sodo.common.base.service.impl.CommonRoleToMenuServiceImpl;
+import cool.sodo.common.core.mapper.CommonRoleToMenuMapper;
+import cool.sodo.common.core.service.impl.CommonRoleToMenuServiceImpl;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.housekeeper.service.RoleToMenuService;
 import org.springframework.context.annotation.Primary;

@@ -1,8 +1,8 @@
 package cool.sodo.log.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import cool.sodo.log.starter.domain.LogError;
-import cool.sodo.log.starter.entity.LogErrorDTO;
+import cool.sodo.common.core.domain.LogError;
+import cool.sodo.log.entity.LogErrorDTO;
 
 public interface LogErrorService {
 

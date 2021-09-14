@@ -1,6 +1,6 @@
 package cool.sodo.housekeeper.schedule;
 
-import cool.sodo.common.base.domain.OauthApi;
+import cool.sodo.common.core.domain.OauthApi;
 import cool.sodo.housekeeper.service.OauthApiService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

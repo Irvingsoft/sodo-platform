@@ -1,7 +1,7 @@
 package cool.sodo.log.starter.listener;
 
 import cool.sodo.common.base.entity.ServiceInfo;
-import cool.sodo.log.starter.domain.LogApi;
+import cool.sodo.common.core.domain.LogApi;
 import cool.sodo.log.starter.event.OauthApiLogEvent;
 import cool.sodo.log.starter.util.LogAbstractUtil;
 import cool.sodo.rabbitmq.starter.entity.Notification;

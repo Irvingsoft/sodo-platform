@@ -19,5 +19,6 @@
         <module>sodo-rabbitmq-starter</module>
         <module>sodo-common-base</module>
         <module>sodo-mybatis-starter</module>
+        <module>sodo-common-starter</module>
     </modules>
 </project>

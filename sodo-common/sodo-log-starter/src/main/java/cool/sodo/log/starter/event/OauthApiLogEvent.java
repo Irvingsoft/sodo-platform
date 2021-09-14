@@ -1,6 +1,6 @@
 package cool.sodo.log.starter.event;
 
-import cool.sodo.log.starter.domain.LogApi;
+import cool.sodo.common.core.domain.LogApi;
 import org.springframework.context.ApplicationEvent;
 
 public class OauthApiLogEvent extends ApplicationEvent {

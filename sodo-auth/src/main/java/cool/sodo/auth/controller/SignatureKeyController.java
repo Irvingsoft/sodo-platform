@@ -1,6 +1,6 @@
 package cool.sodo.auth.controller;
 
-import cool.sodo.common.base.component.RedisCacheHelper;
+import cool.sodo.common.core.component.RedisCacheHelper;
 import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.IDContent;
 import cool.sodo.common.base.entity.Result;

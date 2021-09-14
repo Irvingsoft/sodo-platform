@@ -1,6 +1,6 @@
 package cool.sodo.goods.component;
 
-import cool.sodo.common.base.domain.ShopMenu;
+import cool.sodo.common.starter.domain.ShopMenu;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.goods.exception.GoodsException;
 import cool.sodo.goods.mapper.ShopMenuMapper;

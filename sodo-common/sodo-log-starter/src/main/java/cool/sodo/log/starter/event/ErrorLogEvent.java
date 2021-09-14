@@ -1,6 +1,6 @@
 package cool.sodo.log.starter.event;
 
-import cool.sodo.log.starter.domain.LogError;
+import cool.sodo.common.core.domain.LogError;
 import org.springframework.context.ApplicationEvent;
 
 public class ErrorLogEvent extends ApplicationEvent {

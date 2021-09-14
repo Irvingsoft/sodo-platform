@@ -1,6 +1,6 @@
 package cool.sodo.log.starter.event;
 
-import cool.sodo.log.starter.domain.LogBusiness;
+import cool.sodo.common.core.domain.LogBusiness;
 import org.springframework.context.ApplicationEvent;
 
 public class BusinessLogEvent extends ApplicationEvent {

@@ -1,10 +1,10 @@
 package cool.sodo.housekeeper.controller;
 
-import cool.sodo.common.base.domain.OauthApi;
-import cool.sodo.common.base.domain.User;
 import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.Result;
-import cool.sodo.common.core.annotation.CurrentUser;
+import cool.sodo.common.core.domain.OauthApi;
+import cool.sodo.common.core.domain.User;
+import cool.sodo.common.starter.annotation.CurrentUser;
 import cool.sodo.housekeeper.entity.OauthApiDTO;
 import cool.sodo.housekeeper.service.OauthApiService;
 import cool.sodo.log.starter.annotation.BusinessLogger;

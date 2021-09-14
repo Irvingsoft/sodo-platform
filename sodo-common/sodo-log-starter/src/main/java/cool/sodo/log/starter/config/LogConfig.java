@@ -1,6 +1,7 @@
 package cool.sodo.log.starter.config;
 
 import cool.sodo.log.starter.aspect.BusinessLoggerAspect;
+import cool.sodo.log.starter.aspect.ExceptionHandlerAspect;
 import cool.sodo.log.starter.listener.BusinessLogEventListener;
 import cool.sodo.log.starter.listener.ErrorLogEventListener;
 import cool.sodo.log.starter.listener.OauthApiLogEventListener;
@@ -20,6 +21,11 @@ public class LogConfig {
     @Bean
     public BusinessLoggerAspect businessLoggerAspect() {
         return new BusinessLoggerAspect();
+    }
+
+    @Bean
+    public ExceptionHandlerAspect exceptionHandlerAspect() {
+        return new ExceptionHandlerAspect();
     }
 
     @Bean

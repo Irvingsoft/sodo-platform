@@ -1,7 +1,7 @@
 package cool.sodo.goods.controller;
 
-import cool.sodo.common.base.domain.Schedule;
-import cool.sodo.common.base.domain.Shop;
+import cool.sodo.common.starter.domain.Schedule;
+import cool.sodo.common.starter.domain.Shop;
 import cool.sodo.common.base.entity.Result;
 import cool.sodo.goods.annotation.CurrentShop;
 import cool.sodo.goods.service.ScheduleService;

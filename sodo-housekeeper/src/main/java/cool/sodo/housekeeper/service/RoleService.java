@@ -1,6 +1,6 @@
 package cool.sodo.housekeeper.service;
 
-import cool.sodo.common.base.domain.Role;
+import cool.sodo.common.core.domain.Role;
 import cool.sodo.housekeeper.entity.RoleDTO;
 import cool.sodo.housekeeper.entity.RoleVO;
 

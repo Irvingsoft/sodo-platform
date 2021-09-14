@@ -4,7 +4,7 @@ import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ServiceInfo;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.base.util.WebUtil;
-import cool.sodo.log.starter.entity.LogAbstract;
+import cool.sodo.common.core.entity.LogAbstract;
 import eu.bitwalker.useragentutils.UserAgent;
 
 import javax.servlet.http.HttpServletRequest;
