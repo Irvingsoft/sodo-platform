@@ -1,6 +1,6 @@
 package cool.sodo.common.base.util.node;
 
-import com.alibaba.fastjson.JSON;
+import cool.sodo.common.base.util.JsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class NodeTest {
         list.add(new ForestNode("10L", "9L", "10"));
         List<ForestNode> tns = ForestNodeMerger.merge(list);
         tns.forEach(node ->
-                System.out.println(JSON.toJSON(node))
+                System.out.println(JsonUtil.toJsonString(node))
         );
     }
 

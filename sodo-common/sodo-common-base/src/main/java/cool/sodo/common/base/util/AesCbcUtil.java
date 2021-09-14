@@ -1,7 +1,5 @@
 package cool.sodo.common.base.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import cool.sodo.common.base.exception.SoDoException;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.util.Base64Utils;
@@ -17,6 +15,10 @@ import java.security.*;
 import java.security.spec.InvalidParameterSpecException;
 import java.util.Arrays;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/14 16:15
+ */
 public class AesCbcUtil {
 
     public static final String ERROR_DECRYPT = "解密出错";
@@ -29,7 +31,7 @@ public class AesCbcUtil {
      * @param iv            加密算法的初始向量
      * @return JSONObject   解密后的数据对象
      */
-    public static JSONObject decrypt(String encryptedData, String sessionKey, String iv) {
+    public static String decrypt(String encryptedData, String sessionKey, String iv) {
         // 被加密的数据
         byte[] dataByte = Base64Utils.decode(encryptedData.getBytes());
         // 加密秘钥
@@ -56,8 +58,7 @@ public class AesCbcUtil {
             // 初始化
             byte[] resultByte = cipher.doFinal(dataByte);
             if (null != resultByte && resultByte.length > 0) {
-                String result = new String(resultByte, "UTF-8");
-                return JSON.parseObject(result);
+                return new String(resultByte, "UTF-8");
             }
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidParameterSpecException |
                 IllegalBlockSizeException | BadPaddingException | UnsupportedEncodingException |
@@ -67,6 +68,4 @@ public class AesCbcUtil {
         }
         return null;
     }
-
-
 }

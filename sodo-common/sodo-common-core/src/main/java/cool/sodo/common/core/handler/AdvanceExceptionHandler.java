@@ -1,9 +1,9 @@
 package cool.sodo.common.core.handler;
 
-import com.alibaba.fastjson.JSON;
 import cool.sodo.common.base.entity.Result;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
+import cool.sodo.common.base.util.JsonUtil;
 import cool.sodo.common.base.util.WebUtil;
 import cool.sodo.log.starter.publisher.ErrorLogPublisher;
 import org.springframework.core.Ordered;
@@ -32,7 +32,7 @@ public class AdvanceExceptionHandler {
 
         errorLogPublisher.publishEvent(
                 WebUtil.getContentCachingRequest(),
-                e, e.getParams() == null ? null : JSON.toJSONString(e.getParams()));
+                e, e.getParams() == null ? null : JsonUtil.toJsonString(e.getParams()));
 
         if (e.getResultEnum() != null) {
             return new ResponseEntity<>(

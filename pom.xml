@@ -29,7 +29,6 @@
         <useragent.version>1.21</useragent.version>
         <shiro.version>1.7.1</shiro.version>
         <guava.version>30.1.1-jre</guava.version>
-        <fastjson.version>1.2.76</fastjson.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <hibernate-validator.version>7.0.1.Final</hibernate-validator.version>
         <dockerfile-maven.version>1.4.13</dockerfile-maven.version>
@@ -82,13 +81,6 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
             <scope>provided</scope>
-        </dependency>
-
-        <!--FastJson-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version>
         </dependency>
 
         <!--Validation-->

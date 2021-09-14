@@ -1,9 +1,9 @@
 package cool.sodo.common.core.aspect;
 
-import com.alibaba.fastjson.JSON;
 import cool.sodo.common.base.component.RedisCacheHelper;
 import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.Result;
+import cool.sodo.common.base.util.JsonUtil;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.base.util.WebUtil;
 import cool.sodo.log.starter.domain.LogApi;
@@ -60,6 +60,6 @@ public class ExceptionHandlerAspect {
     }
 
     private String getResponseBody(Object result) {
-        return !StringUtil.isEmpty(result) ? JSON.toJSONString(result) : null;
+        return !StringUtil.isEmpty(result) ? JsonUtil.toJsonString(result) : null;
     }
 }

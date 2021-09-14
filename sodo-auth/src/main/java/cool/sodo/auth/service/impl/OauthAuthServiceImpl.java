@@ -1,6 +1,5 @@
 package cool.sodo.auth.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import cool.sodo.auth.entity.*;
 import cool.sodo.auth.message.UserMqProducer;
 import cool.sodo.auth.message.UserMqProperty;
@@ -18,10 +17,7 @@ import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
 import cool.sodo.common.base.service.CommonOauthClientService;
 import cool.sodo.common.base.service.CommonUserService;
-import cool.sodo.common.base.util.AesCbcUtil;
-import cool.sodo.common.base.util.CharPool;
-import cool.sodo.common.base.util.StringUtil;
-import cool.sodo.common.base.util.WebUtil;
+import cool.sodo.common.base.util.*;
 import cool.sodo.common.core.component.PasswordHelper;
 import cool.sodo.rabbitmq.starter.entity.Notification;
 import org.springframework.beans.BeanUtils;
@@ -188,7 +184,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
         if (wechatToken == null || StringUtil.isEmpty(wechatToken.getSessionKey())) {
             throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_WECHAT_TOKEN);
         }
-        OauthUser oauthUser = JSON.toJavaObject(AesCbcUtil.decrypt(
+        OauthUser oauthUser = JsonUtil.toObject(AesCbcUtil.decrypt(
                         authenticateRequest.getEncryptedData().replace(CharPool.SPACE, CharPool.PLUS)
                         , wechatToken.getSessionKey()
                         , authenticateRequest.getIv().replace(CharPool.SPACE, CharPool.PLUS)

@@ -1,11 +1,11 @@
 package cool.sodo.zuul.filter;
 
-import com.alibaba.fastjson.JSON;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
+import cool.sodo.common.base.util.JsonUtil;
 import cool.sodo.log.starter.publisher.ErrorLogPublisher;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 
@@ -65,7 +65,7 @@ public class ExceptionFilter extends ZuulFilter {
             HttpServletResponse response = currentContext.getResponse();
 
             currentContext.setSendZuulResponse(true);
-            currentContext.setResponseBody(JSON.toJSONString(new cool.sodo.zuul.exception.ZuulException(soDoException)));
+            currentContext.setResponseBody(JsonUtil.toJsonString(new cool.sodo.zuul.exception.ZuulException(soDoException)));
             response.setContentType(CONTENT_TYPE);
             response.setCharacterEncoding(StandardCharsets.UTF_8.name());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
