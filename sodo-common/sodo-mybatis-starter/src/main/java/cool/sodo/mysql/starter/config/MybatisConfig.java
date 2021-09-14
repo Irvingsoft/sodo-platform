@@ -8,6 +8,7 @@ import cool.sodo.catkin.starter.annotation.EnableCatkinClient;
 import cool.sodo.mysql.starter.generator.MybatisKeyGenerator;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Primary;
  * @author TimeChaser
  * @date 2020/11/6 11:19 上午
  */
+@Configuration(proxyBeanMethods = false)
 @EnableCatkinClient
 @MapperScan(value = {"cool.sodo.*.mapper", "cool.sodo.*.*.mapper"})
 public class MybatisConfig {

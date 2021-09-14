@@ -21,7 +21,7 @@ public interface CatkinClientService {
 
     @RequestMapping(value = "id/simple")
     Long idSimple(@RequestParam(value = "token") String token,
-                    @RequestParam(value = "bizType") String bizType);
+                  @RequestParam(value = "bizType") String bizType);
 
     @RequestMapping(value = "id/segment")
     Result segmentId(@RequestParam(value = "token") String token,

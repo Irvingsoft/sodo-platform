@@ -10,7 +10,6 @@ import cool.sodo.common.base.util.WebUtil;
 import cool.sodo.log.starter.domain.LogApi;
 import cool.sodo.log.starter.event.OauthApiLogEvent;
 import cool.sodo.log.starter.util.LogAbstractUtil;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
  * @author TimeChaser
  * @date 2021/6/19 14:17
  */
-@Component
 public class OauthApiLogPublisher {
 
     @Resource

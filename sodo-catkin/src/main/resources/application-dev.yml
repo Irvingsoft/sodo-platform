@@ -66,7 +66,6 @@ mybatis-plus:
       logic-delete-value: true
       logic-not-delete-value: false
 log-message:
-  enabled: true
   queue-name: log.sync.queue
   exchange-name: log-exchange
   routing-key: log.routingkey
@@ -74,7 +73,6 @@ log-message:
   error-type: log-error
   business-type: log-business
 access-message:
-  enabled: true
   queue-name: access.sync.queue
   exchange-name: access-exchange
   routing-key: access.routingkey

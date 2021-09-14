@@ -1,13 +1,10 @@
 package cool.sodo.rabbitmq.starter.producer;
 
-import cool.sodo.rabbitmq.starter.config.LogMqConfig;
 import cool.sodo.rabbitmq.starter.entity.Notification;
 import cool.sodo.rabbitmq.starter.property.LogMqProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -17,9 +14,7 @@ import javax.annotation.Resource;
  * @author TimeChaser
  * @date 2021/8/12 15:23
  */
-@Component
 @Slf4j
-@ConditionalOnBean({LogMqConfig.class})
 public class LogMqProducer {
 
     @Resource

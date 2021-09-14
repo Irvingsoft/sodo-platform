@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import cool.sodo.common.base.entity.Constants;
+import cool.sodo.redis.starter.aspect.LockAspect;
+import cool.sodo.redis.starter.aspect.LocksAspect;
+import cool.sodo.redis.starter.component.LockComponent;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
@@ -31,7 +34,7 @@ import java.util.Collections;
  * @author TimeChaser
  * @date 2021/7/14 10:04
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableCaching
 @EnableRedisHttpSession
 public class RedisConfig {
@@ -73,5 +76,20 @@ public class RedisConfig {
     @Bean
     public LettuceConnectionFactory connectionFactory() {
         return new LettuceConnectionFactory();
+    }
+
+    @Bean
+    public LockAspect lockAspect() {
+        return new LockAspect();
+    }
+
+    @Bean
+    public LocksAspect locksAspect() {
+        return new LocksAspect();
+    }
+
+    @Bean
+    public LockComponent lockComponent() {
+        return new LockComponent();
     }
 }

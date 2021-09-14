@@ -12,7 +12,6 @@ import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.expression.Expression;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +20,6 @@ import java.util.concurrent.TimeUnit;
  * @author TimeChaser
  * @date 2021/9/10 11:24
  */
-@Component
 public class LockComponent {
 
     private final SpelExpressionParser spelExpressionParser = new SpelExpressionParser();

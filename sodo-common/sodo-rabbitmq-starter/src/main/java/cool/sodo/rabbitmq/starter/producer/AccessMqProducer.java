@@ -1,19 +1,18 @@
 package cool.sodo.rabbitmq.starter.producer;
 
-import cool.sodo.rabbitmq.starter.config.AccessMqConfig;
 import cool.sodo.rabbitmq.starter.entity.Notification;
 import cool.sodo.rabbitmq.starter.property.AccessMqProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-@Component
+/**
+ * @author TimeChaser
+ * @date 2021/9/14 10:46
+ */
 @Slf4j
-@ConditionalOnBean({AccessMqConfig.class})
 public class AccessMqProducer {
 
     @Resource

@@ -1,11 +1,12 @@
 package cool.sodo.rabbitmq.starter.config;
 
+import cool.sodo.rabbitmq.starter.producer.LogMqProducer;
 import cool.sodo.rabbitmq.starter.property.LogMqProperty;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,12 +16,17 @@ import javax.annotation.Resource;
  * @author TimeChaser
  * @date 2021/8/12 15:22
  */
-@Configuration
-@ConditionalOnBean({LogMqProperty.class})
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties({LogMqProperty.class})
 public class LogMqConfig {
 
     @Resource
     private LogMqProperty logMqProperty;
+
+    @Bean
+    public LogMqProducer logMqProducer() {
+        return new LogMqProducer();
+    }
 
     @Bean
     public Queue logMqQueue() {
