@@ -1,6 +1,5 @@
 package cool.sodo.rabbitmq.starter.config;
 
-import cool.sodo.rabbitmq.starter.producer.LogMqProducer;
 import cool.sodo.rabbitmq.starter.property.LogMqProperty;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -22,11 +21,6 @@ public class LogMqConfig {
 
     @Resource
     private LogMqProperty logMqProperty;
-
-    @Bean
-    public LogMqProducer logMqProducer() {
-        return new LogMqProducer();
-    }
 
     @Bean
     public Queue logMqQueue() {

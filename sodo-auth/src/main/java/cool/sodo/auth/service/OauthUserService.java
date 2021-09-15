@@ -1,6 +1,6 @@
 package cool.sodo.auth.service;
 
-import cool.sodo.common.base.domain.OauthUser;
+import cool.sodo.common.starter.domain.OauthUser;
 
 public interface OauthUserService {
 

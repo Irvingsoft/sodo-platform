@@ -8,6 +8,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -22,6 +23,7 @@ import java.lang.reflect.Parameter;
  * @date 2021/7/2 19:21
  */
 @Aspect
+@Component
 public class BusinessLoggerAspect {
 
     @Resource

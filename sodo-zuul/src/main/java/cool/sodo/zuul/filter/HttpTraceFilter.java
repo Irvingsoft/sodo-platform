@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
  * @author TimeChaser
  * @date 2021/7/17 10:17
  */
-
 public class HttpTraceFilter extends ZuulFilter {
 
     @Override

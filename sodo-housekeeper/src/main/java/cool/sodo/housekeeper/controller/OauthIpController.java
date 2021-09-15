@@ -1,9 +1,9 @@
 package cool.sodo.housekeeper.controller;
 
-import cool.sodo.common.base.domain.OauthIp;
-import cool.sodo.common.base.domain.User;
 import cool.sodo.common.base.entity.Result;
-import cool.sodo.common.core.annotation.CurrentUser;
+import cool.sodo.common.core.domain.User;
+import cool.sodo.common.starter.annotation.CurrentUser;
+import cool.sodo.common.starter.domain.OauthIp;
 import cool.sodo.housekeeper.entity.OauthIpDTO;
 import cool.sodo.housekeeper.service.OauthIpService;
 import org.springframework.web.bind.annotation.*;

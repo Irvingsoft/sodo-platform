@@ -1,8 +1,8 @@
 package cool.sodo.goods.controller;
 
-import cool.sodo.common.base.domain.GoodsSet;
-import cool.sodo.common.base.domain.Shop;
 import cool.sodo.common.base.entity.Result;
+import cool.sodo.common.starter.domain.GoodsSet;
+import cool.sodo.common.starter.domain.Shop;
 import cool.sodo.goods.annotation.CurrentShop;
 import cool.sodo.goods.service.GoodsSetService;
 import io.swagger.annotations.Api;

@@ -13,7 +13,12 @@
     <dependencies>
         <dependency>
             <groupId>cool.sodo</groupId>
-            <artifactId>sodo-common-core</artifactId>
+            <artifactId>sodo-common-base</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>cool.sodo</groupId>
+            <artifactId>sodo-mybatis-starter</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

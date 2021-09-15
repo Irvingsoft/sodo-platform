@@ -6,14 +6,13 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import cool.sodo.common.base.entity.Constants;
-import cool.sodo.redis.starter.aspect.LockAspect;
-import cool.sodo.redis.starter.aspect.LocksAspect;
-import cool.sodo.redis.starter.component.LockComponent;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -21,8 +20,8 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
+import javax.annotation.PostConstruct;
 import java.util.Collections;
 
 /**
@@ -36,7 +35,8 @@ import java.util.Collections;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableCaching
-@EnableRedisHttpSession
+@ComponentScan("cool.sodo.redis.starter.*")
+@Slf4j
 public class RedisConfig {
 
     @Bean
@@ -78,18 +78,8 @@ public class RedisConfig {
         return new LettuceConnectionFactory();
     }
 
-    @Bean
-    public LockAspect lockAspect() {
-        return new LockAspect();
-    }
-
-    @Bean
-    public LocksAspect locksAspect() {
-        return new LocksAspect();
-    }
-
-    @Bean
-    public LockComponent lockComponent() {
-        return new LockComponent();
+    @PostConstruct
+    public void log() {
+        log.info("sodo-redis-starter 装载成功！");
     }
 }

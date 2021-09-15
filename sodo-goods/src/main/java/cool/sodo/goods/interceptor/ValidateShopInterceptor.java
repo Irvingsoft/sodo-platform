@@ -1,12 +1,12 @@
 package cool.sodo.goods.interceptor;
 
-import cool.sodo.common.base.domain.Goods;
-import cool.sodo.common.base.domain.GoodsChoice;
-import cool.sodo.common.base.domain.GoodsSet;
-import cool.sodo.common.base.domain.ShopMenu;
 import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.util.JsonUtil;
+import cool.sodo.common.starter.domain.Goods;
+import cool.sodo.common.starter.domain.GoodsChoice;
+import cool.sodo.common.starter.domain.GoodsSet;
+import cool.sodo.common.starter.domain.ShopMenu;
 import cool.sodo.goods.annotation.ValidateShop;
 import cool.sodo.goods.exception.GoodsException;
 import cool.sodo.goods.service.GoodsService;

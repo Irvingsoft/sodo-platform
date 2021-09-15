@@ -1,7 +1,7 @@
 package cool.sodo.log.starter.listener;
 
-import cool.sodo.common.base.entity.ServiceInfo;
-import cool.sodo.log.starter.domain.LogApi;
+import cool.sodo.common.core.domain.LogApi;
+import cool.sodo.common.core.property.ServiceInfo;
 import cool.sodo.log.starter.event.OauthApiLogEvent;
 import cool.sodo.log.starter.util.LogAbstractUtil;
 import cool.sodo.rabbitmq.starter.entity.Notification;
@@ -9,6 +9,7 @@ import cool.sodo.rabbitmq.starter.producer.LogMqProducer;
 import cool.sodo.rabbitmq.starter.property.LogMqProperty;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
  * @author TimeChaser
  * @date 2021/9/14 11:31
  */
+@Component
 public class OauthApiLogEventListener {
 
     @Resource

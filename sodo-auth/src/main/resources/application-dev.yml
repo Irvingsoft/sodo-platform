@@ -69,7 +69,7 @@ eureka:
     healthcheck:
       enabled: true # 开启心跳检测
 mybatis-plus:
-  type-aliases-package: cool.sodo.common.base.domain
+  type-aliases-package: cool.sodo.common.starter.domain
   mapper-locations: classpath:mapper/*.xml
   configuration:
     jdbc-type-for-null: null
@@ -81,6 +81,14 @@ mybatis-plus:
       logic-not-delete-value: false
 logging:
   config: classpath:log/logback_${spring.application.env}.xml
+knife4j:
+  title: 统一认证接口文档
+  description: 登录认证授权相关接口的文档
+  version: 1.0
+  basePackage: cool.sodo.auth
+  name: Irvingsoft
+  url: https://www.isopen.top
+  email: Zhangwei@irvingsoft.top
 # 消息异构
 user-message:
   queue-name: user.sync.queue

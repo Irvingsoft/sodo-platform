@@ -1,9 +1,9 @@
 package cool.sodo.housekeeper.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import cool.sodo.common.base.domain.Role;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.base.util.node.INode;
+import cool.sodo.common.core.domain.Role;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

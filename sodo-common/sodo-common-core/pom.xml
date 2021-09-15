@@ -16,29 +16,15 @@
             <artifactId>sodo-common-base</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!-- Mybatis-plus -->
         <dependency>
-            <groupId>cool.sodo</groupId>
-            <artifactId>sodo-log-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
         </dependency>
         <dependency>
-            <groupId>cool.sodo</groupId>
-            <artifactId>sodo-redis-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>cool.sodo</groupId>
-            <artifactId>sodo-mybatis-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency><!-- Shiro 用于密码加密算法 -->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
-            <version>${shiro.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,6 +1,5 @@
 package cool.sodo.rabbitmq.starter.config;
 
-import cool.sodo.rabbitmq.starter.producer.AccessMqProducer;
 import cool.sodo.rabbitmq.starter.property.AccessMqProperty;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -22,11 +21,6 @@ public class AccessMqConfig {
 
     @Resource
     private AccessMqProperty accessMqProperty;
-
-    @Bean
-    public AccessMqProducer accessMqProducer() {
-        return new AccessMqProducer();
-    }
 
     @Bean
     public Queue accessMqQueue() {

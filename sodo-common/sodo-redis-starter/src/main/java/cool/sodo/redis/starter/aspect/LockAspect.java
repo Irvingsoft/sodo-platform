@@ -8,6 +8,7 @@ import cool.sodo.redis.starter.component.LockComponent;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
  * @date 2021/9/9 21:09
  */
 @Aspect
+@Component
 public class LockAspect {
 
     @Resource

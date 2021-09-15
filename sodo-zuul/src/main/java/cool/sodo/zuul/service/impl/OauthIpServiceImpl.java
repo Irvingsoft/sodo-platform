@@ -2,9 +2,9 @@ package cool.sodo.zuul.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import cool.sodo.common.base.domain.OauthIp;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.core.publisher.OauthIpCheckPublisher;
+import cool.sodo.common.starter.domain.OauthIp;
 import cool.sodo.zuul.mapper.OauthIpMapper;
 import cool.sodo.zuul.service.OauthIpService;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package cool.sodo.housekeeper.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import cool.sodo.common.base.domain.OauthClient;
+import cool.sodo.common.core.domain.OauthClient;
 import cool.sodo.housekeeper.entity.OauthClientDTO;
 
 import java.util.List;

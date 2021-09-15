@@ -1,15 +1,16 @@
 package cool.sodo.log.starter.publisher;
 
 import cool.sodo.common.base.entity.Constants;
-import cool.sodo.common.base.entity.ServiceInfo;
-import cool.sodo.common.base.service.CommonAccessTokenService;
-import cool.sodo.common.base.service.CommonUserService;
 import cool.sodo.common.base.util.SpringUtil;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.base.util.WebUtil;
-import cool.sodo.log.starter.domain.LogApi;
+import cool.sodo.common.core.domain.LogApi;
+import cool.sodo.common.core.property.ServiceInfo;
+import cool.sodo.common.core.service.CommonAccessTokenService;
+import cool.sodo.common.core.service.CommonUserService;
 import cool.sodo.log.starter.event.OauthApiLogEvent;
 import cool.sodo.log.starter.util.LogAbstractUtil;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author TimeChaser
  * @date 2021/6/19 14:17
  */
+@Component
 public class OauthApiLogPublisher {
 
     @Resource

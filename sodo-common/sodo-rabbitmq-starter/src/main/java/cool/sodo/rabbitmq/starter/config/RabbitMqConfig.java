@@ -1,12 +1,16 @@
 package cool.sodo.rabbitmq.starter.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+
+import javax.annotation.PostConstruct;
 
 /**
  * 配置 RabbitMq 连接池消息转换器
@@ -15,7 +19,9 @@ import org.springframework.context.annotation.Import;
  * @date 2021/8/12 13:44
  */
 @Configuration(proxyBeanMethods = false)
+@ComponentScan("cool.sodo.rabbitmq.starter.*")
 @Import({LogMqConfig.class, AccessMqConfig.class})
+@Slf4j
 public class RabbitMqConfig {
 
     @Bean
@@ -39,5 +45,10 @@ public class RabbitMqConfig {
         // 设置消息转为json
         simpleRabbitListenerContainerFactory.setMessageConverter(messageConverter);
         return simpleRabbitListenerContainerFactory;
+    }
+
+    @PostConstruct
+    public void log() {
+        log.info("sodo-rabbitmq-starter 装载成功！");
     }
 }

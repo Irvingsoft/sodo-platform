@@ -5,6 +5,10 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/14 23:26
+ */
 @Data
 public class LogApiDTO implements Serializable {
 

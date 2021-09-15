@@ -1,7 +1,7 @@
 package cool.sodo.housekeeper.service;
 
-import cool.sodo.common.base.domain.Menu;
-import cool.sodo.common.base.entity.MenuVO;
+import cool.sodo.common.core.domain.Menu;
+import cool.sodo.common.starter.entity.MenuVO;
 import cool.sodo.housekeeper.entity.MenuDTO;
 
 import java.util.List;

@@ -1,11 +1,11 @@
 package cool.sodo.user;
 
-import cool.sodo.common.base.component.RedisCacheHelper;
-import cool.sodo.common.base.domain.Role;
-import cool.sodo.common.base.domain.User;
-import cool.sodo.common.base.service.CommonUserService;
 import cool.sodo.common.base.util.StringUtil;
-import cool.sodo.common.core.component.PasswordHelper;
+import cool.sodo.common.core.component.RedisCacheHelper;
+import cool.sodo.common.core.domain.Role;
+import cool.sodo.common.core.domain.User;
+import cool.sodo.common.core.service.CommonUserService;
+import cool.sodo.common.starter.component.PasswordHelper;
 import cool.sodo.redis.starter.annotation.Lock;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

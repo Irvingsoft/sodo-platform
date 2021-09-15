@@ -2,17 +2,16 @@ package cool.sodo.log.message;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cool.sodo.common.core.domain.LogApi;
+import cool.sodo.common.core.domain.LogBusiness;
+import cool.sodo.common.core.domain.LogError;
 import cool.sodo.log.common.Constants;
 import cool.sodo.log.service.LogApiService;
 import cool.sodo.log.service.LogBusinessService;
 import cool.sodo.log.service.LogErrorService;
-import cool.sodo.log.starter.domain.LogApi;
-import cool.sodo.log.starter.domain.LogBusiness;
-import cool.sodo.log.starter.domain.LogError;
 import cool.sodo.rabbitmq.starter.entity.Notification;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -25,7 +24,6 @@ import javax.annotation.Resource;
  */
 @Component
 @Slf4j
-@ConditionalOnProperty(prefix = "log-message", name = "enabled", havingValue = "true")
 public class LogMqListener {
 
     @Resource

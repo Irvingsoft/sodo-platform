@@ -16,10 +16,16 @@
             <artifactId>sodo-common-base</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
+        <!-- Mybatis-plus -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cool.sodo</groupId>
+            <artifactId>sodo-openfeign-starter</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

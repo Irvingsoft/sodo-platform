@@ -1,8 +1,8 @@
 package cool.sodo.goods.resolver;
 
-import cool.sodo.common.base.domain.Shop;
-import cool.sodo.common.base.domain.User;
-import cool.sodo.common.core.resolver.CurrentUserArgumentResolver;
+import cool.sodo.common.core.domain.User;
+import cool.sodo.common.starter.domain.Shop;
+import cool.sodo.common.starter.resolver.CurrentUserArgumentResolver;
 import cool.sodo.goods.annotation.CurrentShop;
 import cool.sodo.goods.service.ShopService;
 import org.springframework.core.MethodParameter;
