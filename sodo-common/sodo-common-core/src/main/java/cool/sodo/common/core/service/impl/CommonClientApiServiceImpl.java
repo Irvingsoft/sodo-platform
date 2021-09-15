@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/15 12:07
+ */
 @Service
 public class CommonClientApiServiceImpl implements CommonClientApiService {
 
@@ -17,7 +21,6 @@ public class CommonClientApiServiceImpl implements CommonClientApiService {
 
     @Override
     public boolean validateClientApi(String clientId, String apiId) {
-
         return countClientApiByClientAndApi(clientId, apiId) != 0;
     }
 

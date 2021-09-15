@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cool.sodo.knife4j.starter.config.Swagger2Config

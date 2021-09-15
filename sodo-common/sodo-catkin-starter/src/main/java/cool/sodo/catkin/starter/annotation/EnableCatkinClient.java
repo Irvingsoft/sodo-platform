@@ -1,7 +1,9 @@
 package cool.sodo.catkin.starter.annotation;
 
 import cool.sodo.catkin.starter.feign.impl.CatkinClientServiceFallbackFactory;
+import cool.sodo.catkin.starter.generator.MybatisKeyGenerator;
 import cool.sodo.catkin.starter.property.CatkinClientProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Import;
 
@@ -17,6 +19,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @EnableFeignClients(basePackages = "cool.sodo")
-@Import({CatkinClientProperty.class, CatkinClientServiceFallbackFactory.class})
+@EnableConfigurationProperties({CatkinClientProperty.class})
+@Import({CatkinClientServiceFallbackFactory.class, MybatisKeyGenerator.class})
 public @interface EnableCatkinClient {
 }

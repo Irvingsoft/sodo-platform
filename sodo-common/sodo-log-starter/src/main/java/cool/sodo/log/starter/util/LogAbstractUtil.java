@@ -1,10 +1,10 @@
 package cool.sodo.log.starter.util;
 
 import cool.sodo.common.base.entity.Constants;
-import cool.sodo.common.base.entity.ServiceInfo;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.base.util.WebUtil;
 import cool.sodo.common.core.entity.LogAbstract;
+import cool.sodo.common.core.property.ServiceInfo;
 import eu.bitwalker.useragentutils.UserAgent;
 
 import javax.servlet.http.HttpServletRequest;

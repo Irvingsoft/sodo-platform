@@ -48,9 +48,12 @@ public class AdvanceExceptionHandler {
     }
 
     @ExceptionHandler(value = Exception.class)
-    public Result handleException(Exception e) {
+    public ResponseEntity<Result> handleException(Exception e) {
 
         errorLogPublisher.publishEvent(WebUtil.getContentCachingRequest(), e, null);
-        return Result.of(ResultEnum.SERVER_ERROR, e.getMessage());
+        return new ResponseEntity<>(
+                Result.of(ResultEnum.SERVER_ERROR, e.getMessage()),
+                new HttpHeaders(),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

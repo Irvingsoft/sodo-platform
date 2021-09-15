@@ -2,6 +2,7 @@ package cool.sodo.common.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.core.domain.Role;
 import cool.sodo.common.core.mapper.CommonRoleMapper;
 import cool.sodo.common.core.service.CommonRoleService;
@@ -28,6 +29,9 @@ public class CommonRoleServiceImpl implements CommonRoleService {
     public List<String> listRoleId(String userId) {
 
         List<String> roleIdList = userToRoleService.listUserToRoleRoleId(userId);
+        if (StringUtil.isEmpty(roleIdList)) {
+            return null;
+        }
         LambdaQueryWrapper<Role> roleLambdaQueryWrapper = Wrappers.lambdaQuery();
         roleLambdaQueryWrapper.in(Role::getRoleId, roleIdList)
                 .select(Role::getRoleId);

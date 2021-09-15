@@ -1,15 +1,14 @@
 package cool.sodo.mysql.starter.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import cool.sodo.catkin.starter.annotation.EnableCatkinClient;
-import cool.sodo.mysql.starter.generator.MybatisKeyGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+
+import javax.annotation.PostConstruct;
 
 /**
  * SpringBoot 自动开启事务管理，此处免去开启事务管理的配置
@@ -20,8 +19,8 @@ import org.springframework.context.annotation.Primary;
  * @date 2020/11/6 11:19 上午
  */
 @Configuration(proxyBeanMethods = false)
-@EnableCatkinClient
 @MapperScan(value = {"cool.sodo.*.mapper", "cool.sodo.*.*.mapper"})
+@Slf4j
 public class MybatisConfig {
 
     @Bean
@@ -31,9 +30,8 @@ public class MybatisConfig {
         return mybatisPlusInterceptor;
     }
 
-    @Bean
-    @Primary
-    public IdentifierGenerator idGenerator() {
-        return new MybatisKeyGenerator();
+    @PostConstruct
+    public void log() {
+        log.info("sodo-mybatis-starter 装载成功！");
     }
 }

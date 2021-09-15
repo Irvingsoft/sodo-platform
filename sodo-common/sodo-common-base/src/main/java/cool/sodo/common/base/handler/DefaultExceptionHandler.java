@@ -34,16 +34,16 @@ import java.util.List;
 public class DefaultExceptionHandler {
 
     @ExceptionHandler(value = SoDoException.class)
-    public ResponseEntity handleSoDoException(SoDoException e) {
+    public ResponseEntity<Result> handleSoDoException(SoDoException e) {
 
         log.error("SoDoException Code: {} Detail: {}", e.getResultEnum().getCode(), e.getDetail());
         if (e.getResultEnum() != null) {
-            return new ResponseEntity(
+            return new ResponseEntity<>(
                     Result.of(e.getResultEnum(), e.getDetail()),
                     new HttpHeaders(),
                     HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity(
+            return new ResponseEntity<>(
                     Result.of(ResultEnum.SERVER_ERROR, e.getDetail()),
                     new HttpHeaders(),
                     HttpStatus.INTERNAL_SERVER_ERROR);
@@ -74,9 +74,12 @@ public class DefaultExceptionHandler {
     }
 
     @ExceptionHandler(value = Exception.class)
-    public Result handleException(Exception e) {
+    public ResponseEntity<Result> handleException(Exception e) {
 
         log.error("Exception message: {}", e.getMessage());
-        return Result.of(ResultEnum.SERVER_ERROR, e.getMessage());
+        return new ResponseEntity<>(
+                Result.of(ResultEnum.SERVER_ERROR, e.getMessage()),
+                new HttpHeaders(),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

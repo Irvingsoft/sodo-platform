@@ -1,7 +1,7 @@
 package cool.sodo.user;
 
-import cool.sodo.common.core.component.RedisCacheHelper;
 import cool.sodo.common.base.util.StringUtil;
+import cool.sodo.common.core.component.RedisCacheHelper;
 import cool.sodo.common.core.domain.Role;
 import cool.sodo.common.core.domain.User;
 import cool.sodo.common.core.service.CommonUserService;

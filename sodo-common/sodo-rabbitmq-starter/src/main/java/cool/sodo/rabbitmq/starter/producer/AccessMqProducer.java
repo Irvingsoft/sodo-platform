@@ -5,6 +5,7 @@ import cool.sodo.rabbitmq.starter.property.AccessMqProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
  * @date 2021/9/14 10:46
  */
 @Slf4j
+@Component
 public class AccessMqProducer {
 
     @Resource

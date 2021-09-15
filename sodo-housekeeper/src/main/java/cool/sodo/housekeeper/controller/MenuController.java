@@ -1,8 +1,8 @@
 package cool.sodo.housekeeper.controller;
 
+import cool.sodo.common.base.entity.Result;
 import cool.sodo.common.core.domain.Menu;
 import cool.sodo.common.core.domain.User;
-import cool.sodo.common.base.entity.Result;
 import cool.sodo.common.starter.annotation.CurrentUser;
 import cool.sodo.housekeeper.entity.MenuDTO;
 import cool.sodo.housekeeper.service.MenuService;

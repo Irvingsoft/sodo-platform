@@ -81,6 +81,14 @@ mybatis-plus:
       logic-not-delete-value: false
 logging:
   config: classpath:log/logback_${spring.application.env}.xml
+knife4j:
+  title: 用户服务接口文档
+  description: 用户相关接口的文档
+  version: 1.0
+  basePackage: cool.sodo.user
+  name: Irvingsoft
+  url: https://www.isopen.top
+  email: Zhangwei@irvingsoft.top
 user-message:
   queue-name: user.sync.queue
   exchange-name: user-exchange

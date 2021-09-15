@@ -1,6 +1,5 @@
 package cool.sodo.common.starter.resolver;
 
-import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
 import cool.sodo.common.base.util.StringUtil;
@@ -11,13 +10,13 @@ import cool.sodo.common.core.service.CommonAccessTokenService;
 import cool.sodo.common.core.service.CommonUserService;
 import cool.sodo.common.starter.annotation.CurrentUser;
 import org.springframework.core.MethodParameter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 当前用户信息参数注入
@@ -25,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author TimeChaser
  * @date 2021/5/29 11:12
  */
+@Component
 public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Resource
@@ -50,6 +50,6 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
             throw new SoDoException(ResultEnum.UNAUTHORIZED, "请登录后重试！");
         }
         return userService.getIdentity(accessToken.getIdentity(),
-                WebUtil.getHeader(nativeWebRequest.getNativeRequest(HttpServletRequest.class), Constants.CLIENT_ID));
+                accessToken.getClientId());
     }
 }

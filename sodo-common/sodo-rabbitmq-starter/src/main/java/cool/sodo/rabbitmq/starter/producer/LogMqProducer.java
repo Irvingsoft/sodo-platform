@@ -5,6 +5,7 @@ import cool.sodo.rabbitmq.starter.property.LogMqProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -15,6 +16,7 @@ import javax.annotation.Resource;
  * @date 2021/8/12 15:23
  */
 @Slf4j
+@Component
 public class LogMqProducer {
 
     @Resource

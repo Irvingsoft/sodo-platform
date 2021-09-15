@@ -1,15 +1,14 @@
 package cool.sodo.rabbitmq.starter.listener;
 
 import cool.sodo.common.base.entity.Constants;
-import cool.sodo.common.base.entity.ServiceInfo;
 import cool.sodo.common.core.event.OauthApiAccessEvent;
-import cool.sodo.rabbitmq.starter.config.AccessMqConfig;
+import cool.sodo.common.core.property.ServiceInfo;
 import cool.sodo.rabbitmq.starter.entity.Notification;
 import cool.sodo.rabbitmq.starter.producer.AccessMqProducer;
 import cool.sodo.rabbitmq.starter.property.AccessMqProperty;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -20,6 +19,7 @@ import java.util.Map;
  * @author TimeChaser
  * @date 2021/6/16 11:07
  */
+@Component
 public class OauthApiAccessListener {
 
     @Resource

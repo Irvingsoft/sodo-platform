@@ -2,8 +2,8 @@ package cool.sodo.auth;
 
 import cool.sodo.auth.message.UserMqProperty;
 import cool.sodo.auth.service.AccessTokenService;
-import cool.sodo.common.core.component.RedisCacheHelper;
 import cool.sodo.common.base.util.JsonUtil;
+import cool.sodo.common.core.component.RedisCacheHelper;
 import cool.sodo.common.core.domain.AccessToken;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

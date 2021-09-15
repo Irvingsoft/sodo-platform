@@ -68,6 +68,14 @@ mybatis-plus:
 #配置日志地址
 logging:
   config: classpath:log/logback_${spring.application.env}.xml
+knife4j:
+  title: 日志服务接口文档
+  description: 日志查询相关接口的文档
+  version: 1.0
+  basePackage: cool.sodo.log
+  name: Irvingsoft
+  url: https://www.isopen.top
+  email: Zhangwei@irvingsoft.top
 log-message:
   queue-name: log.sync.queue
   exchange-name: log-exchange

@@ -3,6 +3,7 @@ package cool.sodo.catkin.starter.feign;
 import cool.sodo.catkin.starter.feign.impl.CatkinClientServiceFallbackFactory;
 import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.Result;
+import cool.sodo.openfeign.starter.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author TimeChaser
  * @date 2021/9/13 15:36
  */
-@FeignClient(name = Constants.SODO_CATKIN, fallbackFactory = CatkinClientServiceFallbackFactory.class, decode404 = true)
+@FeignClient(name = Constants.SODO_CATKIN, fallbackFactory = CatkinClientServiceFallbackFactory.class, decode404 = true, configuration = FeignConfig.class)
 public interface CatkinClientService {
 
     @RequestMapping(value = "id")

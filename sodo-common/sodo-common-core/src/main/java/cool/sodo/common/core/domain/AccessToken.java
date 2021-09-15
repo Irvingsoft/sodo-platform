@@ -7,6 +7,10 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/15 20:52
+ */
 @Data
 @TableName(value = "access_token")
 public class AccessToken implements Serializable {

@@ -1,16 +1,17 @@
 package cool.sodo.log.starter.aspect;
 
-import cool.sodo.common.core.component.RedisCacheHelper;
 import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.Result;
 import cool.sodo.common.base.util.JsonUtil;
 import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.base.util.WebUtil;
+import cool.sodo.common.core.component.RedisCacheHelper;
 import cool.sodo.common.core.domain.LogApi;
 import cool.sodo.log.starter.publisher.OauthApiLogPublisher;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.annotation.Resource;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2021/7/17 15:44
  */
 @Aspect
+@Component
 public class ExceptionHandlerAspect {
 
     @Resource

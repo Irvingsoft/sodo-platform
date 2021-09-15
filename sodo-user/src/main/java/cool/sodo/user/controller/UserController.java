@@ -41,6 +41,7 @@ public class UserController {
     @ApiOperation(value = "获取当前用户基本信息", notes = "登录成功后获取用户基本信息")
     public Result getUserBase(@CurrentUser User user) {
 
+        System.out.println(user);
         return Result.success(userService.getBase(user.getUserId()));
     }
 
@@ -48,6 +49,7 @@ public class UserController {
     @ApiOperation(value = "获取当前用户详情信息", notes = "无需参数，根据 Token 获取用户信息")
     public Result getUserGeneral(@CurrentUser User user) {
 
+        System.out.println(user);
         return Result.success(userService.getGeneral(user.getUserId()));
     }
 

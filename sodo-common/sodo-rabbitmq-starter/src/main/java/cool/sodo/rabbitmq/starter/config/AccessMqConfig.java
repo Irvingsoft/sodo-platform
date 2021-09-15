@@ -1,8 +1,5 @@
 package cool.sodo.rabbitmq.starter.config;
 
-import cool.sodo.rabbitmq.starter.listener.OauthApiAccessListener;
-import cool.sodo.rabbitmq.starter.listener.OauthIpCheckListener;
-import cool.sodo.rabbitmq.starter.producer.AccessMqProducer;
 import cool.sodo.rabbitmq.starter.property.AccessMqProperty;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -24,21 +21,6 @@ public class AccessMqConfig {
 
     @Resource
     private AccessMqProperty accessMqProperty;
-
-    @Bean
-    public AccessMqProducer accessMqProducer() {
-        return new AccessMqProducer();
-    }
-
-    @Bean
-    public OauthApiAccessListener oauthApiAccessListener() {
-        return new OauthApiAccessListener();
-    }
-
-    @Bean
-    public OauthIpCheckListener oauthIpCheckListener() {
-        return new OauthIpCheckListener();
-    }
 
     @Bean
     public Queue accessMqQueue() {

@@ -4,6 +4,7 @@ import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -15,6 +16,8 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Objects;
 
 /**
@@ -183,5 +186,20 @@ public class WebUtil {
             return header.split(StringPool.BLANK)[1];
         }
         throw new SoDoException(ResultEnum.UNAUTHORIZED, "请登录后重试！");
+    }
+
+    public static String getApiPath(HttpServletRequest request, Method method, String basePath) {
+
+        StringBuilder pathBuilder = new StringBuilder(basePath + request.getRequestURI());
+        int pathParameterCount = 0;
+        for (Parameter parameter : method.getParameters()) {
+            if (parameter.isAnnotationPresent(PathVariable.class)) {
+                pathParameterCount++;
+            }
+        }
+        for (int i = 0; i < pathParameterCount; i++) {
+            pathBuilder = new StringBuilder(pathBuilder.substring(0, pathBuilder.lastIndexOf(StringPool.SLASH)));
+        }
+        return pathBuilder.toString();
     }
 }

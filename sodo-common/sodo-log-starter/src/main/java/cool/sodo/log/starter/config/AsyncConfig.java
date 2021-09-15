@@ -1,10 +1,10 @@
 package cool.sodo.log.starter.config;
 
+import cool.sodo.log.starter.handler.AsyncExceptionHandler;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
-import cool.sodo.log.starter.handler.AsyncExceptionHandler;
 
 import javax.annotation.Resource;
 
@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  * @author TimeChaser
  * @date 2021/6/17 22:04
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableAsync
 public class AsyncConfig extends AsyncConfigurerSupport {
 

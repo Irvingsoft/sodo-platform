@@ -1,10 +1,10 @@
 package cool.sodo.user.controller;
 
-import cool.sodo.common.starter.domain.Address;
-import cool.sodo.common.core.domain.User;
 import cool.sodo.common.base.entity.Result;
 import cool.sodo.common.base.util.StringUtil;
+import cool.sodo.common.core.domain.User;
 import cool.sodo.common.starter.annotation.CurrentUser;
+import cool.sodo.common.starter.domain.Address;
 import cool.sodo.user.service.AddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

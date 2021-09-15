@@ -11,6 +11,10 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author TimeChaser
+ * @date 2021/9/15 12:08
+ */
 @Service
 public class CommonUserToRoleServiceImpl implements CommonUserToRoleService {
 

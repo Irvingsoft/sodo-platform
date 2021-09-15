@@ -1,11 +1,9 @@
 package cool.sodo.order.invocation;
 
-import cool.sodo.order.config.MultipartSupportConfig;
+import cool.sodo.openfeign.starter.config.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.stereotype.Service;
 
-@Service
-@FeignClient(name = "goods", path = "goods", fallback = GoodsHystrix.class, configuration = MultipartSupportConfig.class)
+@FeignClient(name = "goods", path = "goods", fallback = GoodsHystrix.class, configuration = FeignConfig.class)
 public interface GoodsService {
 
 

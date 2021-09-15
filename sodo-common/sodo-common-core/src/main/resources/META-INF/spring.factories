@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cool.sodo.common.core.config.CoreConfig
+  

@@ -116,8 +116,8 @@ knife4j:
   enable: true
   basic:
     enable: true
-    username: root
-    password: 123456
+    username: admin
+    password: 111111
 #配置日志地址
 logging:
   config: classpath:log/logback_${spring.application.env}.xml

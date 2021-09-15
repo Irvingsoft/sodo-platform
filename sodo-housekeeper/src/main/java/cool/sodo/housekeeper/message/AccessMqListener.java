@@ -8,7 +8,6 @@ import cool.sodo.housekeeper.service.OauthIpService;
 import cool.sodo.rabbitmq.starter.entity.Notification;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -21,7 +20,6 @@ import javax.annotation.Resource;
  */
 @Component
 @Slf4j
-@ConditionalOnProperty(prefix = "access-message", name = "enabled", havingValue = "true")
 public class AccessMqListener {
 
     @Resource
