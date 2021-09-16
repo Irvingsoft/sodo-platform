@@ -6,6 +6,8 @@
 
 <img alt="原仓库概况图" src="https://images.gitee.com/uploads/images/2021/0813/163259_993d88d7_7701512.png">
 
+**系统后台前端仓库：**https://gitee.com/irvingsoft-sodo/sodo-housekeeper-view-web.git
+
 ## 平台架构
 
 <img alt="平台架构图" src="./doc/平台架构.png">
