@@ -10,6 +10,30 @@
 
 <img alt="平台架构图" src="./doc/平台架构.png">
 
+    sodo-platform
+    ├─doc 					        // 文档
+    ├─sodo-auth 					// 统一认证服务
+    ├─sodo-catkin 					// 分布式 ID 服务（整合自 TinyId）
+    ├─sodo-common 					// 公共总包
+    │  ├─sodo-catkin-starter 		        // 分布式 ID 客户端
+    │  ├─sodo-common-base 			        // 公共基础包
+    │  ├─sodo-common-core 		        	// 公共核心包
+    │  ├─sodo-common-starter 	        	// 公共客户端
+    │  ├─sodo-knife4j-starter 	        	// Swagger2 接口文档客户端
+    │  ├─sodo-log-starter 		        	// 分布式日志客户端
+    │  ├─sodo-mybatis-starter 	        	// Mybatis-plus 客户端
+    │  ├─sodo-openfeign-starter             	// Openfeign 客户端
+    │  ├─sodo-rabbitmq-starter 		        // RabbitMq 客户端
+    │  └─sodo-redis-starter 	        	// Redis 客户端
+    ├─sodo-eureka 					// 注册中心服务
+    ├─sodo-goods 					// 业务模块-商品服务（待开发）
+    ├─sodo-housekeeper 				// 管家服务
+    ├─sodo-log 			                // 日志服务
+    ├─sodo-order 					// 业务模块-订单服务（待开发）
+    ├─sodo-payment 					// 业务模块-支付服务（待开发）
+    ├─sodo-user 					// 用户服务
+    └─sodo-zuul 					// 路由网关服务
+
 ## 基于接口的权限控制（IBAC）
 
 基于接口的权限控制从两个方面进行权限控制：
@@ -62,17 +86,17 @@
 * 推荐使用 URL 传参
 * RESTFul 接口约定
 
-    `Method`（资源操作行为，改变资源的状态）。
+  `Method`（资源操作行为，改变资源的状态）。
 
-    `GET` ：请求服务器特定资源。
-    
-    `POST` ：服务器创建一个新资源。
-    
-    `PUT` ：更新服务器资源客（整个资源）。
-    
-    `DELETE` ：服务器删除特定资源。
-    
-    `PATCH` ：更新服务器上的资源（资源的部分）。
+  `GET` ：请求服务器特定资源。
+
+  `POST` ：服务器创建一个新资源。
+
+  `PUT` ：更新服务器资源客（整个资源）。
+
+  `DELETE` ：服务器删除特定资源。
+
+  `PATCH` ：更新服务器上的资源（资源的部分）。
 
 ## Swagger2 接口文档地址
 
