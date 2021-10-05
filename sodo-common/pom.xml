@@ -11,13 +11,14 @@
     <artifactId>sodo-common</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
     <modules>
+        <module>sodo-common-base</module>
         <module>sodo-common-core</module>
         <module>sodo-log-starter</module>
         <module>sodo-catkin-starter</module>
         <module>sodo-redis-starter</module>
         <module>sodo-rabbitmq-starter</module>
-        <module>sodo-common-base</module>
         <module>sodo-mybatis-starter</module>
         <module>sodo-common-starter</module>
         <module>sodo-openfeign-starter</module>

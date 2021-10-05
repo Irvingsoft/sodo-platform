@@ -1,15 +1,16 @@
-server:
-  port: 9501
-
 spring:
   application:
     name: eureka
     path: /eureka
     env: prod
+  jackson:
+    default-property-inclusion: non_null
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
 eureka:
   instance:
-    hostname: localhost
+    hostname: 172.17.0.1
     prefer-ip-address: false
+    environment: prod
   client:
     register-with-eureka: false
     fetch-registry: false

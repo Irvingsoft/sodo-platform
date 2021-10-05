@@ -1,6 +1,3 @@
-server:
-  port: 10031
-
 spring:
   application:
     name: log # 服务名称，同服务在集群架构下的服务名称统一
@@ -19,7 +16,7 @@ spring:
       connection-timeout: 30000
       max-lifetime: 1800000
   redis:
-    host: localhost
+    host: 127.0.0.1
     port: 6379
     password:
     database: 0
@@ -30,7 +27,7 @@ spring:
         max-idle: 9
         min-idle: 0
   rabbitmq:
-    host: localhost
+    host: 127.0.0.1
     port: 5672
     username: root
     password: 123456
@@ -46,7 +43,7 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 20
     lease-expiration-duration-in-seconds: 40
-    hostname: localhost
+    hostname: 127.0.0.1
   client:
     register-with-eureka: true
     fetch-registry: true
@@ -74,7 +71,7 @@ knife4j:
   version: 1.0
   basePackage: cool.sodo.log
   name: Irvingsoft
-  url: https://www.isopen.top
+  url: https://www.sodo.cool
   email: Zhangwei@irvingsoft.top
 log-message:
   queue-name: log.sync.queue

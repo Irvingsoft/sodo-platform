@@ -15,23 +15,21 @@
         <dependency>
             <groupId>cool.sodo</groupId>
             <artifactId>sodo-common-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${sodo.version}</version>
         </dependency>
         <dependency>
             <groupId>cool.sodo</groupId>
             <artifactId>sodo-mybatis-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${sodo.version}</version>
         </dependency>
         <dependency>
             <groupId>cool.sodo</groupId>
             <artifactId>sodo-knife4j-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${sodo.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
     </dependencies>
-
-
 </project>

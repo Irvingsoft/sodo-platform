@@ -57,7 +57,6 @@ public class OauthApiLoggerAspect {
     @Around("execution(* cool.sodo.*.controller..*(..))")
     public Object process(ProceedingJoinPoint point) throws Throwable {
 
-        System.out.println("OauthApiAspectImpl");
         HttpServletRequest request = WebUtil.getRequest();
 
         Method method = ((MethodSignature) point.getSignature()).getMethod();

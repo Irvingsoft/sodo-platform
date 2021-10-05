@@ -1,6 +1,3 @@
-server:
-  port: 9501
-
 spring:
   application:
     name: eureka
@@ -11,8 +8,9 @@ spring:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
 eureka:
   instance:
-    hostname: sodo-eureka.com # 注册中心的访问地址
+    hostname: 127.0.0.1 # 注册中心的访问地址
     prefer-ip-address: false
+    environment: dev
   client:
     register-with-eureka: false # 不向注册中心注册：本服务为注册中心，非集群架构下不向注册中心注册自己
     fetch-registry: false # false：本服务为注册中心

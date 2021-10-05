@@ -1,11 +1,3 @@
-server:
-  port: 10011
-  servlet:
-    session:
-      cookie:
-        http-only: false
-        max-age: 604800 # 1 Week
-      timeout: 604800
 spring:
   application:
     name: housekeeper
@@ -21,7 +13,7 @@ spring:
   mvc:
     throw-exception-if-no-handler-found: true
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/sodo_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://172.16.16.8:3306/sodo_platform?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -33,7 +25,7 @@ spring:
       connection-timeout: 30000
       max-lifetime: 1800000
   redis:
-    host: localhost
+    host: 172.16.16.8
     port: 6379
     password:
     database: 0
@@ -44,7 +36,7 @@ spring:
         max-wait: -1
         min-idle: 0
   rabbitmq:
-    host: localhost
+    host: 172.16.16.8
     port: 5672
     username: root
     password: 123456
@@ -60,7 +52,7 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 20
     lease-expiration-duration-in-seconds: 40
-    hostname: localhost
+    hostname: 172.17.0.1
   client:
     register-with-eureka: true
     fetch-registry: true
@@ -87,7 +79,7 @@ knife4j:
   version: 1.0
   basePackage: cool.sodo.housekeeper
   name: Irvingsoft
-  url: https://www.isopen.top
+  url: https://www.sodo.cool
   email: Zhangwei@irvingsoft.top
 log-message:
   queue-name: log.sync.queue

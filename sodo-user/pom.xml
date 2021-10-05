@@ -10,37 +10,55 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>sodo-user</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <appPort>9531</appPort>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <active>dev</active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <active>prod</active>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
             <groupId>cool.sodo</groupId>
             <artifactId>sodo-common-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${sodo.version}</version>
         </dependency>
         <dependency>
             <groupId>cool.sodo</groupId>
             <artifactId>sodo-mybatis-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${sodo.version}</version>
         </dependency>
         <dependency>
             <groupId>cool.sodo</groupId>
             <artifactId>sodo-redis-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${sodo.version}</version>
         </dependency>
         <dependency>
             <groupId>cool.sodo</groupId>
             <artifactId>sodo-log-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${sodo.version}</version>
         </dependency>
         <dependency>
             <groupId>cool.sodo</groupId>
             <artifactId>sodo-catkin-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${sodo.version}</version>
         </dependency>
         <dependency>
             <groupId>cool.sodo</groupId>
             <artifactId>sodo-knife4j-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${sodo.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -48,5 +66,36 @@
         </dependency>
     </dependencies>
 
-
+    <build>
+        <plugins>
+            <!--把依赖文件打包进来-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--加入下面两项配置-->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>${dockerfile-maven.version}</version>
+                <configuration>
+                    <repository>${project.artifactId}</repository>
+                    <tag>${docker.project.tag}</tag>
+                    <buildArgs>
+                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

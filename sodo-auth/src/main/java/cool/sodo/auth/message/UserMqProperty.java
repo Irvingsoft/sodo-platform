@@ -4,7 +4,6 @@ import cool.sodo.rabbitmq.starter.entity.MqProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author TimeChaser
@@ -12,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Configuration
 @ConfigurationProperties(prefix = "user-message")
 public class UserMqProperty extends MqProperty {
 

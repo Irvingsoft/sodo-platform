@@ -9,6 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>sodo-common-base</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
     <dependencies>
         <dependency>
             <groupId>org.bouncycastle</groupId>
@@ -21,4 +23,22 @@
             <artifactId>commons-codec</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <!--允许被外部间接依赖-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <classifier>execute</classifier>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

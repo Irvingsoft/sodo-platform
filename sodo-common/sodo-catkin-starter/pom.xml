@@ -9,12 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>sodo-catkin-starter</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
             <groupId>cool.sodo</groupId>
             <artifactId>sodo-common-base</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${sodo.version}</version>
         </dependency>
         <!-- Mybatis-plus -->
         <dependency>
@@ -25,7 +26,7 @@
         <dependency>
             <groupId>cool.sodo</groupId>
             <artifactId>sodo-openfeign-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${sodo.version}</version>
         </dependency>
     </dependencies>
 </project>

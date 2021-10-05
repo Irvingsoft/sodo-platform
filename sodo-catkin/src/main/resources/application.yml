@@ -1,3 +1,5 @@
+server:
+  port: @appPort@
 spring:
   profiles:
-    active: dev
+    active: @active@

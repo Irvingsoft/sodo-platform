@@ -9,12 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>sodo-redis-starter</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
             <groupId>cool.sodo</groupId>
             <artifactId>sodo-common-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${sodo.version}</version>
         </dependency>
     </dependencies>
 </project>

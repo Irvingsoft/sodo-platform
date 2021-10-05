@@ -1,3 +1,11 @@
+server:
+  port: @appPort@
+  servlet:
+    session:
+      cookie:
+        http-only: false
+        max-age: 604800 # 1 Week
+      timeout: 604800
 spring:
   profiles:
-    active: dev
+    active: @active@

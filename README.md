@@ -4,10 +4,15 @@
 
 **系统后台前端仓库：** https://gitee.com/irvingsoft-sodo/sodo-housekeeper-view-web.git
 
+**体验地址：** https://housekeeper.sodo.cool
+
+**用户名：** admin
+
+**密码：** 111111
+
     由于原仓库错误的合并操作，故清空后重新提交了代码。
 
 <img alt="原仓库概况图" src="https://images.gitee.com/uploads/images/2021/0813/163259_993d88d7_7701512.png">
-
 
 ## 平台架构
 
@@ -45,6 +50,21 @@
 2. 在基于角色的权限控制基础上，将权限细化到每个接口。当请求的接口存在权限标识时，查询用户对应角色拥有的权限，并进行权限匹配。
 
 <img alt="IBAC 架构图" src="doc/基于接口的权限控制.png">
+
+## 启动流程
+
+```
+1. 使用 MySQL 新建数据库 sodo_platform
+2. 运行 doc/sodo_platform.sql 脚本
+3. 安装 Redis
+4. 安装 RabbitMq
+5. 更换每个服务中的 src/main/resources/application-dev.yml 中的数据库连接为本地 MySQL 的用户名和密码
+6. 更换每个服务中的 src/main/resources/application-dev.yml 中的 RabbitMq 连接为本地 RabbitMq 的用户名和密码，默认为 guest/guest
+7. 在 Idea 服务配置中添加启动参数 dev
+8. 启动各个服务
+```
+
+<img alt="Idea 配置启动参数" src="doc/Idea%20配置启动参数.png">
 
 ## 应用管理
 
@@ -103,4 +123,4 @@
 
 ## Swagger2 接口文档地址
 
-localhost:9511/doc.html
+127.0.0.1:9511/doc.html

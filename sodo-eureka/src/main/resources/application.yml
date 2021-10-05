@@ -1,3 +1,5 @@
+server:
+  port: @appPort@
 spring:
   profiles:
-    active: dev # 启动脚本中配置启动时生效的配置文件为 dev
+    active: @active@ # 启动脚本中配置启动时生效的配置文件为 dev
