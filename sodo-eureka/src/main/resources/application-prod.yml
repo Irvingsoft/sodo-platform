@@ -10,7 +10,6 @@ eureka:
   instance:
     hostname: 172.17.0.1
     prefer-ip-address: false
-    environment: prod
   client:
     register-with-eureka: false
     fetch-registry: false
