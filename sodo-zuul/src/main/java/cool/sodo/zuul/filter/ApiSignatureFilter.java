@@ -6,9 +6,11 @@ import cool.sodo.common.base.entity.Constants;
 import cool.sodo.common.base.entity.ResultEnum;
 import cool.sodo.common.base.exception.SoDoException;
 import cool.sodo.common.base.util.HttpUtil;
+import cool.sodo.common.base.util.StringUtil;
 import cool.sodo.common.base.util.WebUtil;
 import cool.sodo.common.core.component.RedisCacheHelper;
 import cool.sodo.common.core.service.CommonOauthClientService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.PatternMatchUtils;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author TimeChaser
  * @date 2021/5/30 12:33
  */
+@Slf4j
 public class ApiSignatureFilter extends ZuulFilter {
 
     public static final String ERROR_SIGNATURE = "签名密钥已失效或者签名已被伪造！";
@@ -91,8 +94,7 @@ public class ApiSignatureFilter extends ZuulFilter {
         String signatureKey = (String) redisCacheHelper.get(Constants.SIGNATURE_KEY_CACHE_PREFIX + request.getHeader(Constants.SIGNATURE_KEY));
         String signature = WebUtil.getHeader(request, Constants.SIGNATURE);
 
-
-        if (!redisCacheHelper.hasKey(signatureKey)) {
+        if (StringUtil.isEmpty(signatureKey)) {
             currentContext.setResponseStatusCode(ResultEnum.INVALID_SIGNATURE.getCode());
             throw new SoDoException(ResultEnum.INVALID_SIGNATURE, ERROR_SIGNATURE);
         }
@@ -116,6 +118,6 @@ public class ApiSignatureFilter extends ZuulFilter {
 
     private Boolean isSkip(HttpServletRequest request) {
         return PatternMatchUtils.simpleMatch(cool.sodo.zuul.common.Constants.SIGNATURE_IGNORE, request.getRequestURI())
-                || oauthClientService.getOauthClientIdentity(WebUtil.getHeader(request, Constants.CLIENT_ID)).getSignature();
+                || !oauthClientService.getOauthClientIdentity(WebUtil.getHeader(request, Constants.CLIENT_ID)).getSignature();
     }
 }

@@ -104,6 +104,8 @@ zuul:
   ssl-hostname-validation-enabled: false
   ignored-headers: Access-Control-Allow-Origin, Access-Control-Allow-Methods
   sensitive-headers:  # 将默认的过滤的请求头清空，携带 所有请求头参数 转发到其他服务
+  semaphore:
+    max-semaphores: 30000
 #配置日志地址
 logging:
   config: classpath:log/logback_${spring.application.env}.xml
@@ -112,9 +114,6 @@ sodo:
     enabled: true
     url:
       excludePatterns: /**/v2/api-docs, /catkin/**
-ribbon:
-  ReadTimeout: 60000
-  ConnectTimeout: 60000
 log-message:
   queue-name: log.sync.queue
   exchange-name: log-exchange

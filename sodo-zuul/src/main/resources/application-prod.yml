@@ -104,6 +104,8 @@ zuul:
   ssl-hostname-validation-enabled: false
   ignored-headers: Access-Control-Allow-Origin,Access-Control-Allow-Methods
   sensitive-headers:
+  semaphore:
+    max-semaphores: 30000
 #配置日志地址
 logging:
   config: classpath:log/logback_${spring.application.env}.xml

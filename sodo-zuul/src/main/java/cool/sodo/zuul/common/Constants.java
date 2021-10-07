@@ -5,8 +5,8 @@ public class Constants {
     public static final String CACHE_NAME = "sodo-zuul";
 
     public static final String[] SIGNATURE_IGNORE = {
-            "/auth/authorize/key",
-            "/auth/authorize/captcha",
+            "/auth/authenticate/key",
+            "/auth/authenticate/captcha",
             "/auth/signature/key",
             "/auth/signature/key/validate",
             "/**/v2/api-docs",

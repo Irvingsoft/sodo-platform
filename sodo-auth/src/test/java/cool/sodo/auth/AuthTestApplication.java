@@ -29,6 +29,11 @@ public class AuthTestApplication {
     }
 
     @Test
+    public void testNullValueRedisKey() {
+        System.out.println(redisCacheHelper.get("ACCESS_TOKEN::12121212121"));
+    }
+
+    @Test
     public void testUserMqProperty() {
         System.out.println(JsonUtil.toJsonString(userMqProperty));
     }
