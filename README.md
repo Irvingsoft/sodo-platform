@@ -65,6 +65,7 @@
 ```
 
 <img alt="Idea 配置启动参数" src="doc/Idea%20配置启动参数.png">
+<img alt="Idea Maven 配置" src="doc/Idea%20Maven%20配置.png">
 
 ## 应用管理
 

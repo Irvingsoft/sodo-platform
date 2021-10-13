@@ -31,6 +31,8 @@ import java.util.List;
 @Component
 public class DefaultOauthApiAspect {
 
+    public static final int REQUEST_LIMIT_INIT = 1;
+
     @Resource
     private ServiceInfo serviceInfo;
     @Resource
@@ -120,12 +122,12 @@ public class DefaultOauthApiAspect {
 
             int requestNum = (int) redisCacheHelper.get(requestCacheId);
             if (requestNum < oauthApi.getLimitNum()) {
-                redisCacheHelper.set(requestCacheId, requestNum + 1, redisCacheHelper.getExpire(requestCacheId));
+                redisCacheHelper.set(requestCacheId, ++requestNum, redisCacheHelper.getExpire(requestCacheId));
             } else {
                 throw new SoDoException(ResultEnum.BAD_REQUEST, "超出请求数限制，请稍后重试！");
             }
         } else {
-            redisCacheHelper.set(requestCacheId, 1, Long.valueOf(oauthApi.getLimitPeriod()));
+            redisCacheHelper.set(requestCacheId, REQUEST_LIMIT_INIT, Long.valueOf(oauthApi.getLimitPeriod()));
         }
     }
 

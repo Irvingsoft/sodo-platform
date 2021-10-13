@@ -8,13 +8,12 @@ spring:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
 eureka:
   instance:
-    hostname: 127.0.0.1 # 注册中心的访问地址
-    prefer-ip-address: false
+    hostname: ${spring.cloud.client.ip-address}
   client:
     register-with-eureka: false # 不向注册中心注册：本服务为注册中心，非集群架构下不向注册中心注册自己
     fetch-registry: false # false：本服务为注册中心
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://localhost:${server.port}/eureka/
     filter-only-up-instances: false
   server:
     enable-self-preservation: true # 本地环境关闭 Eureka 自我保护机制

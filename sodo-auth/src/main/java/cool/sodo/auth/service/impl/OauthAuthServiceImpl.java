@@ -114,7 +114,7 @@ public class OauthAuthServiceImpl implements OauthAuthService {
     public AuthenticationIdentity getAuthIdentityByAuthCode(String authCode) {
         AuthenticationIdentity authenticationIdentity = (AuthenticationIdentity) redisCacheHelper.get(Constants.AUTH_CODE_CACHE_PREFIX + authCode);
         if (StringUtil.isEmpty(authenticationIdentity)) {
-            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_AUTH_CODE, authenticationIdentity);
+            throw new SoDoException(ResultEnum.BAD_REQUEST, ERROR_AUTH_CODE, authCode);
         }
         return authenticationIdentity;
     }

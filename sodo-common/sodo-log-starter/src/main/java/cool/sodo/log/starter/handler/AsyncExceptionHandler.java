@@ -17,7 +17,6 @@ import java.lang.reflect.Method;
  */
 @Component
 @Slf4j
-@SuppressWarnings("all")
 public class AsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
 
     @Resource

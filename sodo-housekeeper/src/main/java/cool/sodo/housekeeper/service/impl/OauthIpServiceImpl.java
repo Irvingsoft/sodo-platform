@@ -13,7 +13,6 @@ import cool.sodo.common.starter.domain.OauthIp;
 import cool.sodo.housekeeper.entity.OauthIpDTO;
 import cool.sodo.housekeeper.mapper.OauthIpMapper;
 import cool.sodo.housekeeper.service.OauthIpService;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -117,8 +116,7 @@ public class OauthIpServiceImpl implements OauthIpService {
     }
 
     @Override
-    @Async
-    public void updateOauthIpValidNumByAsync(String ipId) {
+    public synchronized void updateOauthIpValidNumByMq(String ipId) {
 
         LambdaQueryWrapper<OauthIp> oauthIpLambdaQueryWrapper = Wrappers.lambdaQuery();
         oauthIpLambdaQueryWrapper.select(OauthIp::getValidNum)

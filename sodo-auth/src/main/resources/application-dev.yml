@@ -50,16 +50,16 @@ spring:
     default-property-inclusion: non_empty
 eureka:
   instance:
-    lease-renewal-interval-in-seconds: 20 # 向注册中心发送心跳的时间间隔，单位为 s，默认为 30s
-    lease-expiration-duration-in-seconds: 40 # 注册中心在上次收到此服务的心跳后，40s 内没有收到下次心跳，就会移除此服务，默认 90s
-    hostname: 127.0.0.1
+    lease-renewal-interval-in-seconds: 20
+    lease-expiration-duration-in-seconds: 40
+    hostname: ${spring.cloud.client.ip-address}
   client:
-    register-with-eureka: true # 向注册中心注册
-    fetch-registry: true # 向注册中心获取注册表，以调用其他服务
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:9501/eureka/ # 微服务集群下配置多注册中心，以 "," 分隔，host 为各个注册中心的服务器 host
+      defaultZone: http://localhost:9501/eureka/ # 微服务集群下配置多注册中心，以 "," 分隔，host 为各个注册中心的服务器 host
     healthcheck:
-      enabled: true # 开启心跳检测
+      enabled: true
 mybatis-plus:
   type-aliases-package: cool.sodo.common.starter.domain
   mapper-locations: classpath:mapper/*.xml

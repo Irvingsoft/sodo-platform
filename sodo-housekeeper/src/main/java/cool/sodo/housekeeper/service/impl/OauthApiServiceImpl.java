@@ -15,6 +15,7 @@ import cool.sodo.common.core.service.CommonUserService;
 import cool.sodo.housekeeper.entity.OauthApiDTO;
 import cool.sodo.housekeeper.service.ClientApiService;
 import cool.sodo.housekeeper.service.OauthApiService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -145,26 +146,40 @@ public class OauthApiServiceImpl implements OauthApiService {
     }
 
     @Override
-    public void updateOauthApiRequestNum(OauthApi oauthApi) {
-
-        LambdaUpdateWrapper<OauthApi> oauthApiLambdaUpdateWrapper = Wrappers.lambdaUpdate(oauthApi);
+    @Async
+    public void updateOauthApiAccessDailyByScheduleAsync(OauthApi oauthApi) {
+        LambdaUpdateWrapper<OauthApi> oauthApiLambdaUpdateWrapper = Wrappers.lambdaUpdate();
         oauthApiLambdaUpdateWrapper.eq(OauthApi::getApiId, oauthApi.getApiId());
-        if (!StringUtil.isEmpty(oauthApi.getRequestDay())) {
-            oauthApiLambdaUpdateWrapper.set(OauthApi::getRequestDay, oauthApi.getRequestDay());
-        }
-        if (!StringUtil.isEmpty(oauthApi.getRequestWeek())) {
-            oauthApiLambdaUpdateWrapper.set(OauthApi::getRequestWeek, oauthApi.getRequestWeek());
-        }
-        if (!StringUtil.isEmpty(oauthApi.getRequestMonth())) {
-            oauthApiLambdaUpdateWrapper.set(OauthApi::getRequestMonth, oauthApi.getRequestMonth());
-        }
+        oauthApiLambdaUpdateWrapper.set(OauthApi::getRequestDay, oauthApi.getRequestDay());
         if (oauthApiMapper.update(null, oauthApiLambdaUpdateWrapper) < 0) {
-            throw new SoDoException(ResultEnum.SERVER_ERROR, ERROR_UPDATE_REQUEST);
+            throw new AsyncException(ERROR_UPDATE_REQUEST);
         }
     }
 
     @Override
-    public void updateOauthApiAccessByAsync(String apiId) {
+    @Async
+    public void updateOauthApiAccessWeeklyByScheduleAsync(OauthApi oauthApi) {
+        LambdaUpdateWrapper<OauthApi> oauthApiLambdaUpdateWrapper = Wrappers.lambdaUpdate();
+        oauthApiLambdaUpdateWrapper.eq(OauthApi::getApiId, oauthApi.getApiId());
+        oauthApiLambdaUpdateWrapper.set(OauthApi::getRequestWeek, oauthApi.getRequestWeek());
+        if (oauthApiMapper.update(null, oauthApiLambdaUpdateWrapper) < 0) {
+            throw new AsyncException(ERROR_UPDATE_REQUEST);
+        }
+    }
+
+    @Override
+    @Async
+    public void updateOauthApiAccessMonthlyByScheduleAsync(OauthApi oauthApi) {
+        LambdaUpdateWrapper<OauthApi> oauthApiLambdaUpdateWrapper = Wrappers.lambdaUpdate();
+        oauthApiLambdaUpdateWrapper.eq(OauthApi::getApiId, oauthApi.getApiId());
+        oauthApiLambdaUpdateWrapper.set(OauthApi::getRequestMonth, oauthApi.getRequestMonth());
+        if (oauthApiMapper.update(null, oauthApiLambdaUpdateWrapper) < 0) {
+            throw new AsyncException(ERROR_UPDATE_REQUEST);
+        }
+    }
+
+    @Override
+    public synchronized void updateOauthApiAccessByMq(String apiId) {
 
         LambdaQueryWrapper<OauthApi> oauthApiLambdaQueryWrapper = generateSelectQueryWrapper(SELECT_REQUEST_NUM);
         oauthApiLambdaQueryWrapper.eq(OauthApi::getApiId, apiId);

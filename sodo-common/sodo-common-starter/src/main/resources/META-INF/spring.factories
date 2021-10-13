@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cool.sodo.common.starter.config.StarterConfig
+  cool.sodo.common.starter.config.StarterConfig,\
+  cool.sodo.common.starter.config.ScheduleConfig

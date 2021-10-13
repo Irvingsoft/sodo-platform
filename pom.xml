@@ -6,7 +6,6 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.3.5.RELEASE</version>
-        <relativePath/>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>cool.sodo</groupId>
@@ -131,6 +130,14 @@
                 <groupId>org.springframework.session</groupId>
                 <artifactId>spring-session-bom</artifactId>
                 <version>${spring-session.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2.2.1.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

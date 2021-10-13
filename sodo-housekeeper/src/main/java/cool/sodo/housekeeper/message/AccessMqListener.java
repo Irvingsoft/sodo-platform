@@ -41,10 +41,10 @@ public class AccessMqListener {
 
         switch (notification.getEventType()) {
             case Constants.ACCESS_MQ_EVENT_TYPE_API:
-                oauthApiService.updateOauthApiAccessByAsync(mapper.readValue(dataString, String.class));
+                oauthApiService.updateOauthApiAccessByMq(mapper.readValue(dataString, String.class));
                 break;
             case Constants.ACCESS_MQ_EVENT_TYPE_IP:
-                oauthIpService.updateOauthIpValidNumByAsync(mapper.readValue(dataString, String.class));
+                oauthIpService.updateOauthIpValidNumByMq(mapper.readValue(dataString, String.class));
                 break;
             default:
                 break;

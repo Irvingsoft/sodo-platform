@@ -43,12 +43,12 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 20
     lease-expiration-duration-in-seconds: 40
-    hostname: 127.0.0.1
+    hostname: ${spring.cloud.client.ip-address}
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:9501/eureka/ # 微服务集群下配置多注册中心，以 "," 分隔，host 为各个注册中心的服务器 host
+      defaultZone: http://localhost:9501/eureka/ # 微服务集群下配置多注册中心，以 "," 分隔，host 为各个注册中心的服务器 host
     healthcheck:
       enabled: true
 mybatis-plus:

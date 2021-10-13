@@ -18,14 +18,33 @@ public interface OauthApiService {
 
     void updateOauthApi(OauthApi oauthApi);
 
-    void updateOauthApiRequestNum(OauthApi oauthApi);
+    /**
+     * 定时任务重置 OauthApi 每日访问数据
+     *
+     * @param oauthApi 更新实体
+     */
+    void updateOauthApiAccessDailyByScheduleAsync(OauthApi oauthApi);
 
     /**
-     * 根据 ApiId 更新 OauthApi 访问数据
+     * 定时任务重置 OauthApi 每周访问数据
+     *
+     * @param oauthApi 更新实体
+     */
+    void updateOauthApiAccessWeeklyByScheduleAsync(OauthApi oauthApi);
+
+    /**
+     * 定时任务重置 OauthApi 每月访问数据
+     *
+     * @param oauthApi 更新实体
+     */
+    void updateOauthApiAccessMonthlyByScheduleAsync(OauthApi oauthApi);
+
+    /**
+     * 消息队列根据 ApiId 更新 OauthApi 访问数据
      *
      * @param apiId OauthApi.apiId
      */
-    void updateOauthApiAccessByAsync(String apiId);
+    void updateOauthApiAccessByMq(String apiId);
 
     OauthApi getOauthApi(String id);
 

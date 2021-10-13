@@ -58,7 +58,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-
         <!--Swagger2 插件 Knife4j-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

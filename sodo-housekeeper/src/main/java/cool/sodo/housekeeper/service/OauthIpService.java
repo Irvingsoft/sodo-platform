@@ -18,7 +18,7 @@ public interface OauthIpService {
 
     void updateOauthIp(OauthIp oauthIp, String updateBy);
 
-    void updateOauthIpValidNumByAsync(String ipId);
+    void updateOauthIpValidNumByMq(String ipId);
 
     OauthIp getOauthIp(String ipId);
 

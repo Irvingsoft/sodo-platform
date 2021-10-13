@@ -9,6 +9,7 @@ import cool.sodo.common.core.domain.OauthApi;
 import cool.sodo.common.core.domain.User;
 import cool.sodo.common.core.mapper.CommonUserMapper;
 import cool.sodo.housekeeper.entity.OauthApiDTO;
+import cool.sodo.housekeeper.schedule.OauthApiSchedule;
 import cool.sodo.housekeeper.service.OauthApiService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +28,7 @@ public class HousekeeperApplicationTest {
     @Resource
     private RedisCacheHelper redisCacheHelper;
     @Resource
-    private AccessTokenServiceImplTest accessTokenService;
+    private OauthApiSchedule oauthApiSchedule;
 
     /**
      * org.springframework.util.StringUtil 可以判断对象是否为空
@@ -98,7 +99,19 @@ public class HousekeeperApplicationTest {
     }
 
     @Test
-    public void testRedis() {
-        accessTokenService.delete("44a1789f4f8248b249940e152bc8024b");
+    public void testListOauthApiInfo() throws InterruptedException {
+
+        new Thread(() -> {
+            oauthApiSchedule.resetRequestDay();
+        }).start();
+        new Thread(() -> {
+            oauthApiSchedule.resetRequestWeek();
+        }).start();
+        new Thread(() -> {
+            oauthApiSchedule.resetRequestMonth();
+        }).start();
+        Thread.sleep(1000);
+        System.out.println(oauthApiService.listOauthApiInfo());
     }
+
 }
