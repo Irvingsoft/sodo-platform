@@ -1,8 +1,18 @@
 # sodo-platform
 
-**IBAC（Interface-Based Access Control，基于接口的权限控制）微服务快速开发平台。**
+## 项目简介
 
-**系统后台前端仓库：** https://gitee.com/irvingsoft-sodo/sodo-housekeeper-view-web.git
+* **IBAC（Interface-Based Access Control，基于接口的权限控制）微服务快速开发平台**
+* **面向多客户端的客户端配置中心**
+* **客户端启用管理、账号并发登录、登录回调、开放注册、令牌失效时间以及令牌共享**
+* **客户端接口防盗链、接口调用统计、接口限流**
+* **客户端 IP 黑名单、IP 白名单**
+* **用户登录信息加密**
+* **用户一键下线**
+* **GitHub + Jenkins + Docker + Harbor 的自动化集成与部署方案**
+* **...**
+
+**系统后台前端仓库：** https://github.com/irvingsoft/sodo-housekeeper-view-web.git
 
 **体验地址：** https://housekeeper.sodo.cool
 
